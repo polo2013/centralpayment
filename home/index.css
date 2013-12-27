@@ -1,0 +1,68 @@
+/*form上的标题Information*/
+.ftitle
+{
+	font-size:12px;
+	font-weight:bold;
+	padding:5px 20px;
+	margin-bottom:10px;
+	border-bottom:1px solid grey;
+}
+/*form默认*/
+form
+{
+	margin:0;
+	padding:10px 50px;
+}
+.fitem
+{
+	margin-bottom:5px;
+}
+.fitem label
+{
+	display:inline-block;
+	width:80px;
+}
+/*只读input的背景色为灰色*/
+input[readonly]
+{
+	background-color:#cccccc;
+}
+
+.easyui-validatebox,
+.easyui-combobox
+{
+	width:200px;
+}
+textarea
+{
+	width:200px;
+	height:50px;
+	overflow-y:visible;
+}
+.easyui-dialog
+{
+	width:450px;
+}
+
+/*模块自定义*/
+/*权限*/
+input[id $= "_sysauth"]
+{
+	width:245px;
+}
+/*用户、收款人*/
+#dlg_sysuser,
+#dlg_bizpayee
+{
+	width:500px;
+}
+input[id $= "_sysuser"],
+input[id $= "_bizpayee"]
+{
+	width:245px;
+}
+textarea[id $= "_sysuser"],
+textarea[id $= "_bizpayee"]
+{
+	width:245px;
+}

@@ -1,0 +1,252 @@
+[2013-12-26 10:28:15]
+mysqli_begin_transaction
+/myweb/sysauth/save.php
+
+[2013-12-26 10:28:15]
+delete from SYS_AUTH where ROLE = '[001001]集团系统管理员'; insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[001001]查看权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[001002]新增权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[001003]修改权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[001004]删除权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[001005]模块权限设置权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[002001]查看权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[002002]新增权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[002003]修改权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[002004]删除权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[003001]查看权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[003002]新增权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[003003]修改权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[003004]删除权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[004001]查看权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[004002]新增权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[004003]修改权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[004004]删除权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[005001]查看权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[005002]修改权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[006001]查看权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[006002]新增权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[006003]修改权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[006004]删除权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[006005]查看所属机构用户权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[006006]启用禁用权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[006007]复核权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[006008]修改密码权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[006009]重置用户权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[007001]查看权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[007002]新增权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[007003]修改权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[007004]删除权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[008001]查看权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[008002]新增权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[008003]修改权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[008004]删除权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[008005]复核权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[009001]查看权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[009002]录入权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[009003]修改权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[009004]审核权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[009005]批准权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[009006]付款权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[009007]取消付款权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[009008]备注权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[009009]反审核权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[009010]反批准权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[010001]查看权', '[admin]集团系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001]集团系统管理员', '[010002]查看所有单据权', '[admin]集团系统管理员'); 
+/myweb/sysauth/save.php
+
+[2013-12-26 10:28:15]
+mysqli_commit
+/myweb/sysauth/save.php
+
+[2013-12-26 15:01:43]
+mysqli_begin_transaction
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:01:43]
+delete from zdcw_payment_master where NUM = '20131226150051185'; delete from zdcw_payment_detail where NUM = '20131226150051185'; insert into zdcw_payment_master(`NUM`,`ORG`,`BILLNUM`,`STAT`,`INPUTTER`,`INPUTTIME`,`CHECKER`,`CHECKTIME`,`APPROVER`,`APPROVETIME`,`NOTE`) values ('20131226150051185','[001]正大集团','201312260002','待审核','[admin]集团系统管理员','2013-12-26 15:01:43','','','','',''); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226150051185','1','[001002]正大新生活有限公司','[admin]集团系统管理员','1','10.00','[admin]集团系统管理员','中国人民银行','123321456709881234','','未付款','',''); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226150051185','2','[001001]正大置地有限公司','[zhangsan]张三','11','110.00','[001001001]北京乐途国际旅行社有限公司','中国建设银行北京建国支行','11001042500056150048','','未付款','',''); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226150051185','3','[001002]正大新生活有限公司','[zhangsan]张三','111','0','[001001001]北京乐途国际旅行社有限公司','中国建设银行北京建国支行','11001042500056150048','','未付款','',''); 
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:01:43]
+mysqli_commit
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:02:13]
+mysqli_begin_transaction
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:02:13]
+delete from zdcw_payment_master where NUM = '20131226150051185'; delete from zdcw_payment_detail where NUM = '20131226150051185'; insert into zdcw_payment_master(`NUM`,`ORG`,`BILLNUM`,`STAT`,`INPUTTER`,`INPUTTIME`,`CHECKER`,`CHECKTIME`,`APPROVER`,`APPROVETIME`,`NOTE`) values ('20131226150051185','[001]正大集团','201312260002','已审核待批准','[admin]集团系统管理员','2013-12-26 15:01:43','[admin]集团系统管理员','2013-12-26 15:02:13','','',''); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226150051185','1','[001002]正大新生活有限公司','[admin]集团系统管理员','1','10.00','[admin]集团系统管理员','中国人民银行','123321456709881234','','未付款','',''); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226150051185','2','[001001]正大置地有限公司','[zhangsan]张三','11','110.00','[001001001]北京乐途国际旅行社有限公司','中国建设银行北京建国支行','11001042500056150048','','未付款','',''); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226150051185','3','[001002]正大新生活有限公司','[zhangsan]张三','111','0.00','[001001001]北京乐途国际旅行社有限公司','中国建设银行北京建国支行','11001042500056150048','','未付款','',''); 
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:02:13]
+mysqli_commit
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:02:16]
+mysqli_begin_transaction
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:02:16]
+delete from zdcw_payment_master where NUM = '20131226150051185'; delete from zdcw_payment_detail where NUM = '20131226150051185'; insert into zdcw_payment_master(`NUM`,`ORG`,`BILLNUM`,`STAT`,`INPUTTER`,`INPUTTIME`,`CHECKER`,`CHECKTIME`,`APPROVER`,`APPROVETIME`,`NOTE`) values ('20131226150051185','[001]正大集团','201312260002','已批准待付款','[admin]集团系统管理员','2013-12-26 15:01:43','[admin]集团系统管理员','2013-12-26 15:02:13','[admin]集团系统管理员','2013-12-26 15:02:16',''); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226150051185','1','[001002]正大新生活有限公司','[admin]集团系统管理员','1','10.00','[admin]集团系统管理员','中国人民银行','123321456709881234','','未付款','',''); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226150051185','2','[001001]正大置地有限公司','[zhangsan]张三','11','110.00','[001001001]北京乐途国际旅行社有限公司','中国建设银行北京建国支行','11001042500056150048','','未付款','',''); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226150051185','3','[001002]正大新生活有限公司','[zhangsan]张三','111','0.00','[001001001]北京乐途国际旅行社有限公司','中国建设银行北京建国支行','11001042500056150048','','未付款','',''); 
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:02:16]
+mysqli_commit
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:02:19]
+mysqli_begin_transaction
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:02:19]
+delete from zdcw_payment_master where NUM = '20131226150051185'; delete from zdcw_payment_detail where NUM = '20131226150051185'; insert into zdcw_payment_master(`NUM`,`ORG`,`BILLNUM`,`STAT`,`INPUTTER`,`INPUTTIME`,`CHECKER`,`CHECKTIME`,`APPROVER`,`APPROVETIME`,`NOTE`) values ('20131226150051185','[001]正大集团','201312260002','付款中','[admin]集团系统管理员','2013-12-26 15:01:43','[admin]集团系统管理员','2013-12-26 15:02:13','[admin]集团系统管理员','2013-12-26 15:02:16',''); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226150051185','1','[001002]正大新生活有限公司','[admin]集团系统管理员','1','10.00','[admin]集团系统管理员','中国人民银行','123321456709881234','','未付款','',''); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226150051185','2','[001001]正大置地有限公司','[zhangsan]张三','11','110.00','[001001001]北京乐途国际旅行社有限公司','中国建设银行北京建国支行','11001042500056150048','','未付款','',''); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226150051185','3','[001002]正大新生活有限公司','[zhangsan]张三','111','0.00','[001001001]北京乐途国际旅行社有限公司','中国建设银行北京建国支行','11001042500056150048','','未付款','',''); 
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:02:19]
+mysqli_commit
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:03:03]
+mysqli_begin_transaction
+/myweb/zdcwpayment/sumPayAction.php
+
+[2013-12-26 15:03:03]
+UPDATE zdcw_payment_detail SET PAYSTAT='已付款', PAYER='[admin]集团系统管理员', PAYTIME=NOW() WHERE NUM = '20131226150051185' AND ITEMNO = '1'; 
+/myweb/zdcwpayment/sumPayAction.php
+
+[2013-12-26 15:03:03]
+mysqli_commit
+/myweb/zdcwpayment/sumPayAction.php
+
+[2013-12-26 15:03:20]
+mysqli_begin_transaction
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:03:20]
+delete from zdcw_payment_master where NUM = '20131226150051185'; delete from zdcw_payment_detail where NUM = '20131226150051185'; insert into zdcw_payment_master(`NUM`,`ORG`,`BILLNUM`,`STAT`,`INPUTTER`,`INPUTTIME`,`CHECKER`,`CHECKTIME`,`APPROVER`,`APPROVETIME`,`NOTE`) values ('20131226150051185','[001]正大集团','201312260002','付款已完成','[admin]集团系统管理员','2013-12-26 15:01:43','[admin]集团系统管理员','2013-12-26 15:02:13','[admin]集团系统管理员','2013-12-26 15:02:16',''); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226150051185','1','[001002]正大新生活有限公司','[admin]集团系统管理员','1','10.00','[admin]集团系统管理员','中国人民银行','123321456709881234','','已付款','[admin]集团系统管理员','2013-12-26 15:03:03'); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226150051185','2','[001001]正大置地有限公司','[zhangsan]张三','11','110.00','[001001001]北京乐途国际旅行社有限公司','中国建设银行北京建国支行','11001042500056150048','电话通知不付','已取消付款','[admin]集团系统管理员','2013-12-26 15:02:34'); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226150051185','3','[001002]正大新生活有限公司','[zhangsan]张三','111','0.00','[001001001]北京乐途国际旅行社有限公司','中国建设银行北京建国支行','11001042500056150048','','已付款','[admin]集团系统管理员','2013-12-26 15:03:07'); 
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:03:20]
+mysqli_commit
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:03:49]
+mysqli_begin_transaction
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:03:49]
+delete from zdcw_payment_master where NUM = '20131226150329828'; delete from zdcw_payment_detail where NUM = '20131226150329828'; insert into zdcw_payment_master(`NUM`,`ORG`,`BILLNUM`,`STAT`,`INPUTTER`,`INPUTTIME`,`CHECKER`,`CHECKTIME`,`APPROVER`,`APPROVETIME`,`NOTE`) values ('20131226150329828','[001]正大集团','201312260003','待审核','[admin]集团系统管理员','2013-12-26 15:03:49','','','','',''); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226150329828','1','[001001]正大置地有限公司','[zcb]正大置地系统管理员','1','0','[zcb]正大置地系统管理员','中国建设银行','6217001210009583333','','未付款','',''); 
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:03:49]
+mysqli_commit
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:04:22]
+mysqli_begin_transaction
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:04:22]
+delete from zdcw_payment_master where NUM = '20131226150407743'; delete from zdcw_payment_detail where NUM = '20131226150407743'; insert into zdcw_payment_master(`NUM`,`ORG`,`BILLNUM`,`STAT`,`INPUTTER`,`INPUTTIME`,`CHECKER`,`CHECKTIME`,`APPROVER`,`APPROVETIME`,`NOTE`) values ('20131226150407743','[001]正大集团','201312260004','待审核','[admin]集团系统管理员','2013-12-26 15:04:22','','','','',''); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226150407743','1','[001001]正大置地有限公司','[zcb]正大置地系统管理员','1','0','[zcb]正大置地系统管理员','中国建设银行','6217001210009583333','','未付款','',''); 
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:04:22]
+mysqli_commit
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:04:33]
+mysqli_begin_transaction
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:04:33]
+delete from zdcw_payment_master where NUM = '20131226150407743'; delete from zdcw_payment_detail where NUM = '20131226150407743'; insert into zdcw_payment_master(`NUM`,`ORG`,`BILLNUM`,`STAT`,`INPUTTER`,`INPUTTIME`,`CHECKER`,`CHECKTIME`,`APPROVER`,`APPROVETIME`,`NOTE`) values ('20131226150407743','[001]正大集团','201312260004','审核不通过','[admin]集团系统管理员','2013-12-26 15:04:22','[admin]集团系统管理员','2013-12-26 15:04:33','','',''); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226150407743','1','[001001]正大置地有限公司','[zcb]正大置地系统管理员','1','0.00','[zcb]正大置地系统管理员','中国建设银行','6217001210009583333','','未付款','',''); 
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:04:33]
+mysqli_commit
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:05:45]
+mysqli_begin_transaction
+/myweb/sysauth/save.php
+
+[2013-12-26 15:05:45]
+delete from SYS_AUTH where ROLE = '[001001001]正大置地系统管理员'; insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[001001]查看权', '[zcb]正大置地系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[001002]新增权', '[zcb]正大置地系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[001003]修改权', '[zcb]正大置地系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[001004]删除权', '[zcb]正大置地系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[001005]模块权限设置权', '[zcb]正大置地系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[002001]查看权', '[zcb]正大置地系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[002002]新增权', '[zcb]正大置地系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[002003]修改权', '[zcb]正大置地系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[002004]删除权', '[zcb]正大置地系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[005001]查看权', '[zcb]正大置地系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[005002]修改权', '[zcb]正大置地系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[006001]查看权', '[zcb]正大置地系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[006002]新增权', '[zcb]正大置地系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[006003]修改权', '[zcb]正大置地系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[006004]删除权', '[zcb]正大置地系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[006005]查看所属机构用户权', '[zcb]正大置地系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[006006]启用禁用权', '[zcb]正大置地系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[006007]复核权', '[zcb]正大置地系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[006008]修改密码权', '[zcb]正大置地系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[009001]查看权', '[zcb]正大置地系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[009002]录入权', '[zcb]正大置地系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[009004]审核权', '[zcb]正大置地系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[009005]批准权', '[zcb]正大置地系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[009006]付款权', '[zcb]正大置地系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[009009]反审核权', '[zcb]正大置地系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[009010]反批准权', '[zcb]正大置地系统管理员'); insert into SYS_AUTH(ROLE,RIGHTS,LASTUPD) VALUES ('[001001001]正大置地系统管理员', '[010001]查看权', '[zcb]正大置地系统管理员'); 
+/myweb/sysauth/save.php
+
+[2013-12-26 15:05:46]
+mysqli_commit
+/myweb/sysauth/save.php
+
+[2013-12-26 15:06:03]
+mysqli_begin_transaction
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:06:03]
+delete from zdcw_payment_master where NUM = '20131226150552555'; delete from zdcw_payment_detail where NUM = '20131226150552555'; insert into zdcw_payment_master(`NUM`,`ORG`,`BILLNUM`,`STAT`,`INPUTTER`,`INPUTTIME`,`CHECKER`,`CHECKTIME`,`APPROVER`,`APPROVETIME`,`NOTE`) values ('20131226150552555','[001001]正大置地有限公司','201312260001','待审核','[zcb]正大置地系统管理员','2013-12-26 15:06:03','','','','',''); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226150552555','1','[001001]正大置地有限公司','[zcb]正大置地系统管理员','12','0','[zcb]正大置地系统管理员','中国建设银行','6217001210009583333','','未付款','',''); 
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:06:03]
+mysqli_commit
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:06:32]
+mysqli_begin_transaction
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:06:32]
+delete from zdcw_payment_master where NUM = '20131226150624317'; delete from zdcw_payment_detail where NUM = '20131226150624317'; insert into zdcw_payment_master(`NUM`,`ORG`,`BILLNUM`,`STAT`,`INPUTTER`,`INPUTTIME`,`CHECKER`,`CHECKTIME`,`APPROVER`,`APPROVETIME`,`NOTE`) values ('20131226150624317','[001001]正大置地有限公司','201312260002','待审核','[zcb]正大置地系统管理员','2013-12-26 15:06:32','','','','',''); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226150624317','1','[001001]正大置地有限公司','[zcb]正大置地系统管理员','2','0','[zcb]正大置地系统管理员','中国建设银行','6217001210009583333','','未付款','',''); 
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:06:32]
+mysqli_commit
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:06:39]
+mysqli_begin_transaction
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:06:39]
+delete from zdcw_payment_master where NUM = '20131226150624317'; delete from zdcw_payment_detail where NUM = '20131226150624317'; insert into zdcw_payment_master(`NUM`,`ORG`,`BILLNUM`,`STAT`,`INPUTTER`,`INPUTTIME`,`CHECKER`,`CHECKTIME`,`APPROVER`,`APPROVETIME`,`NOTE`) values ('20131226150624317','[001001]正大置地有限公司','201312260002','已审核待批准','[zcb]正大置地系统管理员','2013-12-26 15:06:32','[zcb]正大置地系统管理员','2013-12-26 15:06:39','','',''); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226150624317','1','[001001]正大置地有限公司','[zcb]正大置地系统管理员','2','0.00','[zcb]正大置地系统管理员','中国建设银行','6217001210009583333','','未付款','',''); 
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:06:39]
+mysqli_commit
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:10:51]
+mysqli_begin_transaction
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:10:51]
+delete from zdcw_payment_master where NUM = '20131226151045482'; delete from zdcw_payment_detail where NUM = '20131226151045482'; insert into zdcw_payment_master(`NUM`,`ORG`,`BILLNUM`,`STAT`,`INPUTTER`,`INPUTTIME`,`CHECKER`,`CHECKTIME`,`APPROVER`,`APPROVETIME`,`NOTE`) values ('20131226151045482','[001001]正大置地有限公司','201312260003','待审核','[zcb]正大置地系统管理员','2013-12-26 15:10:51','','','','',''); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226151045482','1','[001001]正大置地有限公司','[zcb]正大置地系统管理员','1','0','[zcb]正大置地系统管理员','中国建设银行','6217001210009583333','','未付款','',''); 
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:10:51]
+mysqli_commit
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:17:38]
+mysqli_begin_transaction
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:17:38]
+delete from zdcw_payment_master where NUM = '20131226151731883'; delete from zdcw_payment_detail where NUM = '20131226151731883'; insert into zdcw_payment_master(`NUM`,`ORG`,`BILLNUM`,`STAT`,`INPUTTER`,`INPUTTIME`,`CHECKER`,`CHECKTIME`,`APPROVER`,`APPROVETIME`,`NOTE`) values ('20131226151731883','[001001]正大置地有限公司','201312260004','待审核','[zcb]正大置地系统管理员','2013-12-26 15:17:38','','','','',''); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226151731883','1','[001001]正大置地有限公司','[zcb]正大置地系统管理员','1','0','[zcb]正大置地系统管理员','中国建设银行','6217001210009583333','','未付款','',''); 
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:17:38]
+mysqli_commit
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:44:11]
+mysqli_begin_transaction
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:44:11]
+delete from zdcw_payment_master where NUM = '20131226154402238'; delete from zdcw_payment_detail where NUM = '20131226154402238'; insert into zdcw_payment_master(`NUM`,`ORG`,`BILLNUM`,`STAT`,`INPUTTER`,`INPUTTIME`,`CHECKER`,`CHECKTIME`,`APPROVER`,`APPROVETIME`,`NOTE`) values ('20131226154402238','[001001]正大置地有限公司','201312260005','待审核','[zcb]正大置地系统管理员','2013-12-26 15:44:11','','','','',''); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226154402238','1','[001001]正大置地有限公司','[zcb]正大置地系统管理员','33','0','[001001001]北京乐途国际旅行社有限公司','中国建设银行北京建国支行','11001042500056150048','','未付款','',''); 
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 15:44:11]
+mysqli_commit
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 16:00:17]
+mysqli_begin_transaction
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 16:00:17]
+delete from zdcw_payment_master where NUM = '20131226160006282'; delete from zdcw_payment_detail where NUM = '20131226160006282'; insert into zdcw_payment_master(`NUM`,`ORG`,`BILLNUM`,`STAT`,`INPUTTER`,`INPUTTIME`,`CHECKER`,`CHECKTIME`,`APPROVER`,`APPROVETIME`,`NOTE`) values ('20131226160006282','[001001]正大置地有限公司','201312260006','待审核','[zcb]正大置地系统管理员','2013-12-26 16:00:17','','','','',''); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226160006282','1','[001001]正大置地有限公司','[zcb]正大置地系统管理员','33','330.00','[zcb]正大置地系统管理员','中国建设银行','6217001210009583333','','未付款','',''); 
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 16:00:17]
+mysqli_commit
+/myweb/zdcwpayment/savePayment.php
+
+[2013-12-26 23:56:46]
+mysqli_begin_transaction
+/centralpayment/zdcwpayment/savePayment.php
+
+[2013-12-26 23:56:46]
+delete from zdcw_payment_master where NUM = '20131226235632635'; delete from zdcw_payment_detail where NUM = '20131226235632635'; insert into zdcw_payment_master(`NUM`,`ORG`,`BILLNUM`,`STAT`,`INPUTTER`,`INPUTTIME`,`CHECKER`,`CHECKTIME`,`APPROVER`,`APPROVETIME`,`NOTE`) values ('20131226235632635','[001]正大集团','201312260005','待审核','[admin]集团系统管理员','2013-12-26 23:56:46','','','','',''); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226235632635','1','[001]正大集团','[zhangsan]张三','2','0','[zcb]正大置地系统管理员','中国建设银行','6217001210009583333','','未付款','',''); 
+/centralpayment/zdcwpayment/savePayment.php
+
+[2013-12-26 23:56:46]
+mysqli_commit
+/centralpayment/zdcwpayment/savePayment.php
+
+[2013-12-26 23:56:53]
+mysqli_begin_transaction
+/centralpayment/zdcwpayment/savePayment.php
+
+[2013-12-26 23:56:53]
+delete from zdcw_payment_master where NUM = '20131226235647102'; delete from zdcw_payment_detail where NUM = '20131226235647102'; insert into zdcw_payment_master(`NUM`,`ORG`,`BILLNUM`,`STAT`,`INPUTTER`,`INPUTTIME`,`CHECKER`,`CHECKTIME`,`APPROVER`,`APPROVETIME`,`NOTE`) values ('20131226235647102','[001]正大集团','201312260006','待审核','[admin]集团系统管理员','2013-12-26 23:56:53','','','','',''); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226235647102','1','[001]正大集团','[zcb]正大置地系统管理员','22','0','[zcb]正大置地系统管理员','中国建设银行','6217001210009583333','','未付款','',''); 
+/centralpayment/zdcwpayment/savePayment.php
+
+[2013-12-26 23:56:54]
+mysqli_commit
+/centralpayment/zdcwpayment/savePayment.php
+
+[2013-12-26 23:57:01]
+mysqli_begin_transaction
+/centralpayment/zdcwpayment/savePayment.php
+
+[2013-12-26 23:57:01]
+delete from zdcw_payment_master where NUM = '20131226235655608'; delete from zdcw_payment_detail where NUM = '20131226235655608'; insert into zdcw_payment_master(`NUM`,`ORG`,`BILLNUM`,`STAT`,`INPUTTER`,`INPUTTIME`,`CHECKER`,`CHECKTIME`,`APPROVER`,`APPROVETIME`,`NOTE`) values ('20131226235655608','[001]正大集团','201312260007','待审核','[admin]集团系统管理员','2013-12-26 23:57:01','','','','',''); insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`)  VALUES ('20131226235655608','1','[001]正大集团','[zcb]正大置地系统管理员','22','0','[zcb]正大置地系统管理员','中国建设银行','6217001210009583333','','未付款','',''); 
+/centralpayment/zdcwpayment/savePayment.php
+
+[2013-12-26 23:57:01]
+mysqli_commit
+/centralpayment/zdcwpayment/savePayment.php
+
