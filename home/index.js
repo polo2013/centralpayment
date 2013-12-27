@@ -116,13 +116,13 @@ function ajaxCheckMenu() {
 		
 		//增加最后一个菜单
 		var aboutInfo = 
-				"v1.0</br>" + 
-				"<ol>" + 
-					"<li>构建系统框架</li>" + 
-					"<li>新增付款汇总表模块</li>" +
-				"</ol>" ;
+				'<div>v1.0</div>' + 
+				'<ol>' + 
+					'<li>构建系统框架</li>' + 
+					'<li>新增付款汇总表模块</li>' +
+				'</ol>' ;
 		$("#menu_toolbar").append('<a id="menu_about" href="javascript:void(0)"></a>');
-		$("#all_menu_in_one").append('<div id="submenu_about" class="menu-content"></div>');
+		$("#all_menu_in_one").append('<div id="submenu_about" class="menu-content" style="font-size:14px"></div>');
 		$("#submenu_about").append(aboutInfo);
 		$("#menu_about").menubutton({plain:true, text:'关于', menu:'#submenu_about'});
 		
@@ -271,10 +271,26 @@ function ajaxGenTodo() {
 			$('#msg_todo').accordion('add', {
 				title: titleFormat,
 				content: contentFormat,
-				selected: true
+				selected: false
 			});
 		});
 
 		
+	});
+}
+
+function expandAllMsg(){
+	var panels = $('#msg_todo').accordion('panels');
+	$.each(panels, function(idx,value){
+		$('#msg_todo').accordion('select', $('#msg_todo').accordion('getPanelIndex', panels[idx]));
+		//alert(JSON.stringify($('#msg_todo').accordion('getPanelIndex', panels[idx])));
+	});
+	
+	//alert('expand');
+}
+function collapseAllMsg(){
+	var panels = $('#msg_todo').accordion('panels');
+	$.each(panels, function(idx,value){
+		$('#msg_todo').accordion('unselect', $('#msg_todo').accordion('getPanelIndex', panels[idx]));
 	});
 }

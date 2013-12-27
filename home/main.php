@@ -24,12 +24,19 @@ a[id^="billTodo_"]
 a[id^="billTodo_"]:hover {
 	color: #FF00FF;
 }
+
+
+
 </style>
 
 <script type="text/javascript">
 	$(document).ready(function(){
 		ajaxGenTile();
 		ajaxGenTodo();
+
+		//var tempHeight = $(document).height()-180;
+		var tempHeight = $('#main_page_table_td_todo').height();
+		$('#msg_todo_shell').panel({height:tempHeight});
 	});
 </script>
 
@@ -39,7 +46,7 @@ a[id^="billTodo_"]:hover {
 	<div id="all_tiles" class="tiles blue tile-group five-wide"></div>
 </td>
 <td id="main_page_table_td_todo" valign="top">
-	<div id="msg_todo_shell" class="easyui-panel" title="通知中心" style="padding:5px">
+	<div id="msg_todo_shell" class="easyui-panel" title="通知中心" style="padding:5px;" data-options="iconCls:'icon-ok',tools:[{iconCls:'icon-add',handler:expandAllMsg},{iconCls:'icon-remove',handler:collapseAllMsg}]">
 		<div id="msg_todo" class="easyui-accordion" data-options="multiple:true,animate:false,boder:false"></div>
 	</div>
 </td>
