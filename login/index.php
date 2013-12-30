@@ -33,6 +33,7 @@ include_once("../public/php/myConfig.php");
 		<script src="../public/js/public.js"></script>
 		
 		<link rel="stylesheet" type="text/css" href="css/index.css" />
+		<script src="../home/public.js"></script>
 		<script src="js/index.js"></script>
 		
     </head>

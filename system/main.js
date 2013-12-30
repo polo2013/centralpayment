@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	//alert(JSON.stringify(allAuth));
+	console.info(JSON.stringify(allAuth)+'ready');
 	//检查权限
 	var isdisable = true;
 	var url_getInfo = "";
@@ -90,8 +90,6 @@ $(document).ready(function(){
 		]]
 		
 	});
-
-
 });
 
 function newAct(){

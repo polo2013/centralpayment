@@ -11,9 +11,9 @@ $result_cell = array();
 $orgcode = splitCode($login_user_org);
 $hasAllRight = getAuthInfo($login_user_role, '010', '查看所有单据权');
 
-$query = "SELECT STAT, COUNT(1) CNT FROM zdcw_payment_master WHERE SUBSTR(`ORG`,2, LENGTH('$orgcode'))='$orgcode' GROUP BY STAT";
+$query = "SELECT A.STAT, COUNT(1) CNT FROM zdcw_payment_master A, sys_stat B WHERE A.STAT = B.NAME AND SUBSTR(A.`ORG`,2, LENGTH('$orgcode'))='$orgcode' GROUP BY A.STAT ORDER BY B.CODE";
 if($hasAllRight)
-	$query = "SELECT STAT, COUNT(1) CNT FROM zdcw_payment_master GROUP BY STAT";
+	$query = "SELECT A.STAT, COUNT(1) CNT FROM zdcw_payment_master A, sys_stat B WHERE A.STAT = B.NAME GROUP BY A.STAT ORDER BY B.CODE";
 
 $cursor = exequery($connection,$query);
 while($row = mysqli_fetch_array($cursor)){

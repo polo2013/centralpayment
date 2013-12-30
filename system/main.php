@@ -1,5 +1,4 @@
 <script type="text/javascript" src="../system/main.js"></script>
-
 <table id="dg_system"></table>
 
 <div id="toolbar_system">

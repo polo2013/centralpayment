@@ -5,6 +5,9 @@ include_once("../public/php/session.php");
 
 		<title><?php echo $SYS_TITLE; ?></title>
 		<link rel="stylesheet" type="text/css" href="index.css" />
+		<script src="public.js"></script>
+		<script src="north.js"></script>
+		<script src="south.js"></script>
 		<script src="index.js"></script>
 	</head>
 	<body class="easyui-layout">

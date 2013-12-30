@@ -24,22 +24,8 @@ a[id^="billTodo_"]
 a[id^="billTodo_"]:hover {
 	color: #FF00FF;
 }
-
-
-
 </style>
-
-<script type="text/javascript">
-	$(document).ready(function(){
-		ajaxGenTile();
-		ajaxGenTodo();
-
-		//var tempHeight = $(document).height()-180;
-		var tempHeight = $('#main_page_table_td_todo').height();
-		$('#msg_todo_shell').panel({height:tempHeight});
-	});
-</script>
-
+<script type="text/javascript" src="main.js"></script>
 <table id="main_page_table">
 <tr>
 <td id="main_page_table_td_tiles">

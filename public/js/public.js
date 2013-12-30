@@ -171,150 +171,6 @@ artDialog.tips = function (content, time) {
     .time(time || 1.5);
 };
 
-
-//取得功能权限
-function ajaxFuncAuthCheck(module, auth) {
-    var $params = "module=" + module + "&auth=" + auth;
-    var rtn = false;
-    var allAuth = new Array();
-    $.ajax({
-        type: 'POST',
-        url: '../public/php/getFuncAuth.php',
-        async: false,
-        cache: false,
-        dataType: 'json',
-        data: $params,
-        timeout: 2000,  //毫秒，超时后执行error
-        success: function (data) {
-        	//alert(JSON.stringify(data));
-        	if(auth == 'allauth'){
-        		//将json转为数组
-        		allAuth = data.allAuth;
-        	}else{
-        		rtn = data.success;
-        	}
-        },
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-        	art.dialog({
-        	    content: '与服务器通讯失败，请稍后重试！<br>textStatus：'+textStatus+'<br>XMLHttpRequest.status：'+XMLHttpRequest.status+'<br>XMLHttpRequest.readyState：'+XMLHttpRequest.readyState+'<br>'+errorThrown,
-        	    ok: true
-        	});
-        }
-    });
-    if(auth == 'allauth'){
-    	//返回一个数组
-    	return allAuth;
-    }else{
-    	return rtn;
-    }
-}
-
-//取得编号
-function ajaxGetNewCode(module, para) {
-    var params = "module=" + module + "&para=" + para;
-    var rtn = '';
-    $.ajax({
-        type: 'POST',
-        url: '../public/php/getNewCode.php',
-        async: false,
-        cache: false,
-        dataType: 'json',
-        data: params,
-        timeout: 2000,  //毫秒，超时后执行error
-        success: function (data) {
-        	//alert(JSON.stringify(data));
-        	rtn = data.newNumber;
-        },
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-        	art.dialog({
-        	    content: '与服务器通讯失败，请稍后重试！<br>textStatus：'+textStatus+'<br>XMLHttpRequest.status：'+XMLHttpRequest.status+'<br>XMLHttpRequest.readyState：'+XMLHttpRequest.readyState+'<br>'+errorThrown,
-        	    ok: true
-        	});
-        }
-    });
-    return rtn;
-}
-
-//检查输入
-function checkValue(input, desc, type){
-	var reg;
-	var errmsg;
-	switch(type)
-	{
-	case '数字':
-		reg = new RegExp("^[0-9]*$");
-		errmsg = desc + '只能为'+type+'！';
-		break;
-	case '汉字':
-		reg = new RegExp("^[\u4e00-\u9fa5]*$");
-		errmsg = desc + '只能为'+type+'！';
-		break;
-	case '字母':
-		reg = new RegExp("^[A-Za-z]*$");
-		errmsg = desc + '只能为'+type+'！';
-		break;
-	case '字母和下划线':
-		reg = new RegExp("^[A-Za-z_]*$");
-		errmsg = desc + '只能由'+type+'组成！';
-		break;
-	case '字母、数字、下划线':
-		reg = new RegExp("^[A-Za-z0-9_]*$");
-		errmsg = desc + '只能由'+type+'组成！';
-		break;
-	case '数字、中划线':
-		reg = new RegExp("^([0-9]{3,4}-[0-9]{7,8}(-[0-9]{1,3})?)?$");
-		errmsg = '格式不正确！示例：0123-1234567、010-12345678、021-12345678-888！';
-		break;
-	case '汉字、字母、数字':
-		reg = new RegExp("^[\u4e00-\u9fa5A-Za-z0-9（）]*$");
-		errmsg = desc + '只能由'+type+'组成！';
-		break;
-	case '手机号':
-		reg = new RegExp('^(1[0-9]{10})?$');
-		errmsg = '格式不正确！示例：13801234567';
-		break;
-	case '来源状态':
-		reg = new RegExp('^([0-9]{3})?(,[0-9]{3})*$');
-		errmsg = '格式不正确！示例：001,002,003';
-		break;
-	case '付款汇总表':
-		reg = new RegExp('^[0-9]{4}(0[1-9]|1[0-2]){1}(0[1-9]|1[0-9]|2[0-9]|3[0-1]){1}[0-9]{4}$');
-		errmsg = '编号规则为“日期+序列号”！<br>示例：201401010001';
-		break;
-	default:
-		reg = "";
-	}
-	
-	
-
-	if((reg=="")||(!reg.test(input.val()))){
-		/*
-		art.dialog({
-		    content: errmsg,
-		    ok: function(){
-	    	    input.focus();
-	    	    input.select();
-	    	}
-		});
-		*/
-		input.grumble(
-				{
-					text: errmsg, 
-					angle: 85, 
-					distance: 120, 
-					type: 'alt-',  //蓝色
-					showAfter: 100,
-					hideAfter: 2000
-				}
-		);
-		
-		return false;
-	}else{
-		
-		return true;
-	}
-}
-
 //自定义validatebox验证规则
 $.extend($.fn.validatebox.defaults.rules, {
     minLength: {
@@ -331,8 +187,8 @@ $.extend($.fn.validatebox.defaults.rules, {
     }
 });
 
-//数组相关
-//查找是否有制定值
+/******数组相关begin*******/
+//查找是否有指定值
 function arrSearch(value, arr){
 	for(var i=0; i<arr.length; i++){
 		if(arr[i] == value){
@@ -356,11 +212,22 @@ Array.prototype.remove = function(val) {
       this.splice(index, 1);
   }
 };
+//sum数组值
+Array.prototype.sumArr = function() {
+  var sumVal = 0;
+  for (var i = 0; i < this.length; i++) {
+	  sumVal = sumVal + this[i];
+  }
+  return sumVal;
+};
+
 //取得radom值
 function getRandom(min,max){
     return Math.floor(Math.random()*(max-min)+min);
 }
+//取得radom数组值
 function getRandomArrVal(arr){
 	return arr[getRandom(0, arr.length)];
 }
 
+/******数组相关end******/
