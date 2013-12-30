@@ -155,7 +155,7 @@ function checkValueAtDB($module, $request, $type)
 				."WHERE CONCAT('[',A.`CODE`,']',A.`NAME`) = B.ROLE AND A.`CODE`='".$request['CODE']."' ";
 				$cursor = exequery($connection,$query);
 				if($row = mysqli_fetch_array($cursor)){
-					$errmsg = "角色“[".$row['CODE']."]".$row['NAME']."”正在被使用中，不能删除！";
+					$errmsg = "角色“[".$row['CODE']."]".$row['NAME']."”拥有权限，或拥有从属人员，请取消权限或从属人员后再删除！";
 				}
 			}
 			break;
@@ -173,8 +173,34 @@ function checkValueAtDB($module, $request, $type)
 				if($row = mysqli_fetch_array($cursor)){
 					$errmsg = "该用户名“".$row['CODE']."”已被使用，请使用其他用户名！";
 				}
+				if($request['ACCOUNT'] != '' && $request['BANK'] == ''){
+					$errmsg = "您填写了账号，但没有填写银行！";
+				}
+				if($request['ACCOUNT'] == '' && $request['BANK'] != ''){
+					$errmsg = "您填写了银行，但没有填写账号！";
+				}
+				if($request['ACCOUNT'] != ''){
+					$query = "SELECT * FROM SYS_USER WHERE ACCOUNT = '".$request['ACCOUNT']."'";
+					$cursor = exequery($connection,$query);
+					if($row = mysqli_fetch_array($cursor)){
+						$errmsg = "该账号“".$row['ACCOUNT']."”已被其他用户使用，请确认是否填写正确！";
+					}
+				}
 			}else if($type=="edit"){
 				$errmsg = "";
+				if($request['ACCOUNT'] != '' && $request['BANK'] == ''){
+					$errmsg = "您填写了账号但没有填写银行！";
+				}
+				if($request['ACCOUNT'] == '' && $request['BANK'] != ''){
+					$errmsg = "您填写了银行但没有填写账号！";
+				}
+				if($request['ACCOUNT'] != ''){
+					$query = "SELECT * FROM SYS_USER WHERE ACCOUNT = '".$request['ACCOUNT']."' AND CODE != '".$request['ACCOUNT']."'";
+					$cursor = exequery($connection,$query);
+					if($row = mysqli_fetch_array($cursor)){
+						$errmsg = "该账号“".$row['ACCOUNT']."”已被其他用户使用，请确认是否填写正确！";
+					}
+				}
 			}else if($type=="remove"){
 				$query = "SELECT A.* FROM SYS_USER A, ZDCW_PAYMENT_MASTER B "
 				."WHERE (CONCAT('[',A.`CODE`,']',A.`NAME`) = B.INPUTTER "

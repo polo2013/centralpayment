@@ -5,13 +5,13 @@ $(document).ready(function(){
 	var role = "";
 	
 	$('#btn-expandAll_sysauth').linkbutton({
-	    iconCls: 'icon-remove',
+	    iconCls: 'icon-add',
 	    plain: true,
 	    text: '全部展开',
 	    disabled: false
 	});
 	$('#btn-collapseAll_sysauth').linkbutton({
-	    iconCls: 'icon-add',
+	    iconCls: 'icon-remove',
 	    plain: true,
 	    text: '全部收缩',
 	    disabled: false

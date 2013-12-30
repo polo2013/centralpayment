@@ -221,11 +221,11 @@ Array.prototype.sumArr = function() {
   return sumVal;
 };
 
-//取得radom值
+//取得random值
 function getRandom(min,max){
     return Math.floor(Math.random()*(max-min)+min);
 }
-//取得radom数组值
+//取得random数组值
 function getRandomArrVal(arr){
 	return arr[getRandom(0, arr.length)];
 }

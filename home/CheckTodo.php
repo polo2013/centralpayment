@@ -1,5 +1,6 @@
 <?php
 include_once("../public/php/session.php");
+$login_user = $_SESSION['LOGIN_USER'];
 $login_user_org = $_SESSION['LOGIN_USER_ORG'];
 $login_user_role = $_SESSION['LOGIN_USER_ROLE'];
 
@@ -9,19 +10,26 @@ $result_detail = array();
 $result_cell = array();
 
 $orgcode = splitCode($login_user_org);
+$hasOrgRight = getAuthInfo($login_user_role, '010', '查看所属机构单据权');
 $hasAllRight = getAuthInfo($login_user_role, '010', '查看所有单据权');
 
-$query = "SELECT A.STAT, COUNT(1) CNT FROM zdcw_payment_master A, sys_stat B WHERE A.STAT = B.NAME AND SUBSTR(A.`ORG`,2, LENGTH('$orgcode'))='$orgcode' GROUP BY A.STAT ORDER BY B.CODE";
-if($hasAllRight)
+if($hasOrgRight)
+	$query = "SELECT A.STAT, COUNT(1) CNT FROM zdcw_payment_master A, sys_stat B WHERE A.STAT = B.NAME AND SUBSTR(A.`ORG`,2, LENGTH('$orgcode'))='$orgcode' GROUP BY A.STAT ORDER BY B.CODE";
+else if($hasAllRight)
 	$query = "SELECT A.STAT, COUNT(1) CNT FROM zdcw_payment_master A, sys_stat B WHERE A.STAT = B.NAME GROUP BY A.STAT ORDER BY B.CODE";
+else
+	$query = "SELECT A.STAT, COUNT(1) CNT FROM zdcw_payment_master A, sys_stat B WHERE A.STAT = B.NAME AND (INPUTTER = '$login_user' OR CHECKER = '$login_user' OR APPROVER = '$login_user') GROUP BY A.STAT ORDER BY B.CODE";
 
 $cursor = exequery($connection,$query);
 while($row = mysqli_fetch_array($cursor)){
 	unset($result_row);
 	unset($result_detail);
-	$query2 = "SELECT * FROM zdcw_payment_master WHERE SUBSTR(`ORG`,2, LENGTH('$orgcode'))='$orgcode' AND STAT = '".$row['STAT']."'";
-	if($hasAllRight)
+	if($hasOrgRight)
+		$query2 = "SELECT * FROM zdcw_payment_master WHERE SUBSTR(`ORG`,2, LENGTH('$orgcode'))='$orgcode' AND STAT = '".$row['STAT']."'";
+	else if($hasAllRight)
 		$query2 = "SELECT * FROM zdcw_payment_master WHERE STAT = '".$row['STAT']."'";
+	else
+		$query2 = "SELECT * FROM zdcw_payment_master WHERE (INPUTTER = '$login_user' OR CHECKER = '$login_user' OR APPROVER = '$login_user') AND STAT = '".$row['STAT']."'";
 	
 	$result_row['STAT'] = $row['STAT'];
 	$result_row['CNT'] = $row['CNT'];

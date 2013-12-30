@@ -2,10 +2,6 @@
 <script type="text/javascript" src="../zdcwpayment/main_new.js"></script>
 <script type="text/javascript" src="../zdcwpayment/main_view.js"></script>
 
-<script type="text/javascript">
-
-</script>
-
 <style type="text/css">
 #tb_zdcwpayment
 {
@@ -55,8 +51,8 @@
 		<td><input id="stat_zdcwpayment" name="STAT" class="easyui-validatebox" readonly></td>
 		<td><label for="operation_zdcwpayment">可选操作：</label></td>
 		<td><input id="operation_zdcwpayment" name="OPERATION" class="easyui-combobox" data-options="required:true,editable:false,panelHeight:'auto'"></td>
-		<td rowspan="4" valign="bottom">
-			<a id="btn_save_zdcwpayment" href="javascript:void(0)""></a>
+		<td rowspan="4" valign="bottom" width="100px">
+			<a id="btn_save_zdcwpayment" href="javascript:void(0)"></a>
 		</td>
 	</tr>
 </table>

@@ -1,4 +1,4 @@
-/*form上的标题Information*/
+/*form 鏍囬*/
 .ftitle
 {
 	font-size:12px;
@@ -7,7 +7,7 @@
 	margin-bottom:10px;
 	border-bottom:1px solid grey;
 }
-/*form默认*/
+/*form*/
 form
 {
 	margin:0;
@@ -22,14 +22,14 @@ form
 	display:inline-block;
 	width:80px;
 }
-/*只读input的背景色为灰色*/
 input[readonly]
 {
 	background-color:#cccccc;
 }
 
 .easyui-validatebox,
-.easyui-combobox
+.easyui-combobox,
+.easyui-datebox
 {
 	width:200px;
 }
@@ -44,13 +44,11 @@ textarea
 	width:450px;
 }
 
-/*模块自定义*/
-/*权限*/
 input[id $= "_sysauth"]
 {
 	width:245px;
 }
-/*用户、收款人*/
+
 #dlg_sysuser,
 #dlg_bizpayee
 {
