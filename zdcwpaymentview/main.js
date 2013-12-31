@@ -1,21 +1,4 @@
 $(document).ready(function(){
-	$.getJSON('../'+modulepath+'/getSearchSelect.php', function(data){
-		//alert(JSON.stringify(data));
-		//组织
-		$('#org_zdcwpaymentview').combobox('loadData', data.allOrg);
-		$('#org_zdcwpaymentview').combobox('select', data.myOrg);
-		//状态
-		$('#stat_zdcwpaymentview').combobox('loadData', data.allStat);
-		$('#stat_zdcwpaymentview').combobox('select', data.myStat);
-		//录入人、审核人、批准人
-		$('#inputter_zdcwpaymentview').combobox('loadData', data.allInputter);
-		$('#inputter_zdcwpaymentview').combobox('select', data.myInputter);
-		$('#checker_zdcwpaymentview').combobox('loadData', data.allChecker);
-		$('#checker_zdcwpaymentview').combobox('select', data.myChecker);
-		$('#approver_zdcwpaymentview').combobox('loadData', data.allApprover);
-		$('#approver_zdcwpaymentview').combobox('select', data.myApprover);
-	});
-	
 	$('#dg_zdcwpaymentview').datagrid({
 		title: moduletitle,
 		pagination: true,
@@ -53,6 +36,24 @@ $(document).ready(function(){
 	    disabled: false
 	});
 	
+	$.getJSON('../'+modulepath+'/getSearchSelect.php', function(data){
+		//alert(JSON.stringify(data));
+		//组织
+		$('#org_zdcwpaymentview').combobox('loadData', data.allOrg);
+		$('#org_zdcwpaymentview').combobox('select', data.myOrg);
+		//状态
+		$('#stat_zdcwpaymentview').combobox('loadData', data.allStat);
+		$('#stat_zdcwpaymentview').combobox('select', data.myStat);
+		//录入人、审核人、批准人
+		$('#inputter_zdcwpaymentview').combobox('loadData', data.allInputter);
+		$('#inputter_zdcwpaymentview').combobox('select', data.myInputter);
+		$('#checker_zdcwpaymentview').combobox('loadData', data.allChecker);
+		$('#checker_zdcwpaymentview').combobox('select', data.myChecker);
+		$('#approver_zdcwpaymentview').combobox('loadData', data.allApprover);
+		$('#approver_zdcwpaymentview').combobox('select', data.myApprover);
+		
+		searchPayment();
+	});
 });
 
 function myformatter_Begin(date){
