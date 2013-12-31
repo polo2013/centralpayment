@@ -161,6 +161,13 @@ $(document).ready(function(){
 				*/
 			}
 			
+			if(arrSearch('打印权',allAuth)){
+				$('#btn_print_zdcwpayment').linkbutton('enable');
+				$('#btn_print_zdcwpayment').unbind();
+				$('#btn_print_zdcwpayment').bind('click', printPaymentAct);
+			}
+			
 		});
+		
 	}
 });

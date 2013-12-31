@@ -1,3 +1,6 @@
+<script type="text/javascript" src="../public/lodop4.0/CheckActivX.js"></script>
+<OBJECT  ID="LODOP" CLASSID="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" WIDTH=0 HEIGHT=0> </OBJECT> 
+
 <script type="text/javascript" src="../zdcwpayment/main.js"></script>
 <script type="text/javascript" src="../zdcwpayment/main_new.js"></script>
 <script type="text/javascript" src="../zdcwpayment/main_view.js"></script>
@@ -42,6 +45,9 @@
 		<td><input id="checktime_zdcwpayment" name="CHECKTIME" class="easyui-validatebox" readonly></td>
 		<td><label for="approvetime_zdcwpayment">批准时间：</label></td>
 		<td><input id="approvetime_zdcwpayment" name="APPROVETIME" class="easyui-validatebox" readonly></td>
+		<td width="100px">
+			<a id="btn_print_zdcwpayment" href="javascript:void(0)"></a>
+		</td>
 	</tr>
 	<tr>
 		<td><label for="note_zdcwpayment">备注：</label></td>
@@ -51,7 +57,7 @@
 		<td><input id="stat_zdcwpayment" name="STAT" class="easyui-validatebox" readonly></td>
 		<td><label for="operation_zdcwpayment">可选操作：</label></td>
 		<td><input id="operation_zdcwpayment" name="OPERATION" class="easyui-combobox" data-options="required:true,editable:false,panelHeight:'auto'"></td>
-		<td rowspan="4" valign="bottom" width="100px">
+		<td width="100px">
 			<a id="btn_save_zdcwpayment" href="javascript:void(0)"></a>
 		</td>
 	</tr>

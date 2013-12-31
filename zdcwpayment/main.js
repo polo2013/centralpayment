@@ -121,6 +121,13 @@ $(document).ready(function(){
 	    text: '保存',
 	    disabled: true
 	});
+	$('#btn_print_zdcwpayment').linkbutton({
+	    iconCls: 'icon-print',
+	    plain: false,
+	    text: '打印',
+	    disabled: true
+	});
+	
 });
 
 /**********行编辑*********************/
@@ -588,3 +595,72 @@ artDialog.promptNote = function (content, value, yes) {
         cancel: true
     });
 };
+/*********************************************/
+
+function printPaymentAct(){
+	//alert(viewNum);  //当前单号
+	//检查打印控件是否安装
+	var msg = CheckLodop();
+	if(msg != ''){
+		art.dialog({
+			title: '打印控件',
+		    content: msg,
+		    ok: true
+		});
+	}else{
+		/*因为自己画的表格无法自适应内容的长度，因此作废。
+		$.getJSON("../zdcwpayment/getInfo.php", {NUM: viewNum}, function(data){
+			//alert(JSON.stringify(data));
+			var top = 80;
+			var left = 50;
+			var width = 200;
+			var height = 25;
+			//初始化
+			LODOP.PRINT_INIT("打印付款汇总表："+viewNum);
+			LODOP.SET_PRINT_STYLE("FontSize",11);
+			//标题
+			LODOP.ADD_PRINT_TEXT(top,left+300,width,height,"付款汇总表");
+			LODOP.SET_PRINT_STYLEA(1,"FontName","隶书"); 
+			LODOP.SET_PRINT_STYLEA(1,"FontSize",15);
+			//汇总
+			LODOP.ADD_PRINT_TEXT(top+40,left,width,height,"机构名称："+data.ORG);
+			LODOP.ADD_PRINT_TEXT(top+40,left+300,width,height,"日期："+data.INPUTTIME);
+			LODOP.ADD_PRINT_TEXT(top+40,left+550,width,height,"编号："+data.BILLNUM);
+			
+			//明细表抬头
+			LODOP.ADD_PRINT_TEXT(top+65,left+5,50,25,"序号");
+			LODOP. ADD_PRINT_LINE(top+60,left+40,top+85,left+40,0,1);
+			LODOP.ADD_PRINT_TEXT(top+65,left+55,100,25,"部门/项目");
+			LODOP. ADD_PRINT_LINE(top+60,left+140,top+85,left+140,0,1);
+			LODOP.ADD_PRINT_TEXT(top+65,left+165,100,25,"费用申请人");
+			LODOP. ADD_PRINT_LINE(top+60,left+260,top+85,left+260,0,1);
+			LODOP.ADD_PRINT_TEXT(top+65,left+300,100,25,"付款事由");
+			LODOP. ADD_PRINT_LINE(top+60,left+400,top+85,left+400,0,1);
+			LODOP.ADD_PRINT_TEXT(top+65,left+435,100,25,"金额");
+			LODOP. ADD_PRINT_LINE(top+60,left+500,top+85,left+500,0,1);
+			LODOP.ADD_PRINT_TEXT(top+65,left+520,100,25,"收款人及账号");
+			LODOP. ADD_PRINT_LINE(top+60,left+625,top+85,left+625,0,1);
+			LODOP.ADD_PRINT_TEXT(top+65,left+648,100,25,"备注");
+			//foot
+			LODOP. ADD_PRINT_LINE(top+85,left,top+85,left+700,0,1);
+			LODOP.ADD_PRINT_TEXT(top+90,left+50,100,25,"总计");
+			LODOP. ADD_PRINT_LINE(top+85,left+140,top+110,left+140,0,1);
+			LODOP. ADD_PRINT_LINE(top+85,left+260,top+110,left+260,0,1);
+			LODOP. ADD_PRINT_LINE(top+85,left+400,top+110,left+400,0,1);
+			LODOP. ADD_PRINT_LINE(top+85,left+500,top+110,left+500,0,1);
+			LODOP. ADD_PRINT_LINE(top+85,left+625,top+110,left+625,0,1);
+			
+			//明细表外框
+			LODOP.ADD_PRINT_RECT(top+60,left,700,50,0,1);
+			
+			LODOP.PREVIEW();
+		});
+		*/
+		
+		LODOP.ADD_PRINT_URL(50,50,700,900,"http://localhost/centralpayment/zdcwpayment/printPayment.php?NUM="+viewNum);
+
+		LODOP.PREVIEW();
+		
+	}
+	
+}
