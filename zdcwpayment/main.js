@@ -121,12 +121,7 @@ $(document).ready(function(){
 	    text: '保存',
 	    disabled: true
 	});
-	$('#btn_print_zdcwpayment').linkbutton({
-	    iconCls: 'icon-print',
-	    plain: false,
-	    text: '打印',
-	    disabled: true
-	});
+
 	
 });
 
@@ -599,6 +594,7 @@ artDialog.promptNote = function (content, value, yes) {
 
 function printPaymentAct(){
 	//alert(viewNum);  //当前单号
+	/*  4.0版本
 	//检查打印控件是否安装
 	var msg = CheckLodop();
 	if(msg != ''){
@@ -608,7 +604,7 @@ function printPaymentAct(){
 		    ok: true
 		});
 	}else{
-		/*因为自己画的表格无法自适应内容的长度，因此作废。
+		//因为自己画的表格无法自适应内容的长度，因此作废。
 		$.getJSON("../zdcwpayment/getInfo.php", {NUM: viewNum}, function(data){
 			//alert(JSON.stringify(data));
 			var top = 80;
@@ -655,12 +651,22 @@ function printPaymentAct(){
 			
 			LODOP.PREVIEW();
 		});
-		*/
 		
+		// 换成直接load url 模式
+		LODOP.PRINT_INIT("打印付款汇总表："+viewNum);
 		LODOP.ADD_PRINT_URL(50,50,700,900,"http://localhost/centralpayment/zdcwpayment/printPayment.php?NUM="+viewNum);
-
 		LODOP.PREVIEW();
 		
 	}
+	*/
 	
+	//6.164版本
+	var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM'));
+	LODOP.PRINT_INIT("打印付款汇总表");
+	LODOP.SET_PRINT_PAGESIZE (1, 0, 0,"A4");
+	//LODOP.ADD_PRINT_URL(50,50,800,900,"http://localhost/centralpayment/zdcwpayment/printPayment.php?NUM="+viewNum);
+	LODOP.SET_SHOW_MODE("HIDE_PAPER_BOARD ",true);
+	LODOP.ADD_PRINT_HTM ("5%","5%", "100%","80%","URL:../zdcwpayment/printPayment.php?NUM="+viewNum);
+	
+	LODOP.PREVIEW();
 }

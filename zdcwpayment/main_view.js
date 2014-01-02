@@ -162,6 +162,12 @@ $(document).ready(function(){
 			}
 			
 			if(arrSearch('打印权',allAuth)){
+				$('#btn_print_zdcwpayment').linkbutton({
+				    iconCls: 'icon-print',
+				    plain: false,
+				    text: '打印',
+				    disabled: true
+				});
 				$('#btn_print_zdcwpayment').linkbutton('enable');
 				$('#btn_print_zdcwpayment').unbind();
 				$('#btn_print_zdcwpayment').bind('click', printPaymentAct);

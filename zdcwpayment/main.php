@@ -1,5 +1,10 @@
-<script type="text/javascript" src="../public/lodop4.0/CheckActivX.js"></script>
-<OBJECT  ID="LODOP" CLASSID="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" WIDTH=0 HEIGHT=0> </OBJECT> 
+<!-- script type="text/javascript" src="../public/lodop4.0/CheckActivX.js"></script -->
+<!-- OBJECT  ID="LODOP" CLASSID="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" WIDTH=0 HEIGHT=0> </OBJECT --> 
+
+<script language="javascript" src="../public/lodop6.164/LodopFuncs.js"></script>
+<object  id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0> 
+<embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0></embed>
+</object>
 
 <script type="text/javascript" src="../zdcwpayment/main.js"></script>
 <script type="text/javascript" src="../zdcwpayment/main_new.js"></script>
