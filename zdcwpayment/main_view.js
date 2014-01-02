@@ -78,8 +78,14 @@ $(document).ready(function(){
 					$('#btn_save_zdcwpayment').unbind();
 					$('#btn_save_zdcwpayment').bind('click', savePaymentAct);
 				}
-			}else if(data.STAT == '已审核待批准' || data.STAT == '重新批准'){
+			}else if(data.STAT == '已审核待批准'){
 				if(arrSearch('批准权',allAuth) || arrSearch('反审核权',allAuth)){
+					$('#btn_save_zdcwpayment').linkbutton('enable');
+					$('#btn_save_zdcwpayment').unbind();
+					$('#btn_save_zdcwpayment').bind('click', savePaymentAct);
+				}
+			}else if(data.STAT == '重新批准'){
+				if(arrSearch('批准权',allAuth)){
 					$('#btn_save_zdcwpayment').linkbutton('enable');
 					$('#btn_save_zdcwpayment').unbind();
 					$('#btn_save_zdcwpayment').bind('click', savePaymentAct);

@@ -32,7 +32,8 @@ function checkSession()
 }
 
 if(!checkSession()){
-	echo "<title>用户未登录</title><body><center>用户未登录或已超时，请重新登录!&nbsp;&nbsp;<input type=\"button\" value=\"点击登录\" onclick=\"window.top.location='".$HTTP_ROOT_PATH."login';\"></center></body>";
+	echo "<!DOCTYPE html><html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8' />";
+	echo "<title>用户未登录</title></head><body><center>用户未登录或已超时，请重新登录!&nbsp;&nbsp;<input type=\"button\" value=\"点击登录\" onclick=\"window.top.location='".$HTTP_ROOT_PATH."login';\"></center></body></html>";
 	exit;
 }
 ?>
