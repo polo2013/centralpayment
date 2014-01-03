@@ -3,7 +3,7 @@ var moduletitle;  //模块名称
 var modulepath;   //模块路径
 var moduleobj;    //模块表
 var submit_url;   //提交url
-var missSelectMsg = {text: '请选择数据!', angle: 60, distance: 40, type: 'alt-', showAfter: 100, hideAfter: 2000};
+var missSelectMsg = {text: '请勾选一行!', angle: 60, distance: 40, type: 'alt-', showAfter: 100, hideAfter: 2000};
 var paymentViewMode = undefined;  //付款汇总表的显示模式（new or view）
 var viewNum = undefined;          //当前查看的付款汇总表的单号
 var allAuth = new Array();        //当前用户所拥有的本模块的所有权限

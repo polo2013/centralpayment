@@ -48,7 +48,7 @@ $(document).ready(function(){
 	$('#btn-onoff_sysuser').linkbutton({
 		iconCls: 'icon-ok',
 		plain: true,
-		text: '禁用或启用用户',
+		text: '启用或禁用用户',
 		disabled: isdisable
 	});
 	

@@ -1,7 +1,7 @@
 <script type="text/javascript" src="../sysauth/main.js"></script>
 <div id="cc_sysauth" class="easyui-layout" fit="true">
 	<div data-options="region:'east',title:'授予对象',split:false,collapsible:false" style="width:300px;background:#eee;">
-		<div class="ftitle">Information</div>
+		<div class="ftitle">内容</div>
 		<form id="fm_sysauth" method="post" style="padding:10px 25px;">
 			<div>
 				<label for="role_sysauth">角色：</label>

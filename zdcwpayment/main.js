@@ -468,7 +468,7 @@ function sumPayAction(event){
 		for(var i=0; i<rows.length; i++){
 			if(rows[i].PAYSTAT != '未付款'){
 				art.dialog({
-				    content: '合并付款的申请必须均为未付款状态！如其中有未付款，请单笔付款！',
+				    content: '合并付款的每一项必须均为未付款！否则请单笔付款！',
 				    ok: true
 				});
 				isok = false;

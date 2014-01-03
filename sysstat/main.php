@@ -35,7 +35,7 @@
 	</form>
 </div>
 <div id="dlg-buttons_sysstat">
-	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onclick="saveAct()">Save</a>
-	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg_sysstat').dialog('close')">Cancel</a>
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onclick="saveAct()">保存</a>
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg_sysstat').dialog('close')">取消</a>
 </div>
 
