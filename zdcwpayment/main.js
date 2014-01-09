@@ -30,7 +30,7 @@ $(document).ready(function(){
 				type:'combobox',
 				options:{
 					required:true,
-					missingMessage:'必填项',
+					missingMessage:'必填项，若无选择项请确认该用户已复核',
 					editable:false,
 					panelHeight:'auto',
 					onSelect: function(rec){
@@ -63,7 +63,7 @@ $(document).ready(function(){
 				type:'combobox',
 				options:{
 					required:true,
-					missingMessage:'必填项',
+					missingMessage:'必填项，请确认该用户或收款人已复核',
 					editable:false,
 					panelHeight:'auto',
 					onChange: function(newValue, oldValue){
@@ -81,7 +81,7 @@ $(document).ready(function(){
 				type:'combobox',
 				options:{
 					required:true,
-					missingMessage:'必填项',
+					missingMessage:'必填项，请确认该用户或收款人的银行和账号已填写',
 					editable:false,
 					panelHeight:'auto',
 					hasDownArrow:false,
@@ -92,7 +92,7 @@ $(document).ready(function(){
 				type:'combobox',
 				options:{
 					required:true,
-					missingMessage:'必填项',
+					missingMessage:'必填项，请确认该用户或收款人的银行和账号已填写',
 					editable:false,
 					panelHeight:'auto',
 					hasDownArrow:false,

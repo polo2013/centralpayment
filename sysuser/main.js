@@ -194,7 +194,7 @@ function saveAct(){
 		onSubmit: function(){
 			var isValidate = $(this).form('validate');
 			if(isValidate){
-				if(!checkValue($('#code_sysuser'), '用户名', '字母、数字、下划线')){
+				if(!checkValue($('#code_sysuser'), '用户名', '字母、数字、下划线、点')){
 					$.messager.progress('close');
 					return false;
 				}

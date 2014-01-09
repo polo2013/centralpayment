@@ -4,7 +4,7 @@ $(document).ready(function(){
 		ucode = $.trim($('#login').val());
 		upwd =  $.md5($.trim($('#password').val()));
 		if(ucode != ""){
-			if(checkValue($('#login'), '用户名', '字母、数字、下划线') && checkValue($('#password'), '密码', '字母、数字、下划线')){
+			if(checkValue($('#login'), '用户名', '字母、数字、下划线、点') && checkValue($('#password'), '密码', '字母、数字、下划线')){
 				$(document.body).showLoading();
 				ajaxCheck(ucode,upwd);
 			}
