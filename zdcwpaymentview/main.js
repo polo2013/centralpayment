@@ -54,7 +54,7 @@ $(document).ready(function(){
 		$('#approver_zdcwpaymentview').combobox('loadData', data.allApprover);
 		$('#approver_zdcwpaymentview').combobox('select', data.myApprover);
 		
-		//searchPayment();
+		searchPayment();
 	});
 });
 

@@ -78,12 +78,12 @@ function switch_org(){
 				striped: true,
 				columns: [[
 					{field:'ck',checkbox:true},
-					{field:'ORG',title:'所属机构',width:50,align:'center'},
+					{field:'ORG',title:'所属机构',width:100,align:'center'},
 					{field:'ROLE',title:'担任角色',width:100,align:'center'}
 				]],
 				data: data.OtherOrg
 			});
-			$('#dlg_switch_org').dialog('open').dialog('setTitle','组织机构切换').dialog('center').dialog('move',{top:100});
+			$('#dlg_switch_org').dialog('open').dialog('setTitle','组织机构切换').dialog('center');
 		}
 	});
 }
