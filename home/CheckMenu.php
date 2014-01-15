@@ -1,6 +1,9 @@
 <?php
 include_once("../public/php/session.php");
-$login_user_role = $_SESSION['LOGIN_USER_ROLE'];
+$login_user_role_origin = $_SESSION['LOGIN_USER_ROLE'];
+$login_user_role = implode("','", explode(",", $login_user_role_origin));
+
+
 $flag = $_REQUEST['flag'] ? $_REQUEST['flag'] : "";
 
 $result = array();
@@ -15,7 +18,7 @@ if($flag == "all"){
 	from sys_auth a, sys_modules_rights b, sys_modules c
 	where a.RIGHTS = CONCAT('[',b.`CODE`,']',b.`NAME`)
 	and b.MODULES = CONCAT('[',c.`CODE`,']',c.`NAME`)
-	and a.ROLE = '$login_user_role' and b.`NAME` = '查看权' order by c.ORDERNO";
+	and a.ROLE in ('$login_user_role') and b.`NAME` = '查看权' order by c.ORDERNO";
 }
 $cursor = exequery($connection,$query);
 while($row = mysqli_fetch_array($cursor)){
@@ -30,7 +33,7 @@ while($row = mysqli_fetch_array($cursor)){
 		from sys_auth a, sys_modules_rights b, sys_modules c 
 		where a.RIGHTS = CONCAT('[',b.`CODE`,']',b.`NAME`)
 		and b.MODULES = CONCAT('[',c.`CODE`,']',c.`NAME`)
-		and a.ROLE = '$login_user_role' and c.MENU = '".$row['MENU']."' and b.`NAME` = '查看权' order by c.CODE";
+		and a.ROLE in ('$login_user_role') and c.MENU = '".$row['MENU']."' and b.`NAME` = '查看权' order by c.CODE";
 	}
 	$cursor2 = exequery($connection,$query2);
 	unset($detailArray);
@@ -47,7 +50,7 @@ while($row = mysqli_fetch_array($cursor)){
 			from sys_auth a, sys_modules_rights b, sys_modules c
 			where a.RIGHTS = CONCAT('[',b.`CODE`,']',b.`NAME`)
 			and b.MODULES = CONCAT('[',c.`CODE`,']',c.`NAME`)
-			and a.ROLE = '$login_user_role' and b.`NAME` = '查看权' and c.`CODE` = '".$row2['CODE']."'";
+			and a.ROLE in ('$login_user_role') and b.`NAME` = '查看权' and c.`CODE` = '".$row2['CODE']."'";
 			$cursor3 = exequery($connection,$query3);
 			if($row3 = mysqli_fetch_array($cursor3)){
 				$detailArrayItem['HASRIGHT'] = true;

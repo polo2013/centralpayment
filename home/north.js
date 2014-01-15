@@ -30,12 +30,21 @@ function ajaxCheckMenu() {
 		});
 		
 		//增加最后一个菜单
-		var aboutInfo = 
-				'<div>v1.0</div>' + 
-				'<ol>' + 
-					'<li>[新增] 构建系统框架</li>' + 
-					'<li>[新增] 付款汇总表模块</li>' +
-				'</ol>' ;
+		var aboutInfo = ''
+			+ '<div>' 
+			+ 	'<div>v1.0->v1.1</div>' 
+			+ 	'<ol>' 
+			+		'<li>[更新架构] 支持用户多机构多角色任职</li>' 
+			+ 	'</ol>' 
+			+ '</div>'
+
+			+ '<div>' 
+			+ 	'<div>v1.0</div>' 
+			+ 	'<ol>' 
+			+		'<li>[新增] 构建系统框架</li>' 
+			+		'<li>[新增] 付款汇总表模块</li>' 
+			+ 	'</ol>' 
+			+ '</div>';
 		$("#menu_toolbar").append('<a id="menu_about" href="javascript:void(0)"></a>');
 		$("#all_menu_in_one").append('<div id="submenu_about" class="menu-content" style="font-size:14px"></div>');
 		$("#submenu_about").append(aboutInfo);
@@ -43,4 +52,64 @@ function ajaxCheckMenu() {
 		
 		
 	});
+}
+
+function checkMultiOrg(){
+	$.getJSON("CheckMultiOrg.php", function(data){
+		//alert(JSON.stringify(data));
+		if(data.Multi){
+			$("#switch_org_btn").html('组织机构切换');
+		}
+	});
+}
+
+function switch_org(){
+	$.getJSON("CheckMultiOrg.php", function(data){
+		//alert(JSON.stringify(data));
+		if(data.Multi){
+			$('#dg_switch_org').datagrid({
+				iconCls:'icon-edit',
+				title: '请选择：',
+				rownumbers: true,
+				fitColumns: true,
+				nowrap:false,
+				singleSelect: true,
+				border: true,
+				striped: true,
+				columns: [[
+					{field:'ck',checkbox:true},
+					{field:'ORG',title:'所属机构',width:50,align:'center'},
+					{field:'ROLE',title:'担任角色',width:100,align:'center'}
+				]],
+				data: data.OtherOrg
+			});
+			$('#dlg_switch_org').dialog('open').dialog('setTitle','组织机构切换').dialog('center').dialog('move',{top:100});
+		}
+	});
+}
+
+function switch_org_Act(){
+	var row = $('#dg_switch_org').datagrid('getSelected');
+	if (row){
+		//alert(JSON.stringify(row));
+		$.post(
+    		'SwitchOrg.php',
+    		{
+    			"NextOrg" : encodeURI(row.ORG),
+    			"NextRole" : encodeURI(row.ROLE),
+    		},
+			function(result){
+				//alert(JSON.stringify(result));
+				if (result.success){
+				window.top.location='../home';
+				} else {
+					art.dialog({
+		        	    content: result.message,
+		        	    ok: true
+		        	});
+				}
+			}, 
+			"json"
+    	);
+	}
 }

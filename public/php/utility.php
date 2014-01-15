@@ -22,14 +22,14 @@ function getAuthInfo($role, $module, $auth){
 	global $connection;
 	$result = array();
 	if($auth == 'allauth'){
-		$query = "select * from sys_auth where ROLE = '$role' and SUBSTRING(RIGHTS,2,3) = '$module' order by RIGHTS";
+		$query = "select * from sys_auth where ROLE in ( '$role' ) and SUBSTRING(RIGHTS,2,3) = '$module' order by RIGHTS";
 		$cursor = exequery($connection,$query);
 		while($row = mysqli_fetch_array($cursor)){
 			$result[] = substr($row['RIGHTS'],strpos($row['RIGHTS'], ']')+1);
 		}
 		return $result;
 	}else{
-		$query = "select * from sys_auth where ROLE = '$role' and SUBSTRING(RIGHTS,2,3) = '$module' and SUBSTRING(RIGHTS,LOCATE(']',RIGHTS)+1) = '$auth'";
+		$query = "select * from sys_auth where ROLE in ( '$role' ) and SUBSTRING(RIGHTS,2,3) = '$module' and SUBSTRING(RIGHTS,LOCATE(']',RIGHTS)+1) = '$auth'";
 		$cursor = exequery($connection,$query);
 		if($row = mysqli_fetch_array($cursor)){
 			return true;
@@ -142,7 +142,7 @@ function checkValueAtDB($module, $request, $type)
 		case "004":
 			$errmsg = "";
 			if($type=="add" or $type=="edit"){
-				$query = "SELECT * FROM SYS_ROLE WHERE NAME = '".$request['NAME']."' AND ORG = '".$request['ORG']."' AND CODE != '".$request['CODE']."'";
+				$query = "SELECT * FROM SYS_ROLE WHERE NAME = '".$request['NAME']."' AND ORG = '[001]正大集团' AND CODE != '".$request['CODE']."'";
 				$cursor = exequery($connection,$query);
 				if($row = mysqli_fetch_array($cursor)){
 					$errmsg = "在机构“".$row['ORG']."”下已存在同名角色“".$row['NAME']."”，代码为“".$row['CODE']."”，请修改角色名称！";

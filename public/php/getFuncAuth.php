@@ -1,7 +1,10 @@
 <?php
 include_once("session.php");
 $result = array();
-$login_user_role = $_SESSION['LOGIN_USER_ROLE'];
+//$login_user_role = $_SESSION['LOGIN_USER_ROLE'];
+$login_user_role_origin = $_SESSION['LOGIN_USER_ROLE'];
+$login_user_role = implode("','", explode(",", $login_user_role_origin));
+
 $module = $_POST['module'];
 $auth = $_POST['auth'];
 

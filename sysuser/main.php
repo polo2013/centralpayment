@@ -37,12 +37,13 @@
 			<input id="passwdcfm_sysuser" name="PASSWDCFM" type="password" class="easyui-validatebox"  validType="equals['#passwd_sysuser']" >
 		</div>
 		<div class="fitem">
-			<label for="role_sysuser">角色：</label>
-			<input id="role_sysuser" name="ROLE" class="easyui-combobox" data-options="editable:false,panelHeight:'auto'" >
+			<label for="org_role_sysuser">机构和角色：</label>
+			<a id="btn_org_role_sysuser" href="javascript:void(0)" onclick="set_org_role()"></a>
 		</div>
+		<div class="fitem" id="div_org_role_desc"></div>
 		<div class="fitem">
-			<label for="org_sysuser">所属机构：</label>
-			<input id="org_sysuser" name="ORG" class="easyui-validatebox" readonly >
+			<input type="hidden" id="org_sysuser" name="ORG">
+			<input type="hidden" id="role_sysuser" name="ROLE">
 		</div>
 		<div class="fitem">
 			<label for="mobile_sysuser">手机号码：</label>
@@ -87,7 +88,6 @@
 
 
 <div id="dlg_sysuser_chpwd" class="easyui-dialog" data-options="closed:true, modal:true, buttons:'#dlg-buttons_sysuser_chpwd'">
-	<div class="ftitle">Information</div>
 	<form id="fm_sysuser_chpwd" method="post">
 		<div class="fitem">
 			<label for="oldpasswd_sysuser">旧密码：</label>
@@ -106,4 +106,33 @@
 <div id="dlg-buttons_sysuser_chpwd">
 	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onclick="chpwdAct()">保存</a>
 	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg_sysuser_chpwd').dialog('close')">取消</a>
+</div>
+
+
+<div id="dlg_sysuser_set_org_role" class="easyui-dialog" data-options="closed:true, modal:true, buttons:'#dlg-buttons_sysuser_set_org_role'">
+	<div class="ftitle">用户可以兼职，并且在每个机构中可以担任多个角色。</div>
+	<form id="fm_sysuser_set_org_role" method="post">
+	<div class="ftitle">第一组</div>
+		<div class="fitem">
+			<label for="org_sysuser_one">机构1：</label>
+			<input id="org_sysuser_one" name="ORG_ONE" class="easyui-combobox" data-options="editable:false, panelHeight:'auto', required:true,missingMessage:'必填项'">
+		</div>
+		<div class="fitem">
+			<label for="role_sysuser_one">角色1：</label>
+			<input id="role_sysuser_one" name="ROLE_ONE" class="easyui-combobox" data-options="editable:false, panelHeight:'auto', multiple:true, required:true,missingMessage:'必填项'">
+		</div>
+	<div class="ftitle">第二组</div>
+		<div class="fitem">
+			<label for="org_sysuser_two">机构2：</label>
+			<input id="org_sysuser_two" name="ORG_TWO" class="easyui-combobox" data-options="editable:false, panelHeight:'auto'">
+		</div>
+		<div class="fitem">
+			<label for="role_sysuser_two">角色2：</label>
+			<input id="role_sysuser_two" name="ROLE_TWO" class="easyui-combobox" data-options="editable:false, panelHeight:'auto', multiple:true">
+		</div>
+	</form>
+</div>
+<div id="dlg-buttons_sysuser_set_org_role">
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onclick="set_org_role_act()">确定</a>
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg_sysuser_set_org_role').dialog('close')">取消</a>
 </div>

@@ -19,8 +19,17 @@ if($ROW=mysqli_fetch_array($cursor)){
 				$_SESSION['LOGIN_USER_CODE'] = $loginUserCode;
 				$_SESSION['LOGIN_USER_NAME'] = $ROW['NAME'];
 				$_SESSION['LOGIN_USER'] = $loginUser;
-				$_SESSION['LOGIN_USER_ROLE'] = $ROW['ROLE'];
-				$_SESSION['LOGIN_USER_ORG'] = $ROW['ORG'];
+				$isMore = stripos($ROW['ORG'],'|');
+				if($isMore){
+					$orgArr = explode("|",$ROW['ORG']);
+					$roleArr = explode("|",$ROW['ROLE']);
+					$_SESSION['LOGIN_USER_ORG'] = $orgArr[0];
+					$_SESSION['LOGIN_USER_ROLE'] = $roleArr[0];
+				}else{
+					$_SESSION['LOGIN_USER_ORG'] = $ROW['ORG'];
+					$_SESSION['LOGIN_USER_ROLE'] = $ROW['ROLE'];
+				
+				}
 				$result['success'] = true;
 			}
 		}else{

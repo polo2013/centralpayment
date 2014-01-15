@@ -30,7 +30,7 @@ $(document).ready(function(){
 				type:'combobox',
 				options:{
 					required:true,
-					missingMessage:'若无选择项，请确认该用户资料已复核',
+					missingMessage:'若无选择项，请确认用户资料已复核',
 					editable:false,
 					panelHeight:'auto',
 					onSelect: function(rec){
@@ -63,7 +63,7 @@ $(document).ready(function(){
 				type:'combobox',
 				options:{
 					required:true,
-					missingMessage:'若无选择项，请确认该用户或收款人资料已复核',
+					missingMessage:'若无选择项，请确认用户或收款人资料已复核',
 					editable:false,
 					panelHeight:'auto',
 					onChange: function(newValue, oldValue){
@@ -81,7 +81,7 @@ $(document).ready(function(){
 				type:'combobox',
 				options:{
 					required:true,
-					missingMessage:'请确认该用户或收款人资料中的银行和账号已填写',
+					missingMessage:'请确认用户或收款人资料中的银行和账号已填写',
 					editable:false,
 					panelHeight:'auto',
 					hasDownArrow:false,
@@ -92,7 +92,7 @@ $(document).ready(function(){
 				type:'combobox',
 				options:{
 					required:true,
-					missingMessage:'请确认该用户或收款人资料中的银行和账号已填写',
+					missingMessage:'请确认用户或收款人资料中的银行和账号已填写',
 					editable:false,
 					panelHeight:'auto',
 					hasDownArrow:false,
@@ -312,8 +312,6 @@ if(isValidate && checkValue($('#billnum_zdcwpayment'), '付款汇总表编号', 
 			$('#fm_zdcwpayment').form('submit',{
 				url: '../'+modulepath+'/savePayment.php',
 				onSubmit: function(param){
-					
-					
 					var paymentRows = $('#dg_zdcwpayment').datagrid('getRows');
 					//alert(JSON.stringify(paymentRows));
 	    			param.MODULENO = moduleno;

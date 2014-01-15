@@ -1,16 +1,16 @@
 <script type="text/javascript" src="../sysauth/main.js"></script>
 <div id="cc_sysauth" class="easyui-layout" fit="true">
-	<div data-options="region:'east',title:'授予对象',split:false,collapsible:false" style="width:300px;background:#eee;">
-		<div class="ftitle">内容</div>
+	<div data-options="region:'east',title:'授予',split:false,collapsible:false" style="width:300px;background:#eee;">
+		<div class="ftitle">对象</div>
 		<form id="fm_sysauth" method="post" style="padding:10px 25px;">
 			<div>
 				<label for="role_sysauth">角色：</label>
 				<input id="role_sysauth" name="ROLE" class="easyui-combobox" data-options="editable:false,panelHeight:'auto',required:true" >
 			</div>
-			<div style="margin:20px 0px;">
+			<!--  div style="margin:20px 0px;">
 				<label for="org_sysauth">机构：</label>
 				<input id="org_sysauth" name="ORG" class="easyui-combobox" data-options="readonly:true,hasDownArrow:false,required:true" >
-			</div>
+			</div -->
 			<div style="text-align:right;margin:20px 0px">
 				<a id="btn-save_sysauth" href="javascript:void(0)" class="easyui-linkbutton" onclick="saveAct()"></a>
 			</div>

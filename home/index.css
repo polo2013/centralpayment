@@ -62,5 +62,5 @@ input[id $= "_bizpayee"]
 textarea[id $= "_sysuser"],
 textarea[id $= "_bizpayee"]
 {
-	width:245px;
+	width:243px;
 }

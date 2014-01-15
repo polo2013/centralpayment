@@ -50,6 +50,23 @@ a[id ^= "menu_"]
 	margin-left:30px;
 	float:left;
 }
+/*切换按钮*/
+#switch_org_btn
+{
+	
+	background-color:green;
+	color:yellow;
+	text-decoration:none;
+	text-align:center;
+
+
+
+}
+#switch_org_btn:hover {
+	color:#ff3300
+}
+
+
 /*注销按钮*/
 #logout_btn
 {
@@ -83,8 +100,19 @@ a[id ^= "menu_"]
 	<td style="background:green;height:30px;color:white;valign:'bottom';">
 		<div class="home_top_bar_userinfo">当前用户：<?=$_SESSION['LOGIN_USER']?></div>
 		<div class="home_top_bar_userinfo">所属机构：<?=$_SESSION['LOGIN_USER_ORG']?></div>
-		<div class="home_top_bar_userinfo">所属角色：<?=$_SESSION['LOGIN_USER_ROLE']?></div>
+		<div class="home_top_bar_userinfo">担任角色：<?=$_SESSION['LOGIN_USER_ROLE']?></div>
+		<div class="home_top_bar_userinfo"><a id="switch_org_btn" href="javascript:void(0)" onclick="switch_org();"></a></div>
 	</td>
 </tr>
 </table>
 <a id="logout_btn" href="javascript:void(0)" onclick="logout();">注销</a>
+
+
+
+<div id="dlg_switch_org" class="easyui-dialog" data-options="closed:true, modal:true, buttons:'#dlg-buttons_switch_org',shadow:false">
+	<table id="dg_switch_org"></table>
+</div>
+<div id="dlg-buttons_switch_org">
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onclick="switch_org_Act()">确定</a>
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg_switch_org').dialog('close')">取消</a>
+</div>

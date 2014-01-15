@@ -8,7 +8,8 @@ $MODULETITLE = $_REQUEST['MODULETITLE'] ? $_REQUEST['MODULETITLE'] : "";
 $result = array('success' => false, 'message' => '保存失败！');
 $CODE = $_REQUEST['CODE'];
 $NAME = $_REQUEST['NAME'];
-$ORG = $_REQUEST['ORG'];
+//$ORG = $_REQUEST['ORG'];
+$ORG = '[001]正大集团';
 $NOTE = $_REQUEST['NOTE'];
 $ORDERNO = $_REQUEST['ORDERNO'];
 

@@ -2,6 +2,8 @@ $(document).ready(function(){
 	$('#dg_zdcwpaymentview').datagrid({
 		title: moduletitle,
 		pagination: true,
+		pageSize: 5,
+		pageList: [5,10,20],
 		rownumbers: true,
 		fitColumns: true,
 		singleSelect: true,
@@ -52,7 +54,7 @@ $(document).ready(function(){
 		$('#approver_zdcwpaymentview').combobox('loadData', data.allApprover);
 		$('#approver_zdcwpaymentview').combobox('select', data.myApprover);
 		
-		searchPayment();
+		//searchPayment();
 	});
 });
 
@@ -86,21 +88,50 @@ function searchPayment(){
 	var isValidate = $(this).form('validate');
 	if(isValidate){
     	$.messager.progress();	// display the progress bar
+    	/*
     	$('#search_fm_zdcwpaymentview').form('submit',{
     		url: '../'+modulepath+'/getInfo.php',
     		onSubmit: function(param){
+    			param.page = 1;
+    			param.rows = 5;
     			return true;
     		},
     		success: function(data){
     			$.messager.progress('close');
     			//alert(data);
     			var dataObj = eval('(' + data + ')');  // change the JSON string to javascript object
-    			/**这里会有隐患，如果后台php出错，会导致这个data不是json string，
-    			从而无法转换为对象，即：上述eval函数无法执行成功。
-    			如果要debug，则直接将data打印出来即可。alert(data);*/
     			//alert(JSON.stringify(dataObj));
     			$('#dg_zdcwpaymentview').datagrid('loadData',dataObj);
     		}
     	});
+    	*/
+    	var num = $('#num_zdcwpaymentview').val();
+    	var org = $('#org_zdcwpaymentview').combobox('getText');
+    	var billnum = $('#billnum_zdcwpaymentview').val();
+    	var stat = $('#stat_zdcwpaymentview').combobox('getText');
+    	var inputter = $('#inputter_zdcwpaymentview').combobox('getText');
+    	var inputtimebegin = $('#inputtimebegin_zdcwpaymentview').datebox('getText');
+    	var inputtimeend = $('#inputtimeend_zdcwpaymentview').datebox('getText');
+    	var checker = $('#checker_zdcwpaymentview').combobox('getText');
+    	var checktimebegin = $('#checktimebegin_zdcwpaymentview').datebox('getText');
+    	var checktimeend = $('#checktimeend_zdcwpaymentview').datebox('getText');
+    	var approver = $('#approver_zdcwpaymentview').combobox('getText');
+    	var approvetimebegin = $('#approvetimebegin_zdcwpaymentview').datebox('getText');
+    	var approvetimeend = $('#approvetimeend_zdcwpaymentview').datebox('getText');
+    	
+    	var url = '../'+modulepath+'/getInfo.php';
+    	var param = 'NUM='+num+'&ORG='+org+'&BILLNUM='+billnum+'&STAT='+stat
+    	+'&INPUTTER='+inputter+'&INPUTTIMEBEGIN='+inputtimebegin+'&INPUTTIMEEND='+inputtimeend
+    	+'&CHECKER='+checker+'&CHECKTIMEBEGIN='+checktimebegin+'&CHECKTIMEEND='+checktimeend
+    	+'&APPROVER='+approver+'&APPROVETIMEBEGIN='+approvetimebegin+'&APPROVETIMEEND='+approvetimeend;
+    	
+    	$('#dg_zdcwpaymentview').datagrid({
+    		url: encodeURI(url+'?'+param)
+    	});
+    	$.messager.progress('close');
+    	//$('#dg_zdcwpaymentview').datagrid('reload');
+    	
 	}
+	
+	
 }

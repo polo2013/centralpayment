@@ -97,8 +97,8 @@ $(document).ready(function(){
 			{field:'ck',checkbox:true},
 			{field:'CODE',title:'用户名',align:'left',width:100},
 			{field:'NAME',title:'姓名',width:80},
-			{field:'ROLE',title:'角色',width:150},
 			{field:'ORG',title:'所属机构',width:150},
+			{field:'ROLE',title:'担任角色',width:150},
 			{field:'MOBILE',title:'手机号码',align:'center',width:100},
 			{field:'EMAIL',title:'电子邮件',align:'center',width:100},
 			{field:'BANK',title:'银行',align:'center',width:100},
@@ -109,28 +109,26 @@ $(document).ready(function(){
 			{field:'ORDERNO',title:'排序',align:'center',width:30},
 		]]
 	});
-	$('#role_sysuser').combobox({
-		onSelect: function(rec){
-			$.getJSON("../public/php/getOneChangeAnother.php",{who2who:"role2org",oneValue:rec.value}, function(data){
-				$('#org_sysuser').val(data.anotherValue);
-			});
-		}
+
+	$('#btn_org_role_sysuser').linkbutton({
+	    plain: false,
+	    text: '设置',
+	    disabled: false
 	});
 	
 });
 
 function newAct(){
+	$('#div_org_role_desc').html('');
 	$('#dlg_sysuser').dialog('open').dialog('setTitle','新增').dialog('center');
 	$('#fm_sysuser').form('clear');
+	
 	
 	$('#code_sysuser').attr("readonly",false);  //去除code的readonly属性
 	$('#name_sysuser').attr("readonly",false);
 	$('#passwd_sysuser').attr("disabled",false);   //enable密码
 	$('#passwdcfm_sysuser').attr("disabled",false);   //enable确认密码
-	$.getJSON("../public/php/getRoleForSelect.php", function(data){
-		$('#role_sysuser').combobox('loadData', data.allrole);
-		$('#role_sysuser').combobox('select', data.myrole);
-	});
+	
 	$('#stat_sysuser').combobox('select', '禁用');
 	$('#checkstat_sysuser').combobox('select', '未复核');
 	if(authArr[6] == true){$('#stat_sysuser').combobox('readonly',false);}else{$('#stat_sysuser').combobox('readonly',true);}
@@ -143,6 +141,7 @@ function editAct(){
 	var row = $('#dg_sysuser').datagrid('getSelected');
 	//alert(JSON.stringify(row));
 	if (row){
+		$('#div_org_role_desc').html('');
 		$('#dlg_sysuser').dialog('open').dialog('setTitle','修改').dialog('center');
 		$('#fm_sysuser').form('clear');
 		
@@ -151,10 +150,13 @@ function editAct(){
 		$('#passwd_sysuser').attr("disabled",true);   //将密码设置为disabled
 		$('#passwdcfm_sysuser').attr("disabled",true);   //将确认密码设置为disabled
 		$('#code_sysuser').blur();
-		$.getJSON("../public/php/getRoleForSelect.php", function(data){
-			$('#role_sysuser').combobox('loadData', data.allrole);
-		});
+
 		$('#fm_sysuser').form('load',row);
+		//alert($('#org_sysuser').val());
+		var desc = formatOrgRole($('#org_sysuser').val(), $('#role_sysuser').val());
+		$('#div_org_role_desc').html(desc);
+		
+		
 		submit_url = '../'+modulepath+'/edit.php?MODULENO='+moduleno+'&MODULEOBJ='+moduleobj+'&MODULETITLE='+moduletitle;
 	}else{
 		$('#btn-edit_sysuser').grumble(missSelectMsg);
@@ -219,6 +221,12 @@ function saveAct(){
 					return false;
 				}
 				if(!checkValue($('#orderno_sysuser'), '排序号', '数字')){
+					$.messager.progress('close');
+					return false;
+				}
+				
+				if($('#org_sysuser').val() == '' || $('#role_sysuser').val() == '' ){
+					alert('机构和角色不可以为空');
 					$.messager.progress('close');
 					return false;
 				}
@@ -372,4 +380,103 @@ function chpwdAct(){
 			}
 		}
 	});
+}
+
+function set_org_role(){
+	$('#dlg_sysuser_set_org_role').dialog('open').dialog('setTitle','设置组织机构和角色').dialog('center');
+	$('#fm_sysuser_set_org_role').form('clear');
+
+	//奇怪的很，居然不能合并在一起赋值，否则只有一组能用。
+	$.getJSON('../'+modulepath+'/get_org_role.php', function(data){
+		$('#org_sysuser_one').combobox('loadData', data.allorg);
+		$('#role_sysuser_one').combobox('loadData', data.allrole);
+		/*
+		$('#org_sysuser_one').combobox('select', splitData($('#org_sysuser').val(),0));
+		
+		var arr = splitData2($('#role_sysuser').val());
+		if(arr[0] == "ONE")
+			$('#role_sysuser_one').combobox('select', arr[1]);
+		else
+			for(var i=0; i<arr[1].length; i++)
+				$('#role_sysuser_one').combobox('select', arr[1][i]);
+		*/
+	});
+	$.getJSON('../'+modulepath+'/get_org_role.php', function(data){
+		$('#org_sysuser_two').combobox('loadData', data.allorg);
+		//$('#org_sysuser_two').combobox('select', splitData($('#org_sysuser').val(),1));
+		$('#role_sysuser_two').combobox('loadData', data.allrole);
+		//$('#role_sysuser_two').combobox('select', splitData($('#role_sysuser').val(),1));
+	});
+	
+}
+function set_org_role_act(){
+	var isValidate = $('#fm_sysuser_set_org_role').form('validate');
+	if(isValidate){
+		var org_1 = $('#org_sysuser_one').combobox('getText');
+		var role_1 = $('#role_sysuser_one').combobox('getText');
+		var org_2 = $('#org_sysuser_two').combobox('getText');
+		var role_2 = $('#role_sysuser_two').combobox('getText');
+		var org = org_1;
+		var role = role_1;
+		if(org_2 != ''){ 
+			org = org + '|' + org_2;
+			role = role + '|' + role_2;
+		}
+		$('#org_sysuser').val(org);
+		$('#role_sysuser').val(role);
+		
+		var desc = formatOrgRole(org,role);
+		$('#div_org_role_desc').html(desc);
+		
+		$('#dlg_sysuser_set_org_role').dialog('close');
+	}
+	
+}
+
+function formatOrgRole(org, role){
+	var desc = '<div style="color:green; padding-left:10px">';
+	if(org.indexOf("|") == -1){
+		desc = desc 
+			+ '<font color="red">所属机构：</font>' + org + '<br>'
+			+ '<font color="red">担任角色：</font>' + role + '<br>';
+	}else{
+		var orgArr = org.split("|");
+		var roleArr = role.split("|");
+		
+		for(var i=0; i<orgArr.length; i++){
+			desc = desc 
+			+ '<font color="red">所属机构：</font>' + orgArr[i] + '<br>' 
+			+ '<font color="red">担任角色：</font>' + roleArr[i] + '<br><br>';
+			
+		}
+	}
+	
+	desc = desc + '</div>'
+	//alert(desc);
+	return desc;
+}
+
+function splitData(data, num){
+	if(data.indexOf("|") == -1){
+		return data;
+	}else{
+		var dataArr = data.split("|");
+		if(num < dataArr.length)
+			return dataArr[num];
+		else
+			return '';
+	}
+}
+
+function splitData2(data){
+	var returnArr = new Array();
+	if(data.indexOf(",") == -1){
+		returnArr[0] = "ONE";
+		returnArr[1] = data;
+		
+	}else{
+		returnArr[0] = "MORE";
+		returnArr[1] = data.split(",");
+	}
+	return returnArr;
 }

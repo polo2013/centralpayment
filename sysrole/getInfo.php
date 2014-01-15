@@ -22,7 +22,8 @@ $start = ($pageNumber - 1) * $pageSize; //从数据集第$start条开始取，�
 //数据权限
 //在有查看权的情况下，可以查看本机构以及下属机构的角色。
 $orgcode = splitCode($login_user_org);
-$query = "SELECT COUNT(1) FROM SYS_ROLE WHERE SUBSTR(`ORG`,2, LENGTH('$orgcode'))='$orgcode' ORDER BY ORDERNO, CODE ";
+//$query = "SELECT COUNT(1) FROM SYS_ROLE WHERE SUBSTR(`ORG`,2, LENGTH('$orgcode'))='$orgcode' ORDER BY ORDERNO, CODE ";
+$query = "SELECT COUNT(1) FROM SYS_ROLE ORDER BY ORDERNO, CODE ";
 //取总数
 $cursor = exequery($connection,$query);
 if($ROW = mysqli_fetch_array($cursor)){

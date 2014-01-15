@@ -50,19 +50,20 @@ $(document).ready(function(){
 			{field:'ck',checkbox:true},
 			{field:'CODE',title:'角色代码',align:'left',width:30},
 			{field:'NAME',title:'角色名称',width:60},
-			{field:'ORG',title:'所属机构',width:60},
+			{field:'ORG',title:'所属机构',width:60,hidden:true},
 			{field:'NOTE',title:'备注',align:'center',width:20},
 			{field:'ORDERNO',title:'排序',align:'center',width:10}
 		]]
 	});
 
+	/*
 	$('#org_sysrole').combobox({
 		onSelect: function(rec){
 			var newCode = ajaxGetNewCode(moduleno, rec.value);
 			$('#code_sysrole').val(newCode);
 		}
 	});
-	
+	*/
 	
 });
 
@@ -70,12 +71,19 @@ function newAct(){
 	$('#dlg_sysrole').dialog('open').dialog('setTitle','新增').dialog('center');
 	$('#fm_sysrole').form('clear');
 	$('#name_sysrole').attr("readonly",false);
+	/*
 	$('#org_sysrole').combobox('readonly',false);
 	$.getJSON("../public/php/getOrgForSelect.php", function(data){
 		//alert(JSON.stringify(data));
 		$('#org_sysrole').combobox('loadData', data.allorg);
 		$('#org_sysrole').combobox('select', data.myorg);
 	});
+	
+	$('#org_sysrole').combobox('setValue', '[001]正大集团');
+	*/
+	var newCode = ajaxGetNewCode(moduleno, '[001]正大集团');
+	$('#code_sysrole').val(newCode);
+	
 	submit_url = '../'+modulepath+'/new.php?MODULENO='+moduleno+'&MODULEOBJ='+moduleobj+'&MODULETITLE='+moduletitle;
 }
 function editAct(){
@@ -86,7 +94,7 @@ function editAct(){
 		$('#fm_sysrole').form('clear');
 		$('#fm_sysrole').form('load',row);
 		$('#name_sysrole').attr("readonly",true);
-		$('#org_sysrole').combobox('readonly');
+		//$('#org_sysrole').combobox('readonly');
 		$('#orderno_sysrole').focus();
 		submit_url = '../'+modulepath+'/edit.php?MODULENO='+moduleno+'&MODULEOBJ='+moduleobj+'&MODULETITLE='+moduletitle;
 	}else{
@@ -190,10 +198,6 @@ function saveAct(){
 		<div class="fitem">
 			<label for="name_sysrole">角色名称：</label>
 			<input id="name_sysrole" name="NAME" class="easyui-validatebox" data-options="required:true, missingMessage:'必填项'">
-		</div>
-		<div class="fitem">
-			<label for="org_sysrole">所属机构：</label>
-			<input id="org_sysrole" name="ORG" class="easyui-combobox" data-options="editable:false, panelHeight:'auto'">
 		</div>
 		<div class="fitem">
 			<label for="orderno_sysrole">排序号：</label>

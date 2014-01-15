@@ -17,6 +17,11 @@ $(document).ready(function(){
 	$(document.body).showLoading();
 	//加载菜单
 	ajaxCheckMenu();
+	//检查当前用户是否多组织
+	checkMultiOrg();
+	
+	
+	
 	//设置tabs事件
 	$('#tt').tabs({
 		/**

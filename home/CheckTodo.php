@@ -2,7 +2,9 @@
 include_once("../public/php/session.php");
 $login_user = $_SESSION['LOGIN_USER'];
 $login_user_org = $_SESSION['LOGIN_USER_ORG'];
-$login_user_role = $_SESSION['LOGIN_USER_ROLE'];
+//$login_user_role = $_SESSION['LOGIN_USER_ROLE'];
+$login_user_role_origin = $_SESSION['LOGIN_USER_ROLE'];
+$login_user_role = implode("','", explode(",", $login_user_role_origin));
 
 $result = array();
 $result_row = array();
