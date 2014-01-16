@@ -287,7 +287,7 @@ function checkValueAtDB($module, $request, $type)
 			$BILLNUM = $_REQUEST['BILLNUM'] ? $_REQUEST['BILLNUM'] : "";
 			$PAYMENTROWS = $_REQUEST['PAYMENTROWS'] ? $_REQUEST['PAYMENTROWS'] : "";
 			$OPERATION = $_REQUEST['OPERATION'] ? $_REQUEST['OPERATION'] : "";
-			
+
 			//查找历史中是否重复，本组织中付款汇总表编号唯一
 			if($errmsg == "" && $type == "new"){
 				$query = "SELECT * FROM ZDCW_PAYMENT_MASTER WHERE ORG = '$ORG' AND BILLNUM = '$BILLNUM'";
@@ -347,6 +347,7 @@ function checkValueAtDB($module, $request, $type)
 			}else{//没有任何明细
 				$errmsg = "明细不允许为空!";
 			}
+			
 			break;
 		default:
 			$errmsg = "检查（checkValueAtDB）不通过，此模块无定义，请联系管理员！";

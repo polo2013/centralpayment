@@ -78,7 +78,7 @@ function switch_org(){
 				striped: true,
 				columns: [[
 					{field:'ck',checkbox:true},
-					{field:'ORG',title:'所属机构',width:100,align:'center'},
+					{field:'ORG',title:'可选机构',width:100,align:'center'},
 					{field:'ROLE',title:'担任角色',width:100,align:'center'}
 				]],
 				data: data.OtherOrg
@@ -111,5 +111,13 @@ function switch_org_Act(){
 			}, 
 			"json"
     	);
+	}
+}
+
+
+//logout
+function logout(){
+	if(confirm('真的离开吗？')){
+		window.top.location='../logout/logout.php';
 	}
 }
