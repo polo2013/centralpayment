@@ -32,7 +32,7 @@ $(document).ready(function(){
 					required:true,
 					missingMessage:'若无选择项，请确认用户资料已复核',
 					editable:false,
-					panelHeight:'auto',
+					//panelHeight:'auto',
 					onSelect: function(rec){
 						var ed = $('#dg_zdcwpayment').datagrid('getEditor', {index:editPaymentIndex, field:'PAYEE'});
 							$(ed.target).combobox('setValue', rec.value);
@@ -65,7 +65,7 @@ $(document).ready(function(){
 					required:true,
 					missingMessage:'若无选择项，请确认用户或收款人资料已复核',
 					editable:false,
-					panelHeight:'auto',
+					//panelHeight:'auto',
 					onChange: function(newValue, oldValue){
 						$.getJSON("../public/php/getUser.php", {PARA: "BANK", PARA2: newValue}, function(data){
 							//alert(JSON.stringify(data));

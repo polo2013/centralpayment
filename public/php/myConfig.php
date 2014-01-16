@@ -18,7 +18,7 @@ $OFFLINE_TIME_MIN=0;
 //-- 数据库配置 --
 $MYSQL_SERVER="localhost:3306";
 $MYSQL_USER="root";
-$MYSQL_PASS="";
+$MYSQL_PASS="nopassword";
 $MYSQL_DB="centralpayment";
 $MY_DB_CHARSET="utf8";
 
@@ -28,25 +28,4 @@ $TURN_LOG_ON=true;
 //系统名称
 $SYS_TITLE="正大财务集中支付确认系统";
 
-//版本演进
-$VERSION_INFO = ''
-.'<div>'
-	.'<div>v1.1->v1.2</div>'
-	.'<ol>'
-		.'<li>[新增] 支持用户在两个机构任职设定</li>'
-	.'</ol>'
-.'</div>'
-.'<div>'
-	.'<div>v1.0->v1.1</div>'
-	.'<ol>'
-		.'<li>[新增] 支持用户同一机构多角色设定</li>'
-	.'</ol>'
-.'</div>'
-.'<div>'
-	.'<div>v1.0</div>'
-	.'<ol>'
-		.'<li>[新增] 构建系统框架</li>'
-		.'<li>[新增] 付款汇总表模块</li>'
-	.'</ol>'
-.'</div>';
 ?>
