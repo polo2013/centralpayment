@@ -1,8 +1,7 @@
 <?php
+/*
 	$tileWide = array(1,2);
-
 	while(true){
-		
 		$tileGroup = array();
 		for($i=0; $i<10; $i++){
 			$tileGroup[$i] = getRandomArrVal($tileWide);
@@ -19,6 +18,11 @@
 			}
 		}
 	}
+*/
+	//加快显示速度
+	$tileGroup = array(1,2,1,1,2,2,1,1,2,2);
+	echo json_encode($tileGroup);
+	
 	//确保每行是5的倍数
 	function validArrVal($arr){
 		$sumWide = 0;

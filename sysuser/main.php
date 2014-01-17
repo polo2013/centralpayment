@@ -112,7 +112,7 @@
 <div id="dlg_sysuser_set_org_role" class="easyui-dialog" data-options="closed:true, modal:true, buttons:'#dlg-buttons_sysuser_set_org_role'">
 	<div class="ftitle">用户可以兼职，并且在每个机构中可以担任多个角色。</div>
 	<form id="fm_sysuser_set_org_role" method="post">
-	<div class="ftitle">第一组</div>
+	<div class="ftitle">默认机构和角色</div>
 		<div class="fitem">
 			<label for="org_sysuser_one">机构1：</label>
 			<input id="org_sysuser_one" name="ORG_ONE" class="easyui-combobox" data-options="editable:false, panelHeight:'auto', required:true,missingMessage:'必填项'">
@@ -121,7 +121,7 @@
 			<label for="role_sysuser_one">角色1：</label>
 			<input id="role_sysuser_one" name="ROLE_ONE" class="easyui-combobox" data-options="editable:false, panelHeight:'auto', multiple:true, required:true,missingMessage:'必填项'">
 		</div>
-	<div class="ftitle">第二组</div>
+	<div class="ftitle">兼职机构和角色</div>
 		<div class="fitem">
 			<label for="org_sysuser_two">机构2：</label>
 			<input id="org_sysuser_two" name="ORG_TWO" class="easyui-combobox" data-options="editable:false, panelHeight:'auto'">

@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	console.info(JSON.stringify(openedPanels)+'ready');
+	//console.info(JSON.stringify(openedPanels)+'ready');
 	
 	ajaxGenTile();
 	ajaxGenTodo();

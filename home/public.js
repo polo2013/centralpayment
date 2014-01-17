@@ -2,9 +2,11 @@
 //查看付款汇总表
 function actView(num){
 	//alert(num);
+	$(document.body).showLoading();
 	$.getJSON("../public/php/getModuleInfo.php", {ModuleNo: "009"}, function(data){
 		//alert(JSON.stringify(data));
 		openTabs(data.ModuleNo,data.ModuleName,data.ModuleUrl,data.ModuleObj,'view');
+		$(document.body).hideLoading();
 	});
 	viewNum = num;
 }
