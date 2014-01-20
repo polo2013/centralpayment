@@ -22,7 +22,7 @@ $result['allorg'] = $result_item;
 
 $result_item = array();
 $result_item_item = array();
-$query = "SELECT * FROM sys_role ORDER BY ORDERNO, `CODE`";
+$query = "SELECT * FROM sys_role where code != '001001' ORDER BY ORDERNO, `CODE`";
 $cursor = exequery($connection,$query);
 while($row = mysqli_fetch_array($cursor)){
 	$result_item_item['value'] = '['.$row['CODE'].']'.$row['NAME'];

@@ -1,0 +1,17 @@
+1、服务器安装好之后，调整PHP时区为上海。
+
+修改php环境默认时区有2个方法：
+1、修改php.ini
+打开php.ini文件，找到 date.timezone 那一行，去掉前面的“;” ，修改为你需要的时区，例如：date.timezone = Asia/Shanghai
+2、使用php函数
+如果你使用北京时间，就像这样就可以了。date_default_timezone_set("Asia/Shanghai");
+
+注：确认修改正确的php.ini文件，通过phpinfo()可以查看php.ini文件所在的路径，修改php.ini文件后重启apache。
+
+
+2、mysql：运行   select now();  看看是否要调整时间
+
+3、mysql新建数据库字符集为utf8
+
+==========================
+zend studio 打开工程后，也设置字符集为utf8
