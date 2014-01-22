@@ -3,36 +3,18 @@ $(document).ready(function(){
 		//alert(JSON.stringify(allAuth));
 		//单号
 		$('#num_zdcwpayment').val(new Date().Format("yyyyMMddhhmmssS"));
-		//组织
-		$.getJSON("../public/php/getOrgForSelect.php", function(data){
-			$('#org_zdcwpayment').combobox('loadData', data.allorg);
-			$('#org_zdcwpayment').combobox('select', data.myorg);
-		});
+		
 		//编号
 		var partCode = new Date().Format("yyyyMMdd");
 		var newCode = ajaxGetNewCode('009', partCode);
 		$('#billnum_zdcwpayment').val(newCode);
+		
 		//状态
 		$('#stat_zdcwpayment').val("录入");
-		//录入人
-		$.getJSON("../public/php/getUser.php", {PARA: "ME", PARA2:""}, function(data){
-			$('#inputter_zdcwpayment').val(data.me);
-		});
+		
 		//录入时间
 		$('#inputtime_zdcwpayment').val(new Date().Format("yyyy-MM-dd hh:mm:ss"));
-		//操作
-		$.getJSON('../'+modulepath+'/getOperation.php', {STAT: "录入"}, function(data){
-			//alert(JSON.stringify(data));
-			if(data.hasOperation){
-				if(data.onlyOne){$('#operation_zdcwpayment').combobox({hasDownArrow:false});} //这句话必须要在最前面，否则submit的时候就没有值
-				$('#operation_zdcwpayment').combobox('loadData', data.operation);
-				$('#operation_zdcwpayment').combobox('select', data.firstone);
-			}else{
-				$('#operation_zdcwpayment').combobox({hasDownArrow:false});
-				$('#operation_zdcwpayment').combobox('select', data.info);
-			}
-		});
-		
+
 		//toolbar
 		$('#btn1_zdcwpayment').linkbutton({
 			iconCls:'icon-add',
@@ -83,5 +65,32 @@ $(document).ready(function(){
 				$('#dg_zdcwpayment').datagrid('reloadFooter',[{"ORG":"总计：","TOTALAMT":'0.00'}]);
 			}
 		}
+		
+		//录入人
+		$.post("../public/php/getUser.php", {PARA: "ME", PARA2:""}, function(data){
+			$('#inputter_zdcwpayment').val(data.me);
+		
+			//组织
+			$.post("../public/php/getOrgForSelect.php", function(data){
+				$('#org_zdcwpayment').combobox('loadData', data.allorg);
+				$('#org_zdcwpayment').combobox('select', data.myorg);
+			
+				//操作
+				$.post('../'+modulepath+'/getOperation.php', {STAT: "录入"}, function(data){
+					//alert(JSON.stringify(data));
+					if(data.hasOperation){
+						if(data.onlyOne){$('#operation_zdcwpayment').combobox({hasDownArrow:false});} //这句话必须要在最前面，否则submit的时候就没有值
+						$('#operation_zdcwpayment').combobox('loadData', data.operation);
+						$('#operation_zdcwpayment').combobox('select', data.firstone);
+					}else{
+						$('#operation_zdcwpayment').combobox({hasDownArrow:false});
+						$('#operation_zdcwpayment').combobox('select', data.info);
+					}
+				},"json");
+			
+			},"json");
+		
+		},"json");
+		
 	}
 });
