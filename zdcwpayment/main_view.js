@@ -72,6 +72,19 @@ $(document).ready(function(){
 						onClickRow:clickPaymentRow,
 					});
 				}
+				if(data.STAT == '审核不通过' || data.STAT == '批准不通过'){
+					if(arrSearch('删除权',allAuth)){
+						$('#btn_delete_zdcwpayment').linkbutton({
+						    iconCls: 'icon-cancel',
+						    plain: false,
+						    text: '删除',
+						    disabled: false
+						});
+						$('#btn_delete_zdcwpayment').unbind();
+						$('#btn_delete_zdcwpayment').bind('click', deletePaymentAct);
+					}
+				}
+				
 			}else if(data.STAT == '待审核' || data.STAT == '重新审核'){
 				if(arrSearch('审核权',allAuth)){
 					$('#btn_save_zdcwpayment').linkbutton('enable');

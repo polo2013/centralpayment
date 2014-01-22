@@ -47,7 +47,7 @@ function ajaxCheckMenu() {
 			+ 	'</ol>' 
 			+ '</div>';
 		$("#menu_toolbar").append('<a id="menu_about" href="javascript:void(0)"></a>');
-		$("#all_menu_in_one").append('<div id="submenu_about" class="menu-content" style="font-size:14px"></div>');
+		$("#all_menu_in_one").append('<div id="submenu_about" class="menu-content" style="font-size:14px;"></div>');
 		$("#submenu_about").append(aboutInfo);
 		$("#menu_about").menubutton({plain:true, text:'关于', menu:'#submenu_about'});
 		
