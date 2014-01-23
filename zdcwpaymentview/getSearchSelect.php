@@ -49,7 +49,16 @@ $result_item_item['text'] = '全部';
 $result_item[] = $result_item_item;
 $result['myStat'] = '全部';
 if(getAuthInfo($login_user_role, '010', '查看所有单据权')){
-	$query = "SELECT distinct b.`NAME` STAT FROM zdcw_payment_master a, sys_stat b WHERE a.STAT = b.`NAME` ORDER BY B.`CODE`";
+	$whereCondition = '';
+	//读取配置表sys_setting的配置项pay_role
+	$payrole = readSetting('public', 'pay_role');
+	if ($payrole) {
+		if (stripos($login_user_role_origin, $payrole) === false) {
+		}else{
+			$whereCondition = " AND A.STAT in ('已批准待付款','付款中','付款已完成','付款不通过') ";
+		}
+	}
+	$query = "SELECT distinct b.`NAME` STAT FROM zdcw_payment_master a, sys_stat b WHERE a.STAT = b.`NAME` ".$whereCondition." ORDER BY B.`CODE`";
 }else if(getAuthInfo($login_user_role, '010', '查看所属机构单据权')){
 	$query = "SELECT distinct b.`NAME` STAT FROM zdcw_payment_master a, sys_stat b WHERE a.STAT = b.`NAME` and SUBSTR(a.`ORG`,2,LENGTH('$orgCode')) = '$orgCode' ORDER BY B.`CODE`";
 }else{

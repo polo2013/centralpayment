@@ -39,6 +39,18 @@ function getAuthInfo($role, $module, $auth){
 	}
 }
 
+//读取配置
+function readSetting($type, $name){
+	global $connection;
+	$query = "select * from sys_setting where STYPE = '$type' and SNAME = '$name' ";
+	$cursor = exequery($connection,$query);
+	if($row = mysqli_fetch_array($cursor)){
+		return $row['SVALUE'];
+	}else{
+		return false;
+	}
+}
+
 //获取单据下一状态
 function getNextSTAT($OPERATION){
 	global $connection;

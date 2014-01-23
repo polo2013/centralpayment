@@ -18,8 +18,18 @@ $hasAllRight = getAuthInfo($login_user_role, '010', '查看所有单据权');
 $query = "SELECT A.STAT, COUNT(1) CNT FROM zdcw_payment_master A, sys_stat B WHERE A.STAT = B.NAME AND (INPUTTER = '$login_user' OR CHECKER = '$login_user' OR APPROVER = '$login_user') GROUP BY A.STAT ORDER BY B.ORDERNO,B.CODE";
 if($hasOrgRight)
 	$query = "SELECT A.STAT, COUNT(1) CNT FROM zdcw_payment_master A, sys_stat B WHERE A.STAT = B.NAME AND SUBSTR(A.`ORG`,2, LENGTH('$orgcode'))='$orgcode' GROUP BY A.STAT ORDER BY B.ORDERNO, B.CODE";
-if($hasAllRight)
-	$query = "SELECT A.STAT, COUNT(1) CNT FROM zdcw_payment_master A, sys_stat B WHERE A.STAT = B.NAME GROUP BY A.STAT ORDER BY B.ORDERNO,B.CODE";
+if($hasAllRight){
+	$whereCondition = '';
+	//读取配置表sys_setting的配置项pay_role
+	$payrole = readSetting('public', 'pay_role');
+	if ($payrole) {
+		if (stripos($login_user_role_origin, $payrole) === false) {
+		}else{
+			$whereCondition = " AND A.STAT in ('已批准待付款','付款中','付款已完成','付款不通过') ";
+		}
+	}
+	$query = "SELECT A.STAT, COUNT(1) CNT FROM zdcw_payment_master A, sys_stat B WHERE A.STAT = B.NAME ".$whereCondition." GROUP BY A.STAT ORDER BY B.ORDERNO,B.CODE";
+}
 
 $cursor = exequery($connection,$query);
 while($row = mysqli_fetch_array($cursor)){

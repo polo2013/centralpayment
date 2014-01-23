@@ -39,7 +39,15 @@ $start = ($pageNumber - 1) * $pageSize; //从数据集第$start条开始取，�
 
 //数据
 if(getAuthInfo($login_user_role, '010', '查看所有单据权')){
-	$whereCondition = '1=1';
+	$whereCondition = ' 1=1 ';
+	//读取配置表sys_setting的配置项pay_role
+	$payrole = readSetting('public', 'pay_role');
+	if ($payrole) {
+		if (stripos($login_user_role_origin, $payrole) === false) {
+		}else{
+			$whereCondition = $whereCondition." AND STAT in ('已批准待付款','付款中','付款已完成','付款不通过') ";
+		}
+	}
 }else if(getAuthInfo($login_user_role, '010', '查看所属机构单据权')){
 	$whereCondition = "SUBSTR(`ORG`,2,LENGTH('$orgCode')) = '$orgCode'";
 }else{

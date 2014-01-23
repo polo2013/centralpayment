@@ -47,7 +47,62 @@ $(document).ready(function(){
 			});
 			
 			/*****根据状态显示表格****************************************************************/
-			if(data.STAT == '审核不通过' || data.STAT == '批准不通过' || data.STAT == '付款不通过'){
+			if(data.STAT == '审核不通过' || data.STAT == '批准不通过'){
+				//toolbar
+				$('#btn1_zdcwpayment').linkbutton({
+					iconCls:'icon-add',
+					plain:true,
+					text:'新增一行',
+					disabled: true			
+				});
+				$('#btn2_zdcwpayment').linkbutton({
+					iconCls:'icon-remove',
+					plain:true,
+					text:'删除一行',
+					disabled: true
+				});
+				$('#btn3_zdcwpayment').linkbutton({
+					iconCls:'icon-ok',
+					plain:true,
+					text:'修改完成',
+					disabled: true
+				});
+				$('#dg_zdcwpayment').datagrid({
+					toolbar: '#tb_dg_zdcwpayment',
+				});
+				
+				//检查权限
+				if(arrSearch('修改权',allAuth)){
+					$('#btn_save_zdcwpayment').linkbutton('enable');
+					$('#btn_save_zdcwpayment').unbind();
+					$('#btn_save_zdcwpayment').bind('click', savePaymentAct);
+					$('#btn1_zdcwpayment').linkbutton('enable');
+					$("#btn1_zdcwpayment").unbind();
+					$('#btn1_zdcwpayment').bind('click', appendPayment);
+					$('#btn2_zdcwpayment').linkbutton('enable');
+					$("#btn2_zdcwpayment").unbind();
+					$('#btn2_zdcwpayment').bind('click', removePayment);
+					$('#btn3_zdcwpayment').linkbutton('enable');
+					$("#btn3_zdcwpayment").unbind();
+					$('#btn3_zdcwpayment').bind('click', endEditingPayment);
+					
+					$('#dg_zdcwpayment').datagrid({
+						title: moduletitle,
+						onClickRow:clickPaymentRow,
+					});
+				}
+
+				if(arrSearch('删除权',allAuth)){
+					$('#btn_delete_zdcwpayment').linkbutton({
+					    iconCls: 'icon-cancel',
+					    plain: false,
+					    text: '删除',
+					    disabled: false
+					});
+					$('#btn_delete_zdcwpayment').unbind();
+					$('#btn_delete_zdcwpayment').bind('click', deletePaymentAct);
+				}
+			}else if(data.STAT == '付款不通过'){
 				//toolbar
 				$('#btn1_zdcwpayment').linkbutton({
 					iconCls:'icon-ok',
@@ -72,19 +127,6 @@ $(document).ready(function(){
 						onClickRow:clickPaymentRow,
 					});
 				}
-				if(data.STAT == '审核不通过' || data.STAT == '批准不通过'){
-					if(arrSearch('删除权',allAuth)){
-						$('#btn_delete_zdcwpayment').linkbutton({
-						    iconCls: 'icon-cancel',
-						    plain: false,
-						    text: '删除',
-						    disabled: false
-						});
-						$('#btn_delete_zdcwpayment').unbind();
-						$('#btn_delete_zdcwpayment').bind('click', deletePaymentAct);
-					}
-				}
-				
 			}else if(data.STAT == '待审核' || data.STAT == '重新审核'){
 				if(arrSearch('审核权',allAuth)){
 					$('#btn_save_zdcwpayment').linkbutton('enable');
