@@ -1,6 +1,6 @@
 <?php
 include_once("../public/php/head.php");
-include_once("../public/php/session.php");
+include_once("../public/php/utility.php");
 
 $result = array();
 $result_row = array();
@@ -26,7 +26,7 @@ if($ROW = mysqli_fetch_array($cursor)){
 }
 
 
-$query_page = "SELECT * FROM zdcw_payment_detail WHERE `NUM`='$NUM' ORDER BY ITEMNO";
+$query_page = "SELECT * FROM zdcw_payment_detail WHERE `NUM`='$NUM' ORDER BY (ITEMNO+0)";
 $cursor_page = exequery($connection,$query_page);
 while($row_page = mysqli_fetch_array($cursor_page)){
 	$result_cell['NUM'] = $row_page['NUM'];
