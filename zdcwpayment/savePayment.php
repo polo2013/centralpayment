@@ -12,10 +12,12 @@ $BILLNUM = $_REQUEST['BILLNUM'] ? $_REQUEST['BILLNUM'] : "";
 $INPUTTER = $_REQUEST['INPUTTER'] ? $_REQUEST['INPUTTER'] : "";
 $CHECKER = $_REQUEST['CHECKER'] ? $_REQUEST['CHECKER'] : "";
 $APPROVER = $_REQUEST['APPROVER'] ? $_REQUEST['APPROVER'] : "";
+$PAYCHECKER = $_REQUEST['PAYCHECKER'] ? $_REQUEST['PAYCHECKER'] : "";
 
 $INPUTTIME = $_REQUEST['INPUTTIME'] ? $_REQUEST['INPUTTIME'] : "";
 $CHECKTIME = $_REQUEST['CHECKTIME'] ? $_REQUEST['CHECKTIME'] : "";
 $APPROVETIME = $_REQUEST['APPROVETIME'] ? $_REQUEST['APPROVETIME'] : "";
+$PAYCHECKTIME = $_REQUEST['PAYCHECKTIME'] ? $_REQUEST['PAYCHECKTIME'] : "";
 
 $NOTE = $_REQUEST['NOTE'] ? $_REQUEST['NOTE'] : "";
 $STAT = $_REQUEST['STAT'] ? $_REQUEST['STAT'] : "";
@@ -50,6 +52,11 @@ switch ($OPERATION)
 		$APPROVER = $login_user;
 		$APPROVETIME = date('Y-m-d H:i:s');
 		break;
+	case "付款审核不通过":
+	case "付款审核通过":
+		$PAYCHECKER = $login_user;
+		$PAYCHECKTIME = date('Y-m-d H:i:s');
+		break;
 }
 
 //check value
@@ -76,6 +83,8 @@ if ($chk['ok']){
 		$logArray_old_item['APPROVER']=urlencode($row['APPROVER']);
 		$logArray_old_item['APPROVETIME']=urlencode($row['APPROVETIME']);
 		$logArray_old_item['NOTE']=urlencode($row['NOTE']);
+		$logArray_old_item['PAYCHECKER']=urlencode($row['PAYCHECKER']);
+		$logArray_old_item['PAYCHECKTIME']=urlencode($row['PAYCHECKTIME']);
 	}
 	$logArray_old['MASTER'] = $logArray_old_item;
 	
@@ -107,8 +116,8 @@ if ($chk['ok']){
 	$queryResult = false;
 
 	$query = "delete from zdcw_payment_master where NUM = '$NUM'; delete from zdcw_payment_detail where NUM = '$NUM'; "
-	."insert into zdcw_payment_master(`NUM`,`ORG`,`BILLNUM`,`STAT`,`INPUTTER`,`INPUTTIME`,`CHECKER`,`CHECKTIME`,`APPROVER`,`APPROVETIME`,`NOTE`) "
-	."values ('$NUM','$ORG','$BILLNUM','$TO_STAT','$INPUTTER','$INPUTTIME','$CHECKER','$CHECKTIME','$APPROVER','$APPROVETIME','$NOTE'); ";
+	."insert into zdcw_payment_master(`NUM`,`ORG`,`BILLNUM`,`STAT`,`INPUTTER`,`INPUTTIME`,`CHECKER`,`CHECKTIME`,`APPROVER`,`APPROVETIME`,`NOTE`,`PAYCHECKER`,`PAYCHECKTIME`) "
+	."values ('$NUM','$ORG','$BILLNUM','$TO_STAT','$INPUTTER','$INPUTTIME','$CHECKER','$CHECKTIME','$APPROVER','$APPROVETIME','$NOTE','$PAYCHECKER','$PAYCHECKTIME'); ";
 
 	//解码成数组
 	$PAYMENTROWSARR = json_decode($PAYMENTROWS,TRUE);
@@ -158,6 +167,8 @@ if ($chk['ok']){
 			$logArray_new_item['APPROVER']=urlencode($row['APPROVER']);
 			$logArray_new_item['APPROVETIME']=urlencode($row['APPROVETIME']);
 			$logArray_new_item['NOTE']=urlencode($row['NOTE']);
+			$logArray_new_item['PAYCHECKER']=urlencode($row['PAYCHECKER']);
+			$logArray_new_item['PAYCHECKTIME']=urlencode($row['PAYCHECKTIME']);
 		}
 		$logArray_new['MASTER'] = $logArray_new_item;
 		

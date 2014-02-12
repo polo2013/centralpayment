@@ -6,7 +6,7 @@ include_once("../public/php/myConfig.php");
     <head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<title>系统登录</title>
+		<title><?php echo $SYS_TITLE; ?></title>
 		<link rel="shortcut icon" href="../favicon.ico" />
 		
 		<!-- jquery -->

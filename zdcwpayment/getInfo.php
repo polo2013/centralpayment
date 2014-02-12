@@ -26,6 +26,8 @@ if($ROW = mysqli_fetch_array($cursor)){
 	$result['APPROVER'] = $ROW['APPROVER'];
 	$result['APPROVETIME'] = ($ROW['APPROVETIME'] == '0000-00-00 00:00:00' ? '' : $ROW['APPROVETIME']);
 	$result['NOTE'] = $ROW['NOTE'];	
+	$result['PAYCHECKER'] = $ROW['PAYCHECKER'];
+	$result['PAYCHECKTIME'] = ($ROW['PAYCHECKTIME'] == '0000-00-00 00:00:00' ? '' : $ROW['PAYCHECKTIME']);
 }
 
 

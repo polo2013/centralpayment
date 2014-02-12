@@ -28,6 +28,10 @@ $(document).ready(function(){
 			$('#approvetime_zdcwpayment').val(data.APPROVETIME);
 			//备注
 			$('#note_zdcwpayment').val(data.NOTE);
+			//付款审核人
+			$('#paychecker_zdcwpayment').val(data.PAYCHECKER);
+			//付款审核时间
+			$('#paychecktime_zdcwpayment').val(data.PAYCHECKTIME);
 			
 			//操作
 			$.getJSON('../'+modulepath+'/getOperation.php', {STAT: data.STAT, ORG: data.ORG}, function(data_oper){
