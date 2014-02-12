@@ -45,7 +45,7 @@ if(getAuthInfo($login_user_role, '010', '查看所有单据权')){
 	if ($payrole) {
 		if (stripos($login_user_role_origin, $payrole) === false) {
 		}else{
-			$whereCondition = $whereCondition." AND STAT in ('已批准待付款','付款中','付款已完成','付款不通过') ";
+			$whereCondition = $whereCondition." AND STAT in ('已批准','付款审核通过','付款中','付款已完成','付款不通过') ";
 		}
 	}
 }else if(getAuthInfo($login_user_role, '010', '查看所属机构单据权')){
@@ -54,34 +54,41 @@ if(getAuthInfo($login_user_role, '010', '查看所有单据权')){
 	$whereCondition = "(INPUTTER = '$login_user' OR CHECKER = '$login_user' OR APPROVER = '$login_user')";
 }
 
-$query = "SELECT COUNT(1) FROM zdcw_payment_master WHERE ".$whereCondition;
 if($NUM != '')
-	$query = $query." AND NUM='".$NUM."'";
+	$whereCondition .= " AND NUM='".$NUM."'";
 if($ORG != '全部')
-	$query = $query." AND ORG='".$ORG."'";
+	$whereCondition .= " AND ORG='".$ORG."'";
 if($BILLNUM != '')
-	$query = $query." AND BILLNUM='".$BILLNUM."'";
+	$whereCondition .= " AND BILLNUM='".$BILLNUM."'";
 if($STAT != '全部')
-	$query = $query." AND STAT='".$STAT."'";
+	$whereCondition .= " AND STAT='".$STAT."'";
 if($INPUTTER != '全部')
-	$query = $query." AND INPUTTER='".$INPUTTER."'";
+	$whereCondition .= " AND INPUTTER='".$INPUTTER."'";
 if($INPUTTIMEBEGIN != '')
-	$query = $query." AND INPUTTIME>='".$INPUTTIMEBEGIN."'";
+	$whereCondition .= " AND INPUTTIME>='".$INPUTTIMEBEGIN."'";
 if($INPUTTIMEEND != '')
-	$query = $query." AND INPUTTIME<='".$INPUTTIMEEND."'";
+	$whereCondition .= " AND INPUTTIME<='".$INPUTTIMEEND."'";
 if($CHECKER != '全部')
-	$query = $query." AND CHECKER='".$CHECKER."'";
+	$whereCondition .= " AND CHECKER='".$CHECKER."'";
 if($CHECKTIMEBEGIN != '')
-	$query = $query." AND CHECKTIME>='".$CHECKTIMEBEGIN."'";
+	$whereCondition .= " AND CHECKTIME>='".$CHECKTIMEBEGIN."'";
 if($CHECKTIMEEND != '')
-	$query = $query." AND CHECKTIME<='".$CHECKTIMEEND."'";
+	$whereCondition .= " AND CHECKTIME<='".$CHECKTIMEEND."'";
 if($APPROVER != '全部')
-	$query = $query." AND APPROVER='".$APPROVER."'";
+	$whereCondition .= " AND APPROVER='".$APPROVER."'";
 if($APPROVETIMEBEGIN != '')
-	$query = $query." AND APPROVETIME>='".$APPROVETIMEBEGIN."'";
+	$whereCondition .= " AND APPROVETIME>='".$APPROVETIMEBEGIN."'";
 if($APPROVETIMEEND != '')
-	$query = $query." AND APPROVETIME<='".$APPROVETIMEEND."'";
+	$whereCondition .= " AND APPROVETIME<='".$APPROVETIMEEND."'";
 
+//付款审核流程，特定的人看到特定组织的状态为已批准的单据
+$specRole = readSetting('public','pay_check_role');
+$specOrg = readSetting('public','pay_check_org');
+if($specRole && $specOrg && hasSpec($login_user_role_origin,$specRole)){
+	$whereCondition = "(".$whereCondition.") OR ( SUBSTR(`ORG`,2,INSTR(`ORG`,']')-2) in ('".implode("','", explode(",", $specOrg))."') AND STAT = '已批准')";
+}
+
+$query = "SELECT COUNT(1) FROM zdcw_payment_master WHERE ".$whereCondition;
 
 //取总数
 $cursor = exequery($connection,$query);

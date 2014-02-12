@@ -34,6 +34,25 @@ $(document).ready(function(){
 			text:'录入完成',
 			disabled: true
 		});
+		//toolbar2
+		$('#btn1_zdcwpayment1').linkbutton({
+			iconCls:'icon-add',
+			plain:true,
+			text:'新增一行',
+			disabled: true			
+		});
+		$('#btn2_zdcwpayment1').linkbutton({
+			iconCls:'icon-remove',
+			plain:true,
+			text:'删除一行',
+			disabled: true
+		});
+		$('#btn3_zdcwpayment1').linkbutton({
+			iconCls:'icon-ok',
+			plain:true,
+			text:'录入完成',
+			disabled: true
+		});
 		
 		$('#dg_zdcwpayment').datagrid({
 			toolbar: '#tb_dg_zdcwpayment',
@@ -55,6 +74,15 @@ $(document).ready(function(){
 			$('#btn3_zdcwpayment').linkbutton('enable');
 			$("#btn3_zdcwpayment").unbind();
 			$('#btn3_zdcwpayment').bind('click', endEditingPayment);
+			$('#btn1_zdcwpayment1').linkbutton('enable');
+			$("#btn1_zdcwpayment1").unbind();
+			$('#btn1_zdcwpayment1').bind('click', appendPayment);
+			$('#btn2_zdcwpayment1').linkbutton('enable');
+			$("#btn2_zdcwpayment1").unbind();
+			$('#btn2_zdcwpayment1').bind('click', removePayment);
+			$('#btn3_zdcwpayment1').linkbutton('enable');
+			$("#btn3_zdcwpayment1").unbind();
+			$('#btn3_zdcwpayment1').bind('click', endEditingPayment);
 			
 			$('#dg_zdcwpayment').datagrid({
 				onClickRow:clickPaymentRow,
@@ -76,7 +104,7 @@ $(document).ready(function(){
 				$('#org_zdcwpayment').combobox('select', data.myorg);
 			
 				//操作
-				$.post('../'+modulepath+'/getOperation.php', {STAT: "录入"}, function(data){
+				$.post('../'+modulepath+'/getOperation.php', {STAT: "录入", ORG:""}, function(data){
 					//alert(JSON.stringify(data));
 					if(data.hasOperation){
 						if(data.onlyOne){$('#operation_zdcwpayment').combobox({hasDownArrow:false});} //这句话必须要在最前面，否则submit的时候就没有值

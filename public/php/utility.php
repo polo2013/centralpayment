@@ -51,6 +51,18 @@ function readSetting($type, $name){
 	}
 }
 
+//是否含有
+function hasSpec($str, $spec){
+	//$str 类似于  xxx,xxx,xxx 这样的字符串
+	$pos = stripos($str, $spec);
+	if ($pos === false) {
+		return false;
+	}else{
+		return true;
+	}
+	
+}
+
 //获取单据下一状态
 function getNextSTAT($OPERATION){
 	global $connection;

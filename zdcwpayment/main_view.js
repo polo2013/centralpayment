@@ -30,7 +30,7 @@ $(document).ready(function(){
 			$('#note_zdcwpayment').val(data.NOTE);
 			
 			//操作
-			$.getJSON('../'+modulepath+'/getOperation.php', {STAT: data.STAT}, function(data_oper){
+			$.getJSON('../'+modulepath+'/getOperation.php', {STAT: data.STAT, ORG: data.ORG}, function(data_oper){
 				//alert(JSON.stringify(data_oper));
 				if(data_oper.hasOperation){
 					if(data_oper.onlyOne){$('#operation_zdcwpayment').combobox({hasDownArrow:false});}  //这句话必须要在最前面，否则submit的时候就没有值
@@ -47,7 +47,7 @@ $(document).ready(function(){
 			});
 			
 			/*****根据状态显示表格****************************************************************/
-			if(data.STAT == '审核不通过' || data.STAT == '批准不通过'){
+			if(data.STAT == '审核不通过' || data.STAT == '批准不通过' || data.STAT == '付款审核不通过'){
 				//toolbar
 				$('#btn1_zdcwpayment').linkbutton({
 					iconCls:'icon-add',
@@ -144,7 +144,7 @@ $(document).ready(function(){
 					$('#btn_delete_zdcwpayment').bind('click', deletePaymentAct);
 				}
 				
-			}else if(data.STAT == '已审核待批准'){
+			}else if(data.STAT == '已审核'){
 				if(arrSearch('批准权',allAuth) || arrSearch('反审核权',allAuth)){
 					$('#btn_save_zdcwpayment').linkbutton('enable');
 					$('#btn_save_zdcwpayment').unbind();
@@ -156,8 +156,14 @@ $(document).ready(function(){
 					$('#btn_save_zdcwpayment').unbind();
 					$('#btn_save_zdcwpayment').bind('click', savePaymentAct);
 				}
-			}else if(data.STAT == '已批准待付款'){
+			}else if(data.STAT == '已批准'){
 				if(arrSearch('付款权',allAuth) || arrSearch('反批准权',allAuth)){
+					$('#btn_save_zdcwpayment').linkbutton('enable');
+					$('#btn_save_zdcwpayment').unbind();
+					$('#btn_save_zdcwpayment').bind('click', savePaymentAct);
+				}
+			}else if(data.STAT == '付款审核通过'){
+				if(arrSearch('付款权',allAuth)){
 					$('#btn_save_zdcwpayment').linkbutton('enable');
 					$('#btn_save_zdcwpayment').unbind();
 					$('#btn_save_zdcwpayment').bind('click', savePaymentAct);

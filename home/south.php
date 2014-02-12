@@ -15,7 +15,7 @@
 <table id="home_foot_bar"><tr><td>
 <div id="home_foot_bar_div">
 <?php
-echo "Copyright © 2013 正大集团   All Rights Reserved";
+echo "Copyright © 正大集团   All Rights Reserved";
 ?>
 </div>
 </td></tr></table>

@@ -25,6 +25,11 @@ $PAYMENTROWS = $_REQUEST['PAYMENTROWS'] ? $_REQUEST['PAYMENTROWS'] : "";
 $FLAG = $_REQUEST['FLAG'] ? $_REQUEST['FLAG'] : "";
 $result = array('success' => false, 'message' => '保存失败！');
 
+if ($OPERATION == '无操作') {
+	$result['success'] = false;
+	$result['message'] = '无操作！';
+}else{
+
 //改变stat
 $TO_STAT = getNextSTAT($OPERATION);
 //操作人和时间
@@ -191,6 +196,6 @@ if ($chk['ok']){
 	$result['success'] = false;
 	$result['message'] = $chk['msg'];
 }
-
+}
 echo json_encode($result);
 ?>

@@ -13,6 +13,8 @@ $result_item = array();
 $result_item_item = array();
 
 $STAT = $_REQUEST['STAT'];
+$ORG = $_REQUEST['ORG'];
+
 
 $query = "SELECT B.* FROM SYS_STAT A, SYS_STAT B WHERE A.NAME = '$STAT' AND FIND_IN_SET(A.CODE,B.FIRESTAT) >= 1 ORDER BY B.ORDERNO, B.CODE";
 $cursor = exequery($connection,$query);
@@ -31,7 +33,7 @@ while($row = mysqli_fetch_array($cursor)){
 				}
 			}
 			break;
-		case '已审核待批准' :
+		case '已审核' :
 			if(getAuthInfo($login_user_role, '009', '批准权')){
 				if($row['FIREACT'] == '批准通过' || $row['FIREACT'] == '批准不通过')
 					$result_item[] = $result_item_item;
@@ -41,15 +43,28 @@ while($row = mysqli_fetch_array($cursor)){
 					$result_item[] = $result_item_item;
 			}
 			break;
-		case '已批准待付款' :
-			if(getAuthInfo($login_user_role, '009', '付款权')){
-				if($row['FIREACT'] == '付款开始')
-					$result_item[] = $result_item_item;
+		case '已批准' :
+			if($login_user_org == $ORG){
+				if(getAuthInfo($login_user_role, '009', '反批准权')){
+					if($row['FIREACT'] == '反批准')
+						$result_item[] = $result_item_item;
+				}
 			}
-			if(getAuthInfo($login_user_role, '009', '反批准权')){
-				if($row['FIREACT'] == '反批准')
-					$result_item[] = $result_item_item;
+			$specOrg = readSetting('public','pay_check_org');
+			if ($specOrg && hasSpec($specOrg,splitCode($ORG))) {
+				if($row['FIREACT'] == '付款审核通过' || $row['FIREACT'] == '付款审核不通过'){
+					$specRole = readSetting('public','pay_check_role');
+					if($specRole && hasSpec($login_user_role_origin,$specRole)){
+						$result_item[] = $result_item_item;
+					}
+				}
+			}else{
+				if(getAuthInfo($login_user_role, '009', '付款权')){
+					if($row['FIREACT'] == '付款开始')
+						$result_item[] = $result_item_item;
+				}
 			}
+			
 			break;
 		default:
 			$result_item[] = $result_item_item;

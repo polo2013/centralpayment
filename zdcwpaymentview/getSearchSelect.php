@@ -55,7 +55,7 @@ if(getAuthInfo($login_user_role, '010', '查看所有单据权')){
 	if ($payrole) {
 		if (stripos($login_user_role_origin, $payrole) === false) {
 		}else{
-			$whereCondition = " AND A.STAT in ('已批准待付款','付款中','付款已完成','付款不通过') ";
+			$whereCondition = " AND A.STAT in ('已批准','付款审核通过','付款中','付款已完成','付款不通过') ";
 		}
 	}
 	$query = "SELECT distinct b.`NAME` STAT FROM zdcw_payment_master a, sys_stat b WHERE a.STAT = b.`NAME` ".$whereCondition." ORDER BY B.`CODE`";
