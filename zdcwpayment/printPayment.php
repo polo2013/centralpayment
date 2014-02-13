@@ -13,16 +13,18 @@ $query = "SELECT * FROM zdcw_payment_master WHERE `NUM`='$NUM'";
 $cursor = exequery($connection,$query);
 if($ROW = mysqli_fetch_array($cursor)){
 	$result['NUM'] = $ROW['NUM'];
-	$result['ORG'] = $ROW['ORG'];
+	$result['ORG'] = splitName($ROW['ORG']);
 	$result['BILLNUM'] = $ROW['BILLNUM'];
 	$result['STAT'] = $ROW['STAT'];
-	$result['INPUTTER'] = $ROW['INPUTTER'];
+	$result['INPUTTER'] = splitName($ROW['INPUTTER']);
 	$result['INPUTTIME'] = ($ROW['INPUTTIME'] == '0000-00-00 00:00:00' ? '' : $ROW['INPUTTIME']);
-	$result['CHECKER'] = $ROW['CHECKER'];
+	$result['CHECKER'] = splitName($ROW['CHECKER']);
 	$result['CHECKTIME'] = ($ROW['CHECKTIME'] == '0000-00-00 00:00:00' ? '' : $ROW['CHECKTIME']);
-	$result['APPROVER'] = $ROW['APPROVER'];
+	$result['APPROVER'] = splitName($ROW['APPROVER']);
 	$result['APPROVETIME'] = ($ROW['APPROVETIME'] == '0000-00-00 00:00:00' ? '' : $ROW['APPROVETIME']);
 	$result['NOTE'] = $ROW['NOTE'];
+	$result['PAYCHECKER'] = splitName($ROW['PAYCHECKER']);
+	$result['PAYCHECKTIME'] = ($ROW['PAYCHECKTIME'] == '0000-00-00 00:00:00' ? '' : $ROW['PAYCHECKTIME']);
 }
 
 
@@ -31,16 +33,16 @@ $cursor_page = exequery($connection,$query_page);
 while($row_page = mysqli_fetch_array($cursor_page)){
 	$result_cell['NUM'] = $row_page['NUM'];
 	$result_cell['ITEMNO'] = $row_page['ITEMNO'];
-	$result_cell['ORG'] = $row_page['ORG'];
-	$result_cell['APPLICANT'] = $row_page['APPLICANT'];
+	$result_cell['ORG'] = splitName($row_page['ORG']);
+	$result_cell['APPLICANT'] = splitName($row_page['APPLICANT']);
 	$result_cell['PAYMENT'] = $row_page['PAYMENT'];
 	$result_cell['TOTALAMT'] = $row_page['TOTALAMT'];
-	$result_cell['PAYEE'] = $row_page['PAYEE'];
+	$result_cell['PAYEE'] = splitName($row_page['PAYEE']);
 	$result_cell['BANK'] = $row_page['BANK'];
 	$result_cell['ACCOUNT'] = $row_page['ACCOUNT'];
 	$result_cell['NOTE'] = $row_page['NOTE'];
 	$result_cell['PAYSTAT'] = $row_page['PAYSTAT'];
-	$result_cell['PAYER'] = $row_page['PAYER'];
+	$result_cell['PAYER'] = splitName($row_page['PAYER']);
 	$result_cell['PAYTIME'] = ($row_page['PAYTIME'] == '0000-00-00 00:00:00' ? '' : $row_page['PAYTIME']);
 
 	$sumAllTotal = $sumAllTotal + $row_page['TOTALAMT'];
@@ -58,42 +60,33 @@ $result['FOOTER'] = $result_row;
 
 echo "
 <style>
-#dg_print_zdcwpayment_mst,
-#dg_print_zdcwpayment_foot
-{width:700px;}
-
-#dg_print_zdcwpayment_dtl
-{
-	border: solid #000 1px;
-	border-collapse:collapse;
-	width:700px;
-}
-
-#dg_print_zdcwpayment_mst td,
-#dg_print_zdcwpayment_foot td
-{text-align:center;}
-
-#dg_print_zdcwpayment_dtl td
-{
-	border: solid #000 1px;
-	text-align:center;
-}
-
-.printleft{text-align:left !important;}
-.printright{text-align:right !important;}
-
-#printtitle{padding-bottom:30px;}
-#dg_print_zdcwpayment_foot{margin-top:30px;}
+	table
+	{
+		/*border: solid #000 1px;*/
+		border-collapse: collapse;
+		width: 100%;
+	}
+	
+	table td
+	{
+		border: solid #000 1px;
+		text-align: center;
+	}
+	
+	.printleft{text-align:left !important;}
+	.printright{text-align:right !important;}
+		
 </style>
+
 </head>
 <body>
-<table id='dg_print_zdcwpayment_mst'>
-<tr><td colspan='3' id='printtitle'><h3>付款汇总表</h3></td></tr>
-<tr><td class='printleft'>组织机构：".$result['ORG']."</td><td>录入日期：".$result['INPUTTIME']."</td><td class='printright'>编号：".$result['BILLNUM']."</td></tr>
-</table>
-<table id='dg_print_zdcwpayment_dtl'>
-<tr><td width='40px'>序号</td><td width='150px'>部门/项目</td><td width='150px'>费用申请人</td><td width='150px'>付款事由</td><td width='80px'>金额</td><td width='200px'>收款人及账号</td><td width='80px'>备注</td></tr>
-";
+	<table id='dg_print_zdcwpayment_mst'>
+	<thead>
+		<tr><td colspan='7' style='border:0px;'><h3>付款汇总表</h3></td></tr>
+		<tr><td colspan='7' style='padding: 10px 0; border:0px;'><span>组织机构：".$result['ORG']."</span><span style='margin:0 30px'>录入日期：".$result['INPUTTIME']."</span><span>编号：".$result['BILLNUM']."</span></td></tr>
+		<tr><td width='40px'>序号</td><td width='150px'>部门/项目</td><td width='150px'>费用申请人</td><td width='150px'>付款事由</td><td width='80px'>金额</td><td width='200px'>收款人及账号</td><td width='80px'>备注</td></tr>
+	</thead>
+	<tbody>";
 foreach ($result['ROWS'] as  $key => $val){
 	echo "<tr><td>".$val['ITEMNO']
 	."</td><td>".$val['ORG']
@@ -104,12 +97,15 @@ foreach ($result['ROWS'] as  $key => $val){
 	."</td><td>".$val['NOTE']
 	."</td></tr>";
 }
-echo "<tr><td colspan='2'>总计：</td><td></td><td></td><td class='printright'>".$result['FOOTER'][0]['TOTALAMT']."</td><td></td><td></td></tr>";
-echo "</table>";
-echo "<table id='dg_print_zdcwpayment_foot'>
-<tr><td class='printleft'>统计：</td><td class='printleft'>查核：</td><td class='printleft'>批准：</td></tr>
-</table>";
-echo "</body></html>";
+echo "	<tr><td colspan='2'>总计：</td><td></td><td></td><td class='printright'>".$result['FOOTER'][0]['TOTALAMT']."</td><td></td><td></td></tr>
+	</tbody>
+	<tfoot>
+		<tr><td colspan='7' style='padding:20px 0 10px 0; border:0px;'><span style='margin-right:50px'>统计：".$result['INPUTTER']."</span><span style='margin-right:50px'>查核：".$result['CHECKER']."</span><span style='margin-right:50px'>批准：".$result['APPROVER']."</span><span>付款审核：".$result['PAYCHECKER']."</span></td></tr>
+		<tr><td colspan='7' class='printright' style='border:0px;'><span tdata='pageNO'>第###页</span><span tdata='pageCount'>共###页</span></td></tr>
+	</tfoot>
+	</table>
+</body>
+</html>";
 
 //var_dump($result);
 

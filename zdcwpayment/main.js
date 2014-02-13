@@ -598,7 +598,8 @@ function printPaymentAct(){
 	LODOP.SET_PRINT_PAGESIZE (1, 0, 0,"A4");
 	//LODOP.ADD_PRINT_URL(50,50,800,900,"http://localhost/centralpayment/zdcwpayment/printPayment.php?NUM="+viewNum);
 	LODOP.SET_SHOW_MODE("HIDE_PAPER_BOARD ",true);
-	LODOP.ADD_PRINT_HTM ("5%","3%", "100%","80%","URL:../zdcwpayment/printPayment.php?NUM="+viewNum);
+	//LODOP.ADD_PRINT_HTM ("5%","3%", "100%","80%","URL:../zdcwpayment/printPayment.php?NUM="+viewNum);
+	LODOP.ADD_PRINT_TABLE("10px",0, "100%","85%","URL:../zdcwpayment/printPayment.php?NUM="+viewNum);
 	
 	LODOP.PREVIEW();
 }
