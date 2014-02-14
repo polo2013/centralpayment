@@ -19,9 +19,11 @@
 		}
 	}
 */
-	//加快显示速度
-	$tileGroup = array(1,2,1,1,2,2,1,1,2,2);
+	//加快显示速度，开始
+	$tileGroup = array(1,2,1,1,2,2,1,1,2,1,1);
 	echo json_encode($tileGroup);
+	//加快显示速度，结束
+	
 	
 	//确保每行是5的倍数
 	function validArrVal($arr){
