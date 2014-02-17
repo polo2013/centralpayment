@@ -15,6 +15,14 @@ $PARA = $_REQUEST['PARA'];
 $PARA2 = $_REQUEST['PARA2'];
 $orgCode = splitCode($login_user_org);
 
+//取额外可以显示的人
+$another = array();
+$query = "select * from zdcw_another_people WHERE `ORG` = '$orgCode' and OTYPE = 'people'";
+$cursor = exequery($connection,$query);
+while ($row = mysqli_fetch_array($cursor)){
+	$another[] = $row;
+}
+//end
 
 switch($PARA)
 {
@@ -24,7 +32,18 @@ switch($PARA)
 	case 'APPLICANT':
 	case 'PAYEE':
 		$result['me'] = $login_user;
-		$query = "select * from SYS_USER WHERE CHECKSTAT = '已复核' AND SUBSTR(`ORG`,2,LENGTH('$orgCode')) = '$orgCode' ORDER BY ORDERNO, `CODE`";
+		
+		$another_str = '';
+		
+		if ($another) {
+			foreach ($another as $val){
+				$another_str .= $val['ANOTHER']."','";
+			}
+			$another_str = rtrim($another_str,"','");
+		}
+		
+		
+		$query = "select * from SYS_USER WHERE CHECKSTAT = '已复核' AND (SUBSTR(`ORG`,2,LENGTH('$orgCode')) = '$orgCode' OR `CODE` in ('".$another_str."')) ORDER BY ORDERNO, `CODE`";
 		$cursor = exequery($connection,$query);
 		while ($row = mysqli_fetch_array($cursor)){
 			$result_item_item['value'] = '['.$row['CODE'].']'.$row['NAME'];
