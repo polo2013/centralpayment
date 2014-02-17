@@ -271,10 +271,10 @@ function checkValueAtDB($module, $request, $type)
 		case "008":
 			$errmsg = "";
 			if($type=="add" or $type=="edit"){
-				$query = "SELECT * FROM BIZ_PAYEE WHERE NAME = '".$request['NAME']."' AND ORG = '".$request['ORG']."' AND CODE != '".$request['CODE']."'";
+				$query = "SELECT * FROM BIZ_PAYEE WHERE NAME = '".$request['NAME']."' AND ORG = '".$request['ORG']."' AND ACCOUNT = '".$request['ACCOUNT']."' AND CODE != '".$request['CODE']."'";
 				$cursor = exequery($connection,$query);
 				if($row = mysqli_fetch_array($cursor)){
-					$errmsg = "在机构“".$row['ORG']."”下已存在同名收款人“".$row['NAME']."”，代码为“".$row['CODE']."”！";
+					$errmsg = "在机构“".$row['ORG']."”下已存在同名收款人“".$row['NAME']."”，且银行账号一样，代码为“".$row['CODE']."”！";
 				}
 				if($request['ACCOUNT'] != '' && $request['BANK'] == ''){
 					$errmsg = "您填写了账号，但没有填写银行！";

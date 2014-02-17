@@ -147,7 +147,7 @@ function saveAct(){
 					$.messager.progress('close');
 					return false;
 				}
-				if(!checkValue($('#bank_bizpayee'), '银行', '汉字')){
+				if(!checkValue($('#bank_bizpayee'), '银行', '汉字、字母、数字')){
 					$.messager.progress('close');
 					return false;
 				}

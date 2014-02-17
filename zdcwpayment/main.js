@@ -17,13 +17,13 @@ $(document).ready(function(){
 		    	}
 			},
 			{field:'ck',checkbox:true,hidden:true},
-			{field:'ORG',title:'部门 / 项目',halign:'center',align:'center',width:200,editor:{
+			{field:'ORG',title:'部门 / 项目',halign:'center',align:'center',width:250,editor:{
 				type:'combobox',
 				options:{
 					required:true,
 					missingMessage:'必填项',
 					editable:false,
-					panelHeight:'auto'
+					//panelHeight:'auto'
 				}
 			}},
 			{field:'APPLICANT',title:'费用申请人',halign:'center',align:'center',width:200,editor:{
@@ -59,7 +59,7 @@ $(document).ready(function(){
 			},formatter: function(value,row,index){
 				return parseFloat(value).toFixed(2);
 			}},
-			{field:'PAYEE',title:'收款人',halign:'center',align:'center',width:200,editor:{
+			{field:'PAYEE',title:'收款人',halign:'center',align:'center',width:250,editor:{
 				type:'combobox',
 				options:{
 					required:true,
@@ -88,7 +88,7 @@ $(document).ready(function(){
 					readonly:true
 				}
 			}},
-			{field:'ACCOUNT',title:'账号',halign:'center',align:'center',width:250,editor:{
+			{field:'ACCOUNT',title:'账号',halign:'center',align:'center',width:200,editor:{
 				type:'combobox',
 				options:{
 					required:true,

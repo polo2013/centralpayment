@@ -136,10 +136,12 @@ function saveAct(){
 		onSubmit: function(){
 			var isValidate = $(this).form('validate');
 			if(isValidate){
+				/*
 				if(!checkValue($('#name_sysorg'), '机构名称', '汉字、字母、数字')){
 					$.messager.progress('close');
 					return false;
 				}
+				*/
 				if(!checkValue($('#tel_sysorg'), '电话', '数字、中划线')){
 					$.messager.progress('close');
 					return false;

@@ -96,7 +96,7 @@ $(document).ready(function(){
 		columns: [[
 			{field:'ck',checkbox:true},
 			{field:'CODE',title:'用户名',align:'left',width:100},
-			{field:'NAME',title:'姓名',width:80},
+			{field:'NAME',title:'姓名',width:100},
 			{field:'ORG',title:'所属机构',width:150},
 			{field:'ROLE',title:'担任角色',width:150},
 			{field:'MOBILE',title:'手机号码',align:'center',width:100},
@@ -212,7 +212,7 @@ function saveAct(){
 					$.messager.progress('close');
 					return false;
 				}
-				if(!checkValue($('#bank_sysuser'), '银行', '汉字')){
+				if(!checkValue($('#bank_sysuser'), '银行', '汉字、字母、数字')){
 					$.messager.progress('close');
 					return false;
 				}
