@@ -108,7 +108,7 @@ function checkValue(input, desc, type){
 		errmsg = '格式不正确！示例：0123-1234567、010-12345678、021-12345678-888！';
 		break;
 	case '汉字、字母、数字':
-		reg = new RegExp("^[\u4e00-\u9fa5A-Za-z0-9（）]*$");
+		reg = new RegExp("^[\u4e00-\u9fa5A-Za-z0-9（）()]*$");
 		errmsg = desc + '只能由'+type+'组成！';
 		break;
 	case '手机号':

@@ -25,6 +25,9 @@ while($row = mysqli_fetch_array($cursor)){
 	switch ($STAT){
 		case '录入' :
 			if(getAuthInfo($login_user_role, '009', '录入权')){
+				if($row['FIREACT'] == '录入暂存'){
+					$result_item[] = $result_item_item;
+				}
 				if($row['FIREACT'] == '提交审核'){
 					$result_item[] = $result_item_item;
 				}

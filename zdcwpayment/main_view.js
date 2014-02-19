@@ -51,7 +51,7 @@ $(document).ready(function(){
 			});
 			
 			/*****根据状态显示表格****************************************************************/
-			if(data.STAT == '审核不通过' || data.STAT == '批准不通过' || data.STAT == '付款审核不通过'){
+			if(data.STAT == '审核不通过' || data.STAT == '批准不通过' || data.STAT == '付款审核不通过' || data.STAT == '录入'){
 				//toolbar
 				$('#btn1_zdcwpayment').linkbutton({
 					iconCls:'icon-add',
@@ -207,7 +207,7 @@ $(document).ready(function(){
 				}).datagrid('showColumn','ck');
 				$("a[id^='sumpay_']").linkbutton({
 				    iconCls: 'icon-sum',
-				    text:'合并付款',
+				    text:'分组付款',
 				    disabled: true
 				});
 				
