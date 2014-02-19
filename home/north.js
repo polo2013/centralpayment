@@ -30,6 +30,7 @@ function ajaxCheckMenu() {
 		});
 		
 		//增加最后一个菜单
+		/*
 		var aboutInfo = ''
 			+ '<div>' 
 			+ 	'<div>v1.0->v1.1</div>' 
@@ -46,10 +47,12 @@ function ajaxCheckMenu() {
 			+		'<li>[新增] 付款汇总表模块</li>' 
 			+ 	'</ol>' 
 			+ '</div>';
+		*/
 		$("#menu_toolbar").append('<a id="menu_about" href="javascript:void(0)"></a>');
-		$("#all_menu_in_one").append('<div id="submenu_about" class="menu-content" style="font-size:14px;"></div>');
-		$("#submenu_about").append(aboutInfo);
-		$("#menu_about").menubutton({plain:true, text:'关于', menu:'#submenu_about'});
+		//$("#all_menu_in_one").append('<div id="submenu_about" class="menu-content" style="font-size:14px;"></div>');
+		//$("#submenu_about").append(aboutInfo);
+		//$("#menu_about").menubutton({plain:true, text:'关于', menu:'#submenu_about'});
+		$("#menu_about").linkbutton({plain:true, text:'关于'});
 		
 		
 	});
