@@ -80,7 +80,7 @@ function checkValue(input, desc, type){
 	switch(type)
 	{
 	case '数字':
-		reg = new RegExp("^[0-9]*$");
+		reg = new RegExp("^[0-9-]*$");
 		errmsg = desc + '只能为'+type+'！';
 		break;
 	case '汉字':

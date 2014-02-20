@@ -203,6 +203,7 @@ function checkValueAtDB($module, $request, $type)
 				if($request['ACCOUNT'] == '' && $request['BANK'] != ''){
 					$errmsg = "您填写了银行，但没有填写账号！";
 				}
+				/*
 				if($request['ACCOUNT'] != ''){
 					$query = "SELECT * FROM SYS_USER WHERE ACCOUNT = '".$request['ACCOUNT']."'";
 					$cursor = exequery($connection,$query);
@@ -215,6 +216,7 @@ function checkValueAtDB($module, $request, $type)
 						$errmsg = "该账号“".$row['ACCOUNT']."”已被收款人“[".$row['CODE']."]".$row['NAME']."”使用，请确认是否填写正确！";
 					}
 				}
+				*/
 			}else if($type=="edit"){
 				$errmsg = "";
 				if($request['ACCOUNT'] != '' && $request['BANK'] == ''){
@@ -223,6 +225,7 @@ function checkValueAtDB($module, $request, $type)
 				if($request['ACCOUNT'] == '' && $request['BANK'] != ''){
 					$errmsg = "您填写了银行但没有填写账号！";
 				}
+				/*
 				if($request['ACCOUNT'] != ''){
 					$query = "SELECT * FROM SYS_USER WHERE ACCOUNT = '".$request['ACCOUNT']."' AND CODE != '".$request['CODE']."'";
 					$cursor = exequery($connection,$query);
@@ -235,6 +238,7 @@ function checkValueAtDB($module, $request, $type)
 						$errmsg = "该账号“".$row['ACCOUNT']."”已被收款人“[".$row['CODE']."]".$row['NAME']."”使用，请确认是否填写正确！";
 					}
 				}
+				*/
 			}else if($type=="remove"){
 				$query = "SELECT A.* FROM SYS_USER A, ZDCW_PAYMENT_MASTER B "
 				."WHERE (CONCAT('[',A.`CODE`,']',A.`NAME`) = B.INPUTTER "
@@ -282,6 +286,7 @@ function checkValueAtDB($module, $request, $type)
 				if($request['ACCOUNT'] == '' && $request['BANK'] != ''){
 					$errmsg = "您填写了银行，但没有填写账号！";
 				}
+				/*
 				if($request['ACCOUNT'] != ''){
 					$query = "SELECT * FROM BIZ_PAYEE WHERE ACCOUNT = '".$request['ACCOUNT']."' AND CODE != '".$request['CODE']."'";
 					$cursor = exequery($connection,$query);
@@ -294,6 +299,7 @@ function checkValueAtDB($module, $request, $type)
 						$errmsg = "该账号“".$row['ACCOUNT']."”已被用户“[".$row['CODE']."]".$row['NAME']."”使用，请确认是否填写正确！";
 					}
 				}
+				*/
 			}else if($type=="remove"){
 				$query = "SELECT A.* FROM BIZ_PAYEE A, ZDCW_PAYMENT_DETAIL B "
 				."WHERE CONCAT('[',A.`CODE`,']',A.`NAME`) = B.PAYEE AND A.`CODE`='".$request['CODE']."' ";
