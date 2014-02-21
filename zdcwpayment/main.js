@@ -180,9 +180,14 @@ function appendPayment(){
 		var rows = $('#dg_zdcwpayment').datagrid('getRows');
 		//alert(JSON.stringify(rows));
 		editPaymentIndex = rows.length;
-		var rownum = (editPaymentIndex+1).toString();
+		var rowlenth = rows.length;
+		var itemno = '1';
+		if(rowlenth > 0){  //计算行号，解决出现删除中间一行导致最后行号重复问题
+			itemno = (parseInt(rows[rowlenth-1].ITEMNO)+1).toString();
+		}
+		
 		$('#dg_zdcwpayment').datagrid('appendRow',{
-			ITEMNO: rownum,
+			ITEMNO: itemno,
 			ORG:'',
 			APPLICANT:'',
 			PAYMENT:'',
@@ -194,10 +199,11 @@ function appendPayment(){
 			PAYSTAT:'未付款',
 			PAYER:'',
 			PAYTIME:''
-		});      
+		});
         $('#dg_zdcwpayment').datagrid('selectRow', editPaymentIndex).datagrid('beginEdit', editPaymentIndex);
 
         setGridData('new');
+		
     }
 	var footer = $('#dg_zdcwpayment').datagrid('getFooterRows');
 	if(footer == undefined){
@@ -351,6 +357,7 @@ if(isValidate && checkValue($('#billnum_zdcwpayment'), '付款汇总表编号', 
 }
 }
 
+//单笔付款
 function singlePayAction(event){
 	//alert(JSON.stringify(event));
 	//console.warn( JSON.stringify(event) );
@@ -444,6 +451,7 @@ function singlePayAction(event){
 		
 	}
 }
+//分组付款合并付款
 function sumPayAction(event){
 	//alert(JSON.stringify(event));
 	var cfmsg = '';
