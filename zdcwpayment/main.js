@@ -648,3 +648,9 @@ function deletePaymentAct(){
 		cancel: true
 	});
 }
+/*******导出到Excel**************************************/
+function toExcelPaymentAct(){
+	//alert(viewNum);  //当前单号
+	window.location.href="../zdcwpayment/toExcelPayment.php?NUM="+viewNum;
+	//window.location.href="../public/PHPExcel_1.7.9/Examples/01simple-download-xls.php";
+}

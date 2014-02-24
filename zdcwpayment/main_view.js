@@ -254,6 +254,17 @@ $(document).ready(function(){
 				$('#btn_print_zdcwpayment').unbind();
 				$('#btn_print_zdcwpayment').bind('click', printPaymentAct);
 			}
+			if(arrSearch('导出权',allAuth)){
+				$('#btn_toexcel_zdcwpayment').linkbutton({
+				    iconCls: 'icon-print',
+				    plain: false,
+				    text: '导出到EXCEL',
+				    disabled: true
+				});
+				$('#btn_toexcel_zdcwpayment').linkbutton('enable');
+				$('#btn_toexcel_zdcwpayment').unbind();
+				$('#btn_toexcel_zdcwpayment').bind('click', toExcelPaymentAct);
+			}
 			
 		});
 		

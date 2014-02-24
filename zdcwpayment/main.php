@@ -53,8 +53,9 @@
 		<td><input id="checktime_zdcwpayment" name="CHECKTIME" class="easyui-validatebox" readonly></td>
 		<td><label for="approvetime_zdcwpayment">批准时间：</label></td>
 		<td><input id="approvetime_zdcwpayment" name="APPROVETIME" class="easyui-validatebox" readonly></td>
-		<td></td>
-		<td></td>
+		<td width="100px" colspan="2" valign="bottom" align="right">
+			<a id="btn_toexcel_zdcwpayment" href="javascript:void(0)" style="margin-top: 5px"></a>
+		</td>
 	</tr>
 	<tr>
 		<td><label for="note_zdcwpayment">备注：</label></td>
@@ -64,9 +65,9 @@
 		<td><label for="operation_zdcwpayment">可选操作：</label></td>
 		<td><input id="operation_zdcwpayment" name="OPERATION" class="easyui-combobox" data-options="required:true,editable:false,panelHeight:'auto'"></td>
 		<td width="100px" colspan="2" valign="bottom" align="right">
+			<a id="btn_save_zdcwpayment" href="javascript:void(0)" style="margin-top: 5px"></a>
 			<a id="btn_print_zdcwpayment" href="javascript:void(0)" style="margin-top: 5px"></a>
 			<a id="btn_delete_zdcwpayment" href="javascript:void(0)" style="margin-top: 5px"></a>
-			<a id="btn_save_zdcwpayment" href="javascript:void(0)" style="margin-top: 5px"></a>
 		</td>
 	</tr>
 	<!--tr>
