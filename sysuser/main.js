@@ -156,6 +156,9 @@ function editAct(){
 		var desc = formatOrgRole($('#org_sysuser').val(), $('#role_sysuser').val());
 		$('#div_org_role_desc').html(desc);
 		
+		if(authArr[6] == true){$('#stat_sysuser').combobox('readonly',false);}else{$('#stat_sysuser').combobox('readonly',true);}
+		if(authArr[7] == true){$('#checkstat_sysuser').combobox('readonly',false);}else{$('#checkstat_sysuser').combobox('readonly',true);}
+		
 		
 		submit_url = '../'+modulepath+'/edit.php?MODULENO='+moduleno+'&MODULEOBJ='+moduleobj+'&MODULETITLE='+moduletitle;
 	}else{

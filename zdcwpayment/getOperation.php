@@ -36,6 +36,11 @@ while($row = mysqli_fetch_array($cursor)){
 				}
 			}
 			break;
+		case '待审核' :
+			if(getAuthInfo($login_user_role, '009', '审核权')){
+				$result_item[] = $result_item_item;
+			}
+			break;
 		case '已审核' :
 			if(getAuthInfo($login_user_role, '009', '批准权')){
 				if($row['FIREACT'] == '批准通过' || $row['FIREACT'] == '批准不通过')
