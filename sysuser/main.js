@@ -219,7 +219,7 @@ function saveAct(){
 					$.messager.progress('close');
 					return false;
 				}
-				if(!checkValue($('#account_sysuser'), '账号', '数字')){
+				if(!checkValue($('#account_sysuser'), '账号', '账号')){
 					$.messager.progress('close');
 					return false;
 				}
