@@ -161,7 +161,7 @@ $(document).ready(function(){
 					$('#btn_save_zdcwpayment').bind('click', savePaymentAct);
 				}
 			}else if(data.STAT == '已批准'){
-				if(arrSearch('付款权',allAuth) || arrSearch('反批准权',allAuth)){
+				if(arrSearch('付款权',allAuth) || arrSearch('反批准权',allAuth) || arrSearch('付款审核权',allAuth)){
 					$('#btn_save_zdcwpayment').linkbutton('enable');
 					$('#btn_save_zdcwpayment').unbind();
 					$('#btn_save_zdcwpayment').bind('click', savePaymentAct);
