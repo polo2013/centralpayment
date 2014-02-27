@@ -37,7 +37,7 @@ if($specRole && $specOrg && hasSpec($login_user_role_origin,$specRole)){
 	$whereCondition = "((".$whereCondition.") OR ( SUBSTR(`ORG`,2,INSTR(`ORG`,']')-2) in ('".implode("','", explode(",", $specOrg))."') AND STAT = '已批准'))";
 }
 
-$query = "SELECT STAT, COUNT(1) CNT FROM zdcw_payment_master WHERE ".$whereCondition." GROUP BY STAT ORDER BY STAT";
+$query = "SELECT STAT, COUNT(1) CNT FROM zdcw_payment_master WHERE ".$whereCondition." GROUP BY STAT ORDER BY CNT";
 
 $cursor = exequery($connection,$query);
 while($row = mysqli_fetch_array($cursor)){

@@ -11,7 +11,7 @@
 }
 #main_page_table_td_todo
 {
-	width:25%;
+	width:28%;
 	/*border: 1px solid green;*/
 }
 a[id^="billTodo_"]

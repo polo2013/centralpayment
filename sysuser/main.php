@@ -115,11 +115,11 @@
 	<div class="ftitle">默认机构和角色</div>
 		<div class="fitem">
 			<label for="org_sysuser_one">机构1：</label>
-			<input id="org_sysuser_one" name="ORG_ONE" class="easyui-combobox" data-options="editable:false, panelHeight:'auto', required:true,missingMessage:'必填项'">
+			<input id="org_sysuser_one" name="ORG_ONE" class="easyui-combobox" data-options="editable:false, required:true,missingMessage:'必填项'">
 		</div>
 		<div class="fitem">
 			<label for="role_sysuser_one">角色1：</label>
-			<input id="role_sysuser_one" name="ROLE_ONE" class="easyui-combobox" data-options="editable:false, panelHeight:'auto', multiple:true, required:true,missingMessage:'必填项'">
+			<input id="role_sysuser_one" name="ROLE_ONE" class="easyui-combobox" data-options="editable:false, multiple:true, required:true,missingMessage:'必填项'">
 		</div>
 	<div class="ftitle">兼职机构和角色</div>
 		<div class="fitem">
