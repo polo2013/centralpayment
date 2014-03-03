@@ -4,8 +4,14 @@ $login_user_code = $_SESSION['LOGIN_USER_CODE'];
 $login_user_name = $_SESSION['LOGIN_USER_NAME'];
 $login_user_role = $_SESSION['LOGIN_USER_ROLE'];
 $login_user_org = $_SESSION['LOGIN_USER_ORG'];
-$MODULENO = $_GET['MODULENO'] ? $_GET['MODULENO'] : "";
-$AUTH = $_GET['AUTH'] ? $_GET['AUTH'] : "";
+$MODULENO = isset($_GET['MODULENO']) ? $_GET['MODULENO'] : "";
+$AUTH = isset($_GET['AUTH']) ? $_GET['AUTH'] : "";
+$CODE = isset($_GET['CODE']) ? $_GET['CODE'] : "";
+$NAME = isset($_GET['NAME']) ? $_GET['NAME'] : "";
+
+$search_where = "1=1";
+$search_where .= trim($CODE) == "" ? "" : " AND CODE LIKE '%$CODE%'";
+$search_where .= trim($NAME) == "" ? "" : " AND NAME LIKE '%$NAME%'";
 
 $result = array();
 $result_row = array();
@@ -49,7 +55,7 @@ else if ($AUTH == "2"){
 	
 	$allOrgCondition = implode("','", $userOK);
 	
-	$query = "SELECT COUNT(1) FROM SYS_USER WHERE CODE in ('$allOrgCondition') ORDER BY ORDERNO, CODE ";
+	$query = "SELECT COUNT(1) FROM SYS_USER WHERE CODE in ('$allOrgCondition') AND $search_where ORDER BY ORDERNO, CODE ";
 }
 
 //取总数

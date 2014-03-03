@@ -1,4 +1,19 @@
 <script src="../sysuser/main.js"></script>
+<style type="text/css">
+#search_tb_sysuser
+{
+	margin-bottom:20px;	
+}
+#search_tb_sysuser td
+{
+	padding-left:20px;
+}
+#search_fm_sysuser
+{
+	padding:0px 0px;
+}
+
+</style>
 <table id="dg_sysuser"></table>
 
 <div id="toolbar_sysuser">
@@ -15,6 +30,14 @@
 	<a id="btn-chpwd_sysuser" href="javascript:void(0)" onclick="act('chpwd')"></a>
 	|
 	<a id="btn-resetpwd_sysuser" href="javascript:void(0)" onclick="act('resetpwd')"></a>
+	
+	<form id="search_fm_sysuser" method="post" style="padding:5px;height:auto">
+	<label for="code_search_sysuser">用户名 类似于：</label>
+	<input id="code_search_sysuser" name="code_search" style="width: 200px; margin-right:10px;">
+	<label for="name_search_sysuser">姓名 类似于：</label>
+	<input id="name_search_sysuser" name="name_search" style="width: 200px; margin-right:10px;">
+	<a id="btn_search_sysuser" href="javascript:void(0)" onClick="searchSysuser();"></a>
+	</form>
 </div>
 
 <div id="dlg_sysuser" class="easyui-dialog" data-options="closed:true, modal:true, buttons:'#dlg-buttons_sysuser'">
@@ -136,3 +159,6 @@
 	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onclick="set_org_role_act()">确定</a>
 	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg_sysuser_set_org_role').dialog('close')">取消</a>
 </div>
+
+
+

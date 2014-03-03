@@ -116,6 +116,13 @@ $(document).ready(function(){
 	    disabled: false
 	});
 	
+	$('#btn_search_sysuser').linkbutton({
+		iconCls: 'icon-search',
+	    plain: false,
+	    text: '搜索',
+	    disabled: false
+	});
+	
 });
 
 function newAct(){
@@ -482,4 +489,28 @@ function splitData2(data){
 		returnArr[1] = data.split(",");
 	}
 	return returnArr;
+}
+
+
+function searchSysuser(){
+	var isValidate = $(this).form('validate');
+	if(isValidate){
+    	$.messager.progress();	// display the progress bar
+    	var code = $('#code_search_sysuser').val();
+    	var name = $('#name_search_sysuser').val();;
+    	var auth = 0;
+    	if(authArr[4] == true){auth = 1;}
+    	if(authArr[5] == true){auth = 2;}
+    	
+    	var url = '../'+modulepath+'/getInfo.php';
+    	var param = 'CODE='+code+'&NAME='+name+'&AUTH='+auth+'&MODULENO='+moduleno;
+    	
+    	$('#dg_sysuser').datagrid({
+    		url: encodeURI(url+'?'+param)
+    	});
+    	$.messager.progress('close');
+    	
+	}
+	
+	
 }
