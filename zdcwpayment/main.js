@@ -357,7 +357,7 @@ if(isValidate && checkValue($('#billnum_zdcwpayment'), '付款汇总表编号', 
 }
 }
 
-//单笔付款
+//单笔：付款、取消付款
 function singlePayAction(event){
 	//alert(JSON.stringify(event));
 	//console.warn( JSON.stringify(event) );
@@ -469,12 +469,12 @@ function sumPayAction(event){
 	//alert(JSON.stringify(rows));
 	var isok = true;
 	if(flag == 'sumPay'){
-		titlemsg = '合并付款信息确认：';
+		titlemsg = '付款信息确认：';
 		var sumTotal = 0;
 		for(var i=0; i<rows.length; i++){
 			if(rows[i].PAYSTAT != '未付款'){
 				art.dialog({
-				    content: '合并付款的每一笔必须均为未付款！否则请单笔付款！',
+				    content: '状态必须都为未付款！',
 				    ok: true
 				});
 				isok = false;
@@ -489,7 +489,7 @@ function sumPayAction(event){
 			+'<tr><td>收款账户：</td><td>'+rows[0].ACCOUNT+'</td></tr>'
 			+'<tr><td>合并金额：</td><td>'+sumTotal.toFixed(2)+'</td></tr>'
 			+'</table>'
-			+'</br>确定合并付款吗？';
+			+'</br>确定付款吗？';
 	}
 	
 	if(isok){
@@ -587,7 +587,7 @@ artDialog.promptNote = function (content, value, yes) {
             ].join(''),
         init: function () {
             input = this.DOM.content.find('input')[0];
-            input.select();
+            //input.select();
             input.focus();
         },
         ok: function (here) {
@@ -653,4 +653,153 @@ function toExcelPaymentAct(){
 	//alert(viewNum);  //当前单号
 	window.location.href="../zdcwpayment/toExcelPayment.php?NUM="+viewNum;
 	//window.location.href="../public/PHPExcel_1.7.9/Examples/01simple-download-xls.php";
+}
+
+/*******批量：付款、取消付款****/
+function mutiPayAction(event){
+	//alert(JSON.stringify(event));
+	var cfmsg = '';
+	var warningmsg = '';
+	var titlemsg = '';
+	var isok = true;
+	var sumTotal = 0;
+	var flag = event.data.flag;
+	var rows = $('#dg_zdcwpayment').datagrid('getSelections');
+	//alert(JSON.stringify(rows));
+	//alert(rows.length);
+	if (rows.length > 0){
+		if(flag == 'mutiPay'){
+			titlemsg = '付款信息确认：';
+			cfmsg = '<table border="1" style="text-align:center"><tr><td>收款人</td><td>收款银行</td><td>收款账户</td><td>金额</td></tr>';
+			for(var i=0; i<rows.length; i++){
+				if(rows[i].PAYSTAT != '未付款'){
+					if(rows[i].PAYSTAT == '已付款'){
+						warningmsg = '行号为 '+rows[i].ITEMNO+' 的记录已经付过款，请勿重复操作！';
+					}else if(rows[i].PAYSTAT == '已取消付款'){
+						warningmsg = '行号为 '+rows[i].ITEMNO+' 的记录已被取消付款，不能付款！';
+					}else{
+						warningmsg = '状态必须都为未付款！';
+					}
+					art.dialog({
+						content: warningmsg,
+						ok: true
+					});
+					isok = false;
+					break;
+				}else{
+					sumTotal = sumTotal + parseFloat(rows[i].TOTALAMT);
+					cfmsg = cfmsg + '<tr><td>'+rows[i].PAYEE+'</td><td>'+rows[i].BANK+'</td><td>'+rows[i].ACCOUNT+'</td><td>'+rows[i].TOTALAMT+'</td></tr>';
+				}
+			}
+			cfmsg = cfmsg + '<tr><td>合计</td><td colspan="2">共 '+rows.length+' 条记录</td><td>'+sumTotal.toFixed(2)+'</td></tr></table><br/>确定付款吗？';
+		}
+		if(flag == 'mutiCancelPay'){
+			titlemsg = '取消付款确认：';
+			cfmsg = '<table border="1" style="text-align:center"><tr><td>收款人</td><td>收款银行</td><td>收款账户</td><td>金额</td></tr>';
+			for(var i=0; i<rows.length; i++){
+				if(rows[i].PAYSTAT != '未付款'){
+					if(rows[i].PAYSTAT == '已取消付款'){
+						warningmsg = '行号为 '+rows[i].ITEMNO+' 的记录已经取消付款，请勿重复操作！';
+					}else if(rows[i].PAYSTAT == '已付款'){
+						warningmsg = '行号为 '+rows[i].ITEMNO+' 的记录已经付过款，不能取消付款！';
+					}else{
+						warningmsg = '状态必须都为未付款！';
+					}
+					art.dialog({
+						content: warningmsg,
+						ok: true
+					});
+					isok = false;
+					break;
+				}else{
+					sumTotal = sumTotal + parseFloat(rows[i].TOTALAMT);
+					cfmsg = cfmsg + '<tr><td>'+rows[i].PAYEE+'</td><td>'+rows[i].BANK+'</td><td>'+rows[i].ACCOUNT+'</td><td>'+rows[i].TOTALAMT+'</td></tr>';
+				}
+			}
+			cfmsg = cfmsg + '<tr><td>合计</td><td colspan="2">共 '+rows.length+' 条记录</td><td>'+sumTotal.toFixed(2)+'</td></tr></table><br/>确定取消付款吗？';
+		}
+		
+		
+		if(isok){
+			art.dialog({
+				title: titlemsg,
+	    	    content: cfmsg,
+	    	    ok: function(){
+					$.post(
+						'../'+modulepath+'/mutiPayAction.php',
+						{
+							MODULENO:moduleno,
+							MODULEOBJ:moduleobj,
+							MODULETITLE:moduletitle,
+							ROWS:JSON.stringify(rows),
+							FLAG:flag
+						},
+						
+						function(result){
+							//alert(JSON.stringify(result));
+							if (result.success){
+								art.dialog({
+					        	    content: result.message,
+					        	    ok: function(){
+					        	    	$('#tt').tabs('getTab',moduletitle).panel('refresh');
+					        	    }
+					        	});
+							}else{
+								art.dialog({
+					        	    content: result.message,
+					        	    ok: true
+					        	});
+							}
+						},
+						'json'
+					);
+				},
+				cancel: true
+			});
+		}
+	}else{
+		if(flag == 'mutiPay')
+			$('#btn1_zdcwpayment').grumble(missSelectMsg);
+		if(flag == 'mutiCancelPay')
+			$('#btn2_zdcwpayment').grumble(missSelectMsg);
+		
+	}
+}
+
+/*****批量修改备注********/
+function mutiNoteEdit(){
+	var rows = $('#dg_zdcwpayment').datagrid('getSelections');
+	if (rows.length > 0){
+		art.dialog.promptNote('备注信息：', '', function (val) {
+			$.post(
+					'../'+modulepath+'/mutiNoteEdit.php',
+					{
+						MODULENO:moduleno,
+						MODULEOBJ:moduleobj,
+						MODULETITLE:moduletitle,
+						ROWS:JSON.stringify(rows),
+						NOTE:val
+					},
+					function(result){
+						//alert(JSON.stringify(result));
+						if (result.success){
+							art.dialog({
+				        	    content: result.message,
+				        	    ok: function(){
+				        	    	$('#tt').tabs('getTab',moduletitle).panel('refresh');
+				        	    }
+				        	});
+						}else{
+							art.dialog({
+				        	    content: result.message,
+				        	    ok: true
+				        	});
+						}
+					},
+					'json'
+				);
+		});
+	}else{
+		$('#btn3_zdcwpayment').grumble(missSelectMsg);
+	}
 }

@@ -48,6 +48,7 @@ $(document).ready(function(){
 			
 			$('#dg_zdcwpayment').datagrid({
 				data: data,
+				singleSelect: false,
 			});
 			
 			/*****根据状态显示表格****************************************************************/
@@ -176,7 +177,7 @@ $(document).ready(function(){
 				//toolbar
 				$('#btn1_zdcwpayment').linkbutton({
 					iconCls:'icon-ok',
-					text:'单笔付款',
+					text:'付款',
 					disabled: true
 				});
 				$('#btn2_zdcwpayment').linkbutton({
@@ -216,9 +217,13 @@ $(document).ready(function(){
 					$('#btn_save_zdcwpayment').linkbutton('enable');
 					$('#btn_save_zdcwpayment').unbind();
 					$('#btn_save_zdcwpayment').bind('click', savePaymentAct);
+					
 					$('#btn1_zdcwpayment').linkbutton('enable');
 					$("#btn1_zdcwpayment").unbind();
-					$('#btn1_zdcwpayment').bind('click',{flag:'singlePay'},singlePayAction);
+					//从单选改为多选
+					//$('#btn1_zdcwpayment').bind('click',{flag:'singlePay'},singlePayAction);
+					$('#btn1_zdcwpayment').bind('click',{flag:'mutiPay'},mutiPayAction);
+					
 					$("a[id^='sumpay_']").linkbutton('enable');
 					$("a[id^='sumpay_']").unbind();
 					$("a[id^='sumpay_']").bind('click',{flag:'sumPay'},sumPayAction);
@@ -226,12 +231,16 @@ $(document).ready(function(){
 				if(arrSearch('取消付款权',allAuth)){
 					$('#btn2_zdcwpayment').linkbutton('enable');
 					$("#btn2_zdcwpayment").unbind();
-					$('#btn2_zdcwpayment').bind('click',{flag:'cancelSinglePay'},singlePayAction);
+					//从单选改为多选
+					//$('#btn2_zdcwpayment').bind('click',{flag:'cancelSinglePay'},singlePayAction);
+					$('#btn2_zdcwpayment').bind('click',{flag:'mutiCancelPay'},mutiPayAction);
 				}
 				if(arrSearch('备注权',allAuth)){
 					$('#btn3_zdcwpayment').linkbutton('enable');
 					$("#btn3_zdcwpayment").unbind();
-					$('#btn3_zdcwpayment').bind('click', singleNoteEdit);
+					//从单选改为多选
+					//$('#btn3_zdcwpayment').bind('click', singleNoteEdit);
+					$('#btn3_zdcwpayment').bind('click', mutiNoteEdit);
 				}
 				/*
 				$('#dg_zdcwpayment').datagrid({

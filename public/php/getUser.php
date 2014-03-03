@@ -43,7 +43,7 @@ switch($PARA)
 		}
 		
 		
-		$query = "select * from SYS_USER WHERE CHECKSTAT = '已复核' AND (`ORG` like '%[$orgCode]%' OR `CODE` in ('".$another_str."')) ORDER BY ORDERNO, `CODE`";
+		$query = "select * from SYS_USER WHERE CHECKSTAT = '已复核' AND (`ORG` like '%[$orgCode%' OR `CODE` in ('".$another_str."')) ORDER BY ORDERNO, `CODE`";
 		$cursor = exequery($connection,$query);
 		while ($row = mysqli_fetch_array($cursor)){
 			$result_item_item['value'] = '['.$row['CODE'].']'.$row['NAME'];
