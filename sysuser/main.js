@@ -57,7 +57,7 @@ $(document).ready(function(){
 	$('#btn-check_sysuser').linkbutton({
 	    iconCls: 'icon-tip',
 	    plain: true,
-	    text: '复核用户信息',
+	    text: '复核 / 反复核',
 	    disabled: isdisable
 	});
 	
@@ -75,7 +75,7 @@ $(document).ready(function(){
 	$('#btn-resetpwd_sysuser').linkbutton({
 	    iconCls: 'icon-sum',
 	    plain: true,
-	    text: '重置用户',
+	    text: '重置用户密码',
 	    disabled: isdisable
 	});
 	
@@ -148,26 +148,33 @@ function editAct(){
 	var row = $('#dg_sysuser').datagrid('getSelected');
 	//alert(JSON.stringify(row));
 	if (row){
-		$('#div_org_role_desc').html('');
-		$('#dlg_sysuser').dialog('open').dialog('setTitle','修改').dialog('center');
-		$('#fm_sysuser').form('clear');
-		
-		$('#code_sysuser').attr("readonly",true);   //将code设置为readonly
-		$('#name_sysuser').attr("readonly",true);
-		$('#passwd_sysuser').attr("disabled",true);   //将密码设置为disabled
-		$('#passwdcfm_sysuser').attr("disabled",true);   //将确认密码设置为disabled
-		$('#code_sysuser').blur();
-
-		$('#fm_sysuser').form('load',row);
-		//alert($('#org_sysuser').val());
-		var desc = formatOrgRole($('#org_sysuser').val(), $('#role_sysuser').val());
-		$('#div_org_role_desc').html(desc);
-		
-		if(authArr[6] == true){$('#stat_sysuser').combobox('readonly',false);}else{$('#stat_sysuser').combobox('readonly',true);}
-		if(authArr[7] == true){$('#checkstat_sysuser').combobox('readonly',false);}else{$('#checkstat_sysuser').combobox('readonly',true);}
-		
-		
-		submit_url = '../'+modulepath+'/edit.php?MODULENO='+moduleno+'&MODULEOBJ='+moduleobj+'&MODULETITLE='+moduletitle;
+		if(row.CHECKSTAT=="已复核"){
+			art.dialog({
+        	    content: "用户资料已复核，如需修改，请先进行“反复核”操作！",
+        	    ok: true
+        	});
+		}else{
+			$('#div_org_role_desc').html('');
+			$('#dlg_sysuser').dialog('open').dialog('setTitle','修改').dialog('center');
+			$('#fm_sysuser').form('clear');
+			
+			$('#code_sysuser').attr("readonly",true);   //将code设置为readonly
+			$('#name_sysuser').attr("readonly",true);
+			$('#passwd_sysuser').attr("disabled",true);   //将密码设置为disabled
+			$('#passwdcfm_sysuser').attr("disabled",true);   //将确认密码设置为disabled
+			$('#code_sysuser').blur();
+	
+			$('#fm_sysuser').form('load',row);
+			//alert($('#org_sysuser').val());
+			var desc = formatOrgRole($('#org_sysuser').val(), $('#role_sysuser').val());
+			$('#div_org_role_desc').html(desc);
+			
+			if(authArr[6] == true){$('#stat_sysuser').combobox('readonly',false);}else{$('#stat_sysuser').combobox('readonly',true);}
+			if(authArr[7] == true){$('#checkstat_sysuser').combobox('readonly',false);}else{$('#checkstat_sysuser').combobox('readonly',true);}
+			
+			
+			submit_url = '../'+modulepath+'/edit.php?MODULENO='+moduleno+'&MODULEOBJ='+moduleobj+'&MODULETITLE='+moduletitle;
+		}
 	}else{
 		$('#btn-edit_sysuser').grumble(missSelectMsg);
 	}
@@ -276,9 +283,7 @@ function saveAct(){
 function act(flag){
 	var row = $('#dg_sysuser').datagrid('getSelected');
 	if (row){
-		if(flag == 'check' && row.CHECKSTAT == "已复核"){
-			art.dialog({content:'该用户已经是复核状态，不需要复核！', ok: true});
-		}else if(flag == 'chpwd'){
+		if(flag == 'chpwd'){
 			$('#dlg_sysuser_chpwd').dialog('open').dialog('setTitle','修改密码').dialog('center');
 			$('#fm_sysuser_chpwd').form('clear');
 		}else{
@@ -292,7 +297,8 @@ function act(flag){
 			}
 			if(flag == 'check'){
 				if(row.CHECKSTAT == "未复核"){act = '已复核'; cfmsg = '复核';}
-				cfmsgmsg = '您确定要对该用户资料进行&nbsp<font color="red">'+cfmsg+'</font>&nbsp吗？';
+				if(row.CHECKSTAT == "已复核"){act = '未复核'; cfmsg = '反复核';}
+				cfmsgmsg = '您确定要对该用户进行&nbsp<font color="red">'+cfmsg+'</font>&nbsp吗？';
 			}
 			if(flag == 'resetpwd'){
 				act = '';

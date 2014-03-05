@@ -39,7 +39,7 @@ $(document).ready(function(){
 	$('#btn-check_bizpayee').linkbutton({
 	    iconCls: 'icon-tip',
 	    plain: true,
-	    text: '复核收款人信息',
+	    text: '复核 / 反复核',
 	    disabled: isdisable
 	});
 	
@@ -98,13 +98,20 @@ function editAct(){
 	var row = $('#dg_bizpayee').datagrid('getSelected');
 	//alert(JSON.stringify(row));
 	if (row){
-		$('#dlg_bizpayee').dialog('open').dialog('setTitle','修改').dialog('center');
-		$('#fm_bizpayee').form('clear');
-		$('#fm_bizpayee').form('load',row);
-		$('#name_bizpayee').attr("readonly",true);
-		$('#org_bizpayee').combobox('readonly');
-		$('#bank_bizpayee').focus();
-		submit_url = '../'+modulepath+'/edit.php?MODULENO='+moduleno+'&MODULEOBJ='+moduleobj+'&MODULETITLE='+moduletitle;
+		if(row.CHECKSTAT=="已复核"){
+			art.dialog({
+        	    content: "收款人资料已复核，如需修改，请先进行“反复核”操作！",
+        	    ok: true
+        	});
+		}else{
+			$('#dlg_bizpayee').dialog('open').dialog('setTitle','修改').dialog('center');
+			$('#fm_bizpayee').form('clear');
+			$('#fm_bizpayee').form('load',row);
+			$('#name_bizpayee').attr("readonly",true);
+			$('#org_bizpayee').combobox('readonly');
+			$('#bank_bizpayee').focus();
+			submit_url = '../'+modulepath+'/edit.php?MODULENO='+moduleno+'&MODULEOBJ='+moduleobj+'&MODULETITLE='+moduletitle;
+		}
 	}else{
 		$('#btn-edit_bizpayee').grumble(missSelectMsg);
 	}
@@ -203,15 +210,14 @@ function saveAct(){
 function act(flag){
 	var row = $('#dg_bizpayee').datagrid('getSelected');
 	if (row){
-		if(flag == 'check' && row.CHECKSTAT == "已复核"){
-			art.dialog({content:'该收款人已经是复核状态，不需要复核！', ok: true});
-		}else{
+		
 			var act = '';
 			var cfmsg = '';
 			if(flag == 'check'){
-				if(row.CHECKSTAT != "已复核"){act = '已复核'; cfmsg = '复核';}
+				if(row.CHECKSTAT == "未复核"){act = '已复核'; cfmsg = '复核';}
+				if(row.CHECKSTAT == "已复核"){act = '未复核'; cfmsg = '反复核';}
 			}
-			$.messager.confirm('Confirm','您确定要&nbsp<font color="red">'+cfmsg+'</font>&nbsp该收款人资料吗？',function(r){
+			$.messager.confirm('Confirm','您确定要&nbsp<font color="red">'+cfmsg+'</font>&nbsp该收款人吗？',function(r){
 				if (r){
 					$.post(
 						'../'+modulepath+'/act.php',
@@ -236,7 +242,7 @@ function act(flag){
 					);
 				}
 			});
-		}
+		
 	}else{
 		if(flag == 'check')
 			$('#btn-check_bizpayee').grumble(missSelectMsg);
