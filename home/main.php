@@ -33,7 +33,7 @@ a[id^="billTodo_"]:hover {
 </td>
 <td id="main_page_table_td_todo" valign="top">
 	<div id="msg_todo_shell" class="easyui-panel" title="通知中心" style="padding:5px;" data-options="iconCls:'icon-ok',tools:[{iconCls:'icon-add',handler:expandAllMsg},{iconCls:'icon-remove',handler:collapseAllMsg}]">
-		<div id="msg_todo" class="easyui-accordion" data-options="multiple:true,animate:false,boder:false"></div>
+		<div id="msg_todo" class="easyui-accordion" data-options="multiple:true,animate:true,boder:false"></div>
 	</div>
 </td>
 </tr>
