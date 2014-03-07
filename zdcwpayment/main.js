@@ -670,7 +670,7 @@ function mutiPayAction(event){
 	if (rows.length > 0){
 		if(flag == 'mutiPay'){
 			titlemsg = '付款信息确认：';
-			cfmsg = '<table border="1" style="text-align:center"><tr><td>收款人</td><td>收款银行</td><td>收款账户</td><td>金额</td></tr>';
+			cfmsg = '<table border="1" style="text-align:center;" cellpadding="5"><tr><td>收款人</td><td>收款银行</td><td>收款账户</td><td>金额</td></tr>';
 			for(var i=0; i<rows.length; i++){
 				if(rows[i].PAYSTAT != '未付款'){
 					if(rows[i].PAYSTAT == '已付款'){
@@ -688,14 +688,20 @@ function mutiPayAction(event){
 					break;
 				}else{
 					sumTotal = sumTotal + parseFloat(rows[i].TOTALAMT);
-					cfmsg = cfmsg + '<tr><td>'+rows[i].PAYEE+'</td><td>'+rows[i].BANK+'</td><td>'+rows[i].ACCOUNT+'</td><td>'+rows[i].TOTALAMT+'</td></tr>';
+					if(i == 10){
+						cfmsg = cfmsg + '<tr><td>……</td><td colspan="3">……多于10行不予以显示……</td></tr>';
+					}else if(i > 10){
+						continue;
+					}else{
+						cfmsg = cfmsg + '<tr><td>'+rows[i].PAYEE+'</td><td>'+rows[i].BANK+'</td><td>'+rows[i].ACCOUNT+'</td><td>'+rows[i].TOTALAMT+'</td></tr>';
+					}
 				}
 			}
 			cfmsg = cfmsg + '<tr><td>合计</td><td colspan="2">共 '+rows.length+' 条记录</td><td>'+sumTotal.toFixed(2)+'</td></tr></table><br/>确定付款吗？';
 		}
 		if(flag == 'mutiCancelPay'){
 			titlemsg = '取消付款确认：';
-			cfmsg = '<table border="1" style="text-align:center"><tr><td>收款人</td><td>收款银行</td><td>收款账户</td><td>金额</td></tr>';
+			cfmsg = '<table border="1" style="text-align:center;" cellpadding="5"><tr><td>收款人</td><td>收款银行</td><td>收款账户</td><td>金额</td></tr>';
 			for(var i=0; i<rows.length; i++){
 				if(rows[i].PAYSTAT != '未付款'){
 					if(rows[i].PAYSTAT == '已取消付款'){
@@ -713,7 +719,13 @@ function mutiPayAction(event){
 					break;
 				}else{
 					sumTotal = sumTotal + parseFloat(rows[i].TOTALAMT);
-					cfmsg = cfmsg + '<tr><td>'+rows[i].PAYEE+'</td><td>'+rows[i].BANK+'</td><td>'+rows[i].ACCOUNT+'</td><td>'+rows[i].TOTALAMT+'</td></tr>';
+					if(i == 10){
+						cfmsg = cfmsg + '<tr><td>……</td><td colspan="3">……多于10行不予以显示……</td></tr>';
+					}else if(i > 10){
+						continue;
+					}else{
+						cfmsg = cfmsg + '<tr><td>'+rows[i].PAYEE+'</td><td>'+rows[i].BANK+'</td><td>'+rows[i].ACCOUNT+'</td><td>'+rows[i].TOTALAMT+'</td></tr>';
+					}
 				}
 			}
 			cfmsg = cfmsg + '<tr><td>合计</td><td colspan="2">共 '+rows.length+' 条记录</td><td>'+sumTotal.toFixed(2)+'</td></tr></table><br/>确定取消付款吗？';
