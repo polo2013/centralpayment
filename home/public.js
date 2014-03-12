@@ -84,7 +84,7 @@ function checkValue(input, desc, type){
 		errmsg = desc + '只能为'+type+'！';
 		break;
 	case '汉字':
-		reg = new RegExp("^[\u4e00-\u9fa5]*$");
+		reg = new RegExp("^[\u4e00-\u9fa5 A-Za-z_\.]*$");
 		errmsg = desc + '只能为'+type+'！';
 		break;
 	case '字母':
