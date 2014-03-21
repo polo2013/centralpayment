@@ -18,14 +18,15 @@ $hasAllRight = getAuthInfo($login_user_role, '010', '查看所有单据权');
 $whereCondition = " (INPUTTER = '$login_user' OR CHECKER = '$login_user' OR APPROVER = '$login_user') ";
 
 if($hasOrgRight)
-	$whereCondition = " SUBSTR(`ORG`,2, LENGTH('$orgcode'))='$orgcode' ";
+	$whereCondition = " (SUBSTR(`ORG`,2, LENGTH('$orgcode'))='$orgcode') ";
 if($hasAllRight){
+	$whereCondition = " (1=1) ";
 	//读取配置表sys_setting的配置项pay_role
 	$payrole = readSetting('public', 'pay_role');
 	if ($payrole) {
 		if (stripos($login_user_role_origin, $payrole) === false) {
 		}else{
-			$whereCondition = " STAT in ('已批准','付款审核通过','付款中','付款已完成','付款不通过') ";
+			$whereCondition = " (STAT in ('已批准','付款审核通过','付款中','付款已完成','付款不通过')) ";
 		}
 	}
 }
@@ -34,7 +35,7 @@ if($hasAllRight){
 $specRole = readSetting('public','pay_check_role');
 $specOrg = readSetting('public','pay_check_org');
 if($specRole && $specOrg && hasSpec($login_user_role_origin,$specRole)){
-	$whereCondition = "((".$whereCondition.") OR ( SUBSTR(`ORG`,2,INSTR(`ORG`,']')-2) in ('".implode("','", explode(",", $specOrg))."') AND STAT = '已批准'))";
+	$whereCondition = "(".$whereCondition." OR ( SUBSTR(`ORG`,2,INSTR(`ORG`,']')-2) in ('".implode("','", explode(",", $specOrg))."') AND STAT in ('已批准','付款审核通过','付款中','付款已完成','付款不通过')))";
 }
 
 $query = "SELECT STAT, COUNT(1) CNT FROM zdcw_payment_master WHERE ".$whereCondition." GROUP BY STAT ORDER BY CNT";
@@ -46,7 +47,7 @@ while($row = mysqli_fetch_array($cursor)){
 	$result_row['STAT'] = $row['STAT'];
 	$result_row['CNT'] = $row['CNT'];
 	
-	$query2 = "SELECT * FROM zdcw_payment_master WHERE (".$whereCondition.") AND STAT = '".$row['STAT']."' ORDER BY NUM";
+	$query2 = "SELECT * FROM zdcw_payment_master WHERE ".$whereCondition." AND STAT = '".$row['STAT']."' ORDER BY NUM";
 	$cursor2 = exequery($connection,$query2);
 	while($row2 = mysqli_fetch_array($cursor2)){
 		$result_cell['NUM'] = $row2['NUM'];

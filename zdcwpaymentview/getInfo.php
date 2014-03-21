@@ -38,54 +38,55 @@ if(!isset($_REQUEST['page']) || !intval($_REQUEST['page']) || !isset($_REQUEST['
 $start = ($pageNumber - 1) * $pageSize; //从数据集第$start条开始取，注意数据集是从0开始的
 
 //数据
+$whereCondition = " (INPUTTER = '$login_user' OR CHECKER = '$login_user' OR APPROVER = '$login_user') ";
+
+if(getAuthInfo($login_user_role, '010', '查看所属机构单据权')){
+	$whereCondition = " (SUBSTR(`ORG`,2,LENGTH('$orgCode')) = '$orgCode') ";
+}
 if(getAuthInfo($login_user_role, '010', '查看所有单据权')){
-	$whereCondition = ' 1=1 ';
+	$whereCondition = " (1=1) ";
 	//读取配置表sys_setting的配置项pay_role
 	$payrole = readSetting('public', 'pay_role');
 	if ($payrole) {
 		if (stripos($login_user_role_origin, $payrole) === false) {
 		}else{
-			$whereCondition = $whereCondition." AND STAT in ('已批准','付款审核通过','付款中','付款已完成','付款不通过') ";
+			$whereCondition = " (STAT in ('已批准','付款审核通过','付款中','付款已完成','付款不通过')) ";
 		}
 	}
-}else if(getAuthInfo($login_user_role, '010', '查看所属机构单据权')){
-	$whereCondition = "SUBSTR(`ORG`,2,LENGTH('$orgCode')) = '$orgCode'";
-}else{
-	$whereCondition = "(INPUTTER = '$login_user' OR CHECKER = '$login_user' OR APPROVER = '$login_user')";
 }
 
 if($NUM != '')
-	$whereCondition .= " AND NUM='".$NUM."'";
+	$whereCondition .= " AND (NUM='".$NUM."') ";
 if($ORG != '全部')
-	$whereCondition .= " AND ORG='".$ORG."'";
+	$whereCondition .= " AND (ORG='".$ORG."') ";
 if($BILLNUM != '')
-	$whereCondition .= " AND BILLNUM='".$BILLNUM."'";
+	$whereCondition .= " AND (BILLNUM='".$BILLNUM."') ";
 if($STAT != '全部')
-	$whereCondition .= " AND STAT='".$STAT."'";
+	$whereCondition .= " AND (STAT='".$STAT."') ";
 if($INPUTTER != '全部')
-	$whereCondition .= " AND INPUTTER='".$INPUTTER."'";
+	$whereCondition .= " AND (INPUTTER='".$INPUTTER."') ";
 if($INPUTTIMEBEGIN != '')
-	$whereCondition .= " AND INPUTTIME>='".$INPUTTIMEBEGIN."'";
+	$whereCondition .= " AND (INPUTTIME>='".$INPUTTIMEBEGIN."') ";
 if($INPUTTIMEEND != '')
-	$whereCondition .= " AND INPUTTIME<='".$INPUTTIMEEND."'";
+	$whereCondition .= " AND (INPUTTIME<='".$INPUTTIMEEND."') ";
 if($CHECKER != '全部')
-	$whereCondition .= " AND CHECKER='".$CHECKER."'";
+	$whereCondition .= " AND (CHECKER='".$CHECKER."') ";
 if($CHECKTIMEBEGIN != '')
-	$whereCondition .= " AND CHECKTIME>='".$CHECKTIMEBEGIN."'";
+	$whereCondition .= " AND (CHECKTIME>='".$CHECKTIMEBEGIN."') ";
 if($CHECKTIMEEND != '')
-	$whereCondition .= " AND CHECKTIME<='".$CHECKTIMEEND."'";
+	$whereCondition .= " AND (CHECKTIME<='".$CHECKTIMEEND."') ";
 if($APPROVER != '全部')
-	$whereCondition .= " AND APPROVER='".$APPROVER."'";
+	$whereCondition .= " AND (APPROVER='".$APPROVER."') ";
 if($APPROVETIMEBEGIN != '')
-	$whereCondition .= " AND APPROVETIME>='".$APPROVETIMEBEGIN."'";
+	$whereCondition .= " AND (APPROVETIME>='".$APPROVETIMEBEGIN."') ";
 if($APPROVETIMEEND != '')
-	$whereCondition .= " AND APPROVETIME<='".$APPROVETIMEEND."'";
+	$whereCondition .= " AND (APPROVETIME<='".$APPROVETIMEEND."') ";
 
 //付款审核流程，特定的人看到特定组织的状态为已批准的单据
 $specRole = readSetting('public','pay_check_role');
 $specOrg = readSetting('public','pay_check_org');
 if($specRole && $specOrg && hasSpec($login_user_role_origin,$specRole)){
-	$whereCondition = "(".$whereCondition.") OR ( SUBSTR(`ORG`,2,INSTR(`ORG`,']')-2) in ('".implode("','", explode(",", $specOrg))."') AND STAT = '已批准')";
+	$whereCondition = "(".$whereCondition." OR ( SUBSTR(`ORG`,2,INSTR(`ORG`,']')-2) in ('".implode("','", explode(",", $specOrg))."') AND STAT in ('已批准','付款审核通过','付款中','付款已完成','付款不通过')))";
 }
 
 $query = "SELECT COUNT(1) FROM zdcw_payment_master WHERE ".$whereCondition;

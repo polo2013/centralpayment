@@ -200,7 +200,7 @@ $(document).ready(function(){
 	                	for(var i=0; i<rows.length; i++){
 	                		sumTotal = sumTotal + parseFloat(rows[i].TOTALAMT);
 	                	}
-	                	var sumStr = '<span style="color:blue;display:inline-block;width:190px;">分组合计：'+sumTotal.toFixed(2)+'</span>';
+	                	var sumStr = '<span style="color:blue;display:inline-block;width:165px;">分组合计：'+sumTotal.toFixed(2)+'</span>';
 	                	var btnStr = '<a id="sumpay_'+value+'" account="'+value+'" href="javascript:void(0)"></a>';
 	                	//alert(JSON.stringify(rows));
 	                	return sumStr+btnStr;

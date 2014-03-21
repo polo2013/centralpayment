@@ -39,6 +39,14 @@ $(document).ready(function(){
 	    text: '生成付款汇总表',
 	    disabled: false
 	});
+	
+	$('#btn_setting_zdcwimpfromoa').linkbutton({
+	    //iconCls: 'icon-edit',
+	    plain: false,
+	    text: '设置',
+	    disabled: false
+	});
+	
 	/*
 	$.getJSON('../'+modulepath+'/getSearchSelect.php', function(data){
 		//alert(JSON.stringify(data));

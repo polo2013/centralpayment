@@ -26,19 +26,22 @@
 		<td><label for="flowtype_zdcwimpfromoa">OA流程类型：</label></td>
 		<td><input id="flowtype_zdcwimpfromoa" name="flowtype" class="easyui-combobox" data-options="editable:false,panelHeight:'auto'"></td>
 		<td><label for="flowstat_zdcwimpfromoa">OA流程状态：</label></td>
-		<td><input id="flowstat_zdcwimpfromoa" name="flowstat" class="easyui-validatebox"></td>
-		<td></td>
+		<td><input id="flowstat_zdcwimpfromoa" name="flowstat" class="easyui-combobox" data-options="editable:false,panelHeight:'auto',hasDownArrow:false"></td>
+		<td valign="bottom">
+			
+		</td>
 	</tr>
 	<tr>
 		<td><label for="beginner_zdcwimpfromoa">OA流程发起人：</label></td>
-		<td><input id="beginner_zdcwimpfromoa" name="beginner" class="easyui-combobox" data-options="editable:false,panelHeight:'auto'"></td>
-		<td><label for="begintime_zdcwimpfromoa">时间段：</label></td>
+		<td><input id="beginner_zdcwimpfromoa" name="beginner" class="easyui-validatebox" ></td>
+		<td><label for="begintime_zdcwimpfromoa">流程发起时间：</label></td>
 		<td><input id="begintime_zdcwimpfromoa" name="begintime" class="easyui-datebox" data-options="formatter:myformatter_Begin,parser:myparser"></td>
 		<td>到</td>
 		<td><input id="endtime_zdcwimpfromoa" name="endtime" class="easyui-datebox" data-options="formatter:myformatter_End,parser:myparser"></td>
 		<td valign="bottom">
 			<a id="btn_search_zdcwimpfromoa" href="javascript:void(0)" onClick="searchPayment();"></a>
 			<a id="btn_genpayment_zdcwimpfromoa" href="javascript:void(0)" onClick="genPayment();"></a>
+			<a id="btn_setting_zdcwimpfromoa" href="javascript:void(0)" onClick="setMapping();"></a>
 		</td>
 	</tr>
 </table>

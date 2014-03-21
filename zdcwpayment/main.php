@@ -30,7 +30,7 @@
 		<td><label for="num_zdcwpayment">系统单号：</label></td>
 		<td><input id="num_zdcwpayment" name="NUM" class="easyui-validatebox" readonly></td>
 		<td><label for="org_zdcwpayment">所属机构：</label></td>
-		<td><input id="org_zdcwpayment" name="ORG" class="easyui-combobox" data-options="editable:false,panelHeight:'auto',required:true"></td>
+		<td><input id="org_zdcwpayment" name="ORG" class="easyui-combobox" data-options="editable:false,required:true"></td>
 		<td><label for="billnum_zdcwpayment">付款汇总表编号：</label></td>
 		<td><input id="billnum_zdcwpayment" name="BILLNUM" class="easyui-validatebox" data-options="required:true,missingMessage:'必填项'"></td>
 		<td><label for="paychecker_zdcwpayment">付款审核人：</label></td>
