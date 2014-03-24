@@ -98,6 +98,7 @@ if ($chk['ok']){
 		$logArray_old_item_item['ORG']=urlencode($row['ORG']);
 		$logArray_old_item_item['APPLICANT']=urlencode($row['APPLICANT']);
 		$logArray_old_item_item['PAYMENT']=urlencode($row['PAYMENT']);
+		$logArray_old_item_item['CURRENCY']=urlencode($row['CURRENCY']);
 		$logArray_old_item_item['TOTALAMT']=urlencode($row['TOTALAMT']);
 		$logArray_old_item_item['PAYEE']=urlencode($row['PAYEE']);
 		$logArray_old_item_item['BANK']=urlencode($row['BANK']);
@@ -127,6 +128,7 @@ if ($chk['ok']){
 			$DTL_ORG = $value['ORG'];
 			$DTL_APPLICANT = $value['APPLICANT'];
 			$DTL_PAYMENT = $value['PAYMENT'];
+			$DTL_CURRENCY = $value['CURRENCY'];
 			$DTL_TOTALAMT = $value['TOTALAMT'];
 			$DTL_PAYEE = $value['PAYEE'];
 			$DTL_BANK = $value['BANK'];
@@ -136,8 +138,8 @@ if ($chk['ok']){
 			$DTL_PAYER = $value['PAYER'];
 			$DTL_PAYTIME = $value['PAYTIME'];
 
-			$query .= "insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`) " 
-			." VALUES ('$NUM','$DTL_ITEMNO','$DTL_ORG','$DTL_APPLICANT','$DTL_PAYMENT','$DTL_TOTALAMT','$DTL_PAYEE','$DTL_BANK','$DTL_ACCOUNT','$DTL_NOTE','$DTL_PAYSTAT','$DTL_PAYER','$DTL_PAYTIME'); ";
+			$query .= "insert into zdcw_payment_detail(`NUM`,`ITEMNO`,`ORG`,`APPLICANT`,`PAYMENT`,`TOTALAMT`,`PAYEE`,`BANK`,`ACCOUNT`,`NOTE`,`PAYSTAT`,`PAYER`,`PAYTIME`,`CURRENCY`) " 
+			." VALUES ('$NUM','$DTL_ITEMNO','$DTL_ORG','$DTL_APPLICANT','$DTL_PAYMENT','$DTL_TOTALAMT','$DTL_PAYEE','$DTL_BANK','$DTL_ACCOUNT','$DTL_NOTE','$DTL_PAYSTAT','$DTL_PAYER','$DTL_PAYTIME','$DTL_CURRENCY'); ";
 			
 		}
 		
@@ -182,6 +184,7 @@ if ($chk['ok']){
 			$logArray_new_item_item['ORG']=urlencode($row['ORG']);
 			$logArray_new_item_item['APPLICANT']=urlencode($row['APPLICANT']);
 			$logArray_new_item_item['PAYMENT']=urlencode($row['PAYMENT']);
+			$logArray_new_item_item['CURRENCY']=urlencode($row['CURRENCY']);
 			$logArray_new_item_item['TOTALAMT']=urlencode($row['TOTALAMT']);
 			$logArray_new_item_item['PAYEE']=urlencode($row['PAYEE']);
 			$logArray_new_item_item['BANK']=urlencode($row['BANK']);

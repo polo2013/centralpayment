@@ -38,7 +38,7 @@ if(!isset($_REQUEST['page']) || !intval($_REQUEST['page']) || !isset($_REQUEST['
 $start = ($pageNumber - 1) * $pageSize; //从数据集第$start条开始取，注意数据集是从0开始的
 
 //数据
-$whereCondition = " (INPUTTER = '$login_user' OR CHECKER = '$login_user' OR APPROVER = '$login_user') ";
+$whereCondition = " (INPUTTER = '$login_user' OR CHECKER = '$login_user' OR APPROVER = '$login_user' OR PAYCHECKER = '$login_user') ";
 
 if(getAuthInfo($login_user_role, '010', '查看所属机构单据权')){
 	$whereCondition = " (SUBSTR(`ORG`,2,LENGTH('$orgCode')) = '$orgCode') ";

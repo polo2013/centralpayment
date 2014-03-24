@@ -25,6 +25,7 @@ if($row = mysqli_fetch_array($cursor)){
 	$logArray_old['ORG']=urlencode($row['ORG']);
 	$logArray_old['APPLICANT']=urlencode($row['APPLICANT']);
 	$logArray_old['PAYMENT']=urlencode($row['PAYMENT']);
+	$logArray_old['CURRENCY']=urlencode($row['CURRENCY']);
 	$logArray_old['TOTALAMT']=urlencode($row['TOTALAMT']);
 	$logArray_old['PAYEE']=urlencode($row['PAYEE']);
 	$logArray_old['BANK']=urlencode($row['BANK']);
@@ -48,6 +49,7 @@ if(exequery($connection,$query)){
 		$logArray_new['ORG']=urlencode($row['ORG']);
 		$logArray_new['APPLICANT']=urlencode($row['APPLICANT']);
 		$logArray_new['PAYMENT']=urlencode($row['PAYMENT']);
+		$logArray_new['CURRENCY']=urlencode($row['CURRENCY']);
 		$logArray_new['TOTALAMT']=urlencode($row['TOTALAMT']);
 		$logArray_new['PAYEE']=urlencode($row['PAYEE']);
 		$logArray_new['BANK']=urlencode($row['BANK']);

@@ -192,7 +192,7 @@ function ajaxGenTodo() {
 					contentFormat = contentFormat 
 						//+'<a id="billTodo_'+idx+'_'+idx2+'" href="javascript:void(0)" onclick="actView(\''+value2.NUM+'\')">付款汇总表编号：'
 						//+value2.BILLNUM+' [ 金额：'+value2.TOTALAMT+' ] </a><br>';
-					+'<a id="billTodo_'+idx+'_'+idx2+'" href="javascript:void(0)" onclick="actView(\''+value2.NUM+'\')">系统单号：'+value2.NUM+' [ 金额：'+value2.TOTALAMT+' ] </a><br>';
+					+'<a id="billTodo_'+idx+'_'+idx2+'" href="javascript:void(0)" onclick="actView(\''+value2.NUM+'\')">系统单号：'+value2.NUM+' [ '+value2.TOTALAMT+' ] </a><br>';
 				});
 				
 				//add方法有点怪，必须要异步请求后，才能正常使用，否则jquery报错找不到panel。

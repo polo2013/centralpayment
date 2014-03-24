@@ -39,6 +39,7 @@ while($row_page = mysqli_fetch_array($cursor_page)){
 	$result_cell['ORG'] = $row_page['ORG'];
 	$result_cell['APPLICANT'] = $row_page['APPLICANT'];
 	$result_cell['PAYMENT'] = $row_page['PAYMENT'];
+	$result_cell['CURRENCY'] = $row_page['CURRENCY'];
 	$result_cell['TOTALAMT'] = $row_page['TOTALAMT'];
 	$result_cell['PAYEE'] = $row_page['PAYEE'];
 	$result_cell['BANK'] = $row_page['BANK'];
@@ -56,9 +57,26 @@ $result['rows'] = $result_row;
 
 $result_row = array();
 $result_cell = array();
-$result_cell['ORG'] = '总计：';
-$result_cell['TOTALAMT'] = number_format($sumAllTotal, 2, '.', '');
-$result_row[] = $result_cell;
+//$result_cell['ORG'] = '总计：';
+//$result_cell['TOTALAMT'] = number_format($sumAllTotal, 2, '.', '');
+//$result_row[] = $result_cell;
+//计算各币种金额
+$query_distinct = "SELECT CURRENCY, SUM(TOTALAMT) TOTALAMT FROM zdcw_payment_detail WHERE `NUM`='$NUM' GROUP BY CURRENCY ORDER BY (ITEMNO+0)";
+$cursor_distinct = exequery($connection,$query_distinct);
+$j = 0;
+while($row_distinct = mysqli_fetch_array($cursor_distinct)){
+	if($j == 0){
+		$result_cell['ORG'] = '总计：';
+	}ELSE{
+		$result_cell['ORG'] = '';
+	}
+	$result_cell['CURRENCY'] = $row_distinct['CURRENCY'];
+	$result_cell['TOTALAMT'] = number_format($row_distinct['TOTALAMT'], 2, '.', '');
+
+	$result_row[] = $result_cell;
+	$j ++;
+}
+
 $result['footer'] = $result_row;
 
 echo json_encode($result);

@@ -15,7 +15,7 @@ $orgcode = splitCode($login_user_org);
 $hasOrgRight = getAuthInfo($login_user_role, '010', '查看所属机构单据权');
 $hasAllRight = getAuthInfo($login_user_role, '010', '查看所有单据权');
 
-$whereCondition = " (INPUTTER = '$login_user' OR CHECKER = '$login_user' OR APPROVER = '$login_user') ";
+$whereCondition = " (INPUTTER = '$login_user' OR CHECKER = '$login_user' OR APPROVER = '$login_user' OR PAYCHECKER = '$login_user') ";
 
 if($hasOrgRight)
 	$whereCondition = " (SUBSTR(`ORG`,2, LENGTH('$orgcode'))='$orgcode') ";
@@ -53,12 +53,16 @@ while($row = mysqli_fetch_array($cursor)){
 		$result_cell['NUM'] = $row2['NUM'];
 		$result_cell['BILLNUM'] = $row2['BILLNUM'];
 		
-		$query3 = "SELECT SUM(TOTALAMT) TOTALAMT FROM zdcw_payment_detail WHERE NUM = '".$row2['NUM']."'";
+		$query3 = "SELECT CURRENCY, SUM(TOTALAMT) TOTALAMT FROM zdcw_payment_detail WHERE NUM = '".$row2['NUM']."' GROUP BY CURRENCY";
 		$cursor3 = exequery($connection,$query3);
-		if($row3 = mysqli_fetch_array($cursor3)){
-			$result_cell['TOTALAMT'] = $row3['TOTALAMT'];
-		}else{
-			$result_cell['TOTALAMT'] = '';
+		$j = 0;
+		while($row3 = mysqli_fetch_array($cursor3)){
+			if ($j == 0) {
+				$result_cell['TOTALAMT'] = $row3['CURRENCY'].'：'.$row3['TOTALAMT'];
+			}else{
+				$result_cell['TOTALAMT'] = '多币种';
+			}
+			$j ++;
 		}
 
 		$result_detail[] = $result_cell;

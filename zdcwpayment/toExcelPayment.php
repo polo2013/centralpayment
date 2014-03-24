@@ -53,19 +53,20 @@ $objPHPExcel->setActiveSheetIndex(0)
 ->setCellValue('A1', '部门/项目')
 ->setCellValue('B1', '费用申请人')
 ->setCellValue('C1', '付款事由')
-->setCellValue('D1', '金额')
-->setCellValue('E1', '收款人')
-->setCellValue('F1', '银行')
-->setCellValue('G1', '账号')
-->setCellValue('H1', '备注')
-->setCellValue('I1', '付款状态')
-->setCellValue('J1', '操作人')
-->setCellValue('K1', '操作时间');
+->setCellValue('D1', '币别')
+->setCellValue('E1', '金额')
+->setCellValue('F1', '收款人')
+->setCellValue('G1', '银行')
+->setCellValue('H1', '账号')
+->setCellValue('I1', '备注')
+->setCellValue('J1', '付款状态')
+->setCellValue('K1', '操作人')
+->setCellValue('L1', '操作时间');
 
 //金额靠右
-$objPHPExcel->getActiveSheet()->getStyle('D1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+$objPHPExcel->getActiveSheet()->getStyle('E1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
 //收款人居中
-$objPHPExcel->getActiveSheet()->getStyle('E1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+$objPHPExcel->getActiveSheet()->getStyle('F1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
 // Set column widths
 $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(15);
@@ -73,12 +74,13 @@ $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
 $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(20);
 $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
 $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(15);
-$objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(30);
+$objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(15);
 $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(30);
-$objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(10);
+$objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(30);
 $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(10);
 $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(10);
-$objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(20);
+$objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(10);
+$objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(20);
 
 
 $query = "SELECT * FROM zdcw_payment_master WHERE `NUM`='$NUM'";
@@ -89,42 +91,72 @@ if($ROW = mysqli_fetch_array($cursor)){
 }
 
 
-
 //明细
 $query_page = "SELECT * FROM zdcw_payment_detail WHERE `NUM`='$NUM' ORDER BY (ITEMNO+0)";
 $cursor_page = exequery($connection,$query_page);
 $i = 2;
 while($row_page = mysqli_fetch_array($cursor_page)){
+	//币别居中
+	$objPHPExcel->getActiveSheet()->getStyle('D'.$i)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 	//金额格式化
-	$objPHPExcel->getActiveSheet()->getStyle('D'.$i)->getNumberFormat()->setFormatCode('0.00');
+	$objPHPExcel->getActiveSheet()->getStyle('E'.$i)->getNumberFormat()->setFormatCode('0.00');
 	//收款人居中
-	$objPHPExcel->getActiveSheet()->getStyle('E'.$i)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+	$objPHPExcel->getActiveSheet()->getStyle('F'.$i)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 	//银行名称换行
-	//$objPHPExcel->getActiveSheet()->getStyle('F'.$i)->getAlignment()->setWrapText(true);
+	//$objPHPExcel->getActiveSheet()->getStyle('G'.$i)->getAlignment()->setWrapText(true);
 	
 	$objPHPExcel->setActiveSheetIndex(0)
 	->setCellValue('A'.$i, splitName($row_page['ORG']))
 	->setCellValue('B'.$i, splitName($row_page['APPLICANT']))
 	->setCellValue('C'.$i, $row_page['PAYMENT'])
-	->setCellValue('D'.$i, $row_page['TOTALAMT'])
-	->setCellValue('E'.$i, splitName($row_page['PAYEE']))
-	->setCellValue('F'.$i, $row_page['BANK'])
-	//->setCellValue('G'.$i, $row_page['ACCOUNT'])
-	->setCellValueExplicit('G'.$i, $row_page['ACCOUNT'], PHPExcel_Cell_DataType::TYPE_STRING)
-	->setCellValue('H'.$i, $row_page['NOTE'])
-	->setCellValue('I'.$i, $row_page['PAYSTAT'])
-	->setCellValue('J'.$i, ($row_page['PAYER'] ? splitName($row_page['PAYER']) : ''))
-	->setCellValue('K'.$i, ($row_page['PAYTIME'] == '0000-00-00 00:00:00' ? '' : $row_page['PAYTIME']));	
+	->setCellValue('D'.$i, $row_page['CURRENCY'])
+	->setCellValue('E'.$i, $row_page['TOTALAMT'])
+	->setCellValue('F'.$i, splitName($row_page['PAYEE']))
+	->setCellValue('G'.$i, $row_page['BANK'])
+	//->setCellValue('H'.$i, $row_page['ACCOUNT'])
+	->setCellValueExplicit('H'.$i, $row_page['ACCOUNT'], PHPExcel_Cell_DataType::TYPE_STRING)
+	->setCellValue('I'.$i, $row_page['NOTE'])
+	->setCellValue('J'.$i, $row_page['PAYSTAT'])
+	->setCellValue('K'.$i, ($row_page['PAYER'] ? splitName($row_page['PAYER']) : ''))
+	->setCellValue('L'.$i, ($row_page['PAYTIME'] == '0000-00-00 00:00:00' ? '' : $row_page['PAYTIME']));	
 	
 	$sumAllTotal = $sumAllTotal + $row_page['TOTALAMT'];
 	$i ++;
 }
 
-$objPHPExcel->setActiveSheetIndex(0)
-->setCellValue('A'.$i, '总计：')
-->setCellValue('D'.$i, number_format($sumAllTotal, 2, '.', ''));
-$objPHPExcel->getActiveSheet()->getStyle('D'.$i)->getNumberFormat()->setFormatCode('0.00');
 
+//计算各币种金额
+$query_distinct = "SELECT CURRENCY, SUM(TOTALAMT) TOTALAMT FROM zdcw_payment_detail WHERE `NUM`='$NUM' GROUP BY CURRENCY ORDER BY (ITEMNO+0)";
+$cursor_distinct = exequery($connection,$query_distinct);
+$j = $i;
+while($row_distinct = mysqli_fetch_array($cursor_distinct)){
+	if($j == $i){
+		$objPHPExcel->setActiveSheetIndex(0)
+		->setCellValue('A'.$j, '总计：')
+		->setCellValue('D'.$j, $row_distinct['CURRENCY'])
+		->setCellValue('E'.$j, number_format($row_distinct['TOTALAMT'], 2, '.', ''));
+		
+	}else{
+		$objPHPExcel->setActiveSheetIndex(0)
+		->setCellValue('A'.$j, '')
+		->setCellValue('D'.$j, $row_distinct['CURRENCY'])
+		->setCellValue('E'.$j, number_format($row_distinct['TOTALAMT'], 2, '.', ''));
+	}
+	$objPHPExcel->getActiveSheet()->getStyle('D'.$j)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+	$objPHPExcel->getActiveSheet()->getStyle('E'.$j)->getNumberFormat()->setFormatCode('0.00');
+	
+	$objPHPExcel->getActiveSheet()->getStyle('A'.$j)->getFont()->setBold(true);
+	$objPHPExcel->getActiveSheet()->getStyle('D'.$j)->getFont()->setBold(true);
+	$objPHPExcel->getActiveSheet()->getStyle('E'.$j)->getFont()->setBold(true);
+	
+	$j ++;
+}
+/* 设置背景色
+$start = $i;
+$end = $j-1;
+$objPHPExcel->getActiveSheet()->getStyle('A'.$start.':L'.$end)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
+$objPHPExcel->getActiveSheet()->getStyle('A'.$start.':L'.$end)->getFill()->getStartColor()->setARGB('E5E5E5');
+*/
 
 // Rename worksheet
 $mst_title = '付款汇总表'.$mst_billnum.'-'.$mst_org;

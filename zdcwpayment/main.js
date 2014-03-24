@@ -46,6 +46,15 @@ $(document).ready(function(){
 					missingMessage:'必填项',
 				}
 			}},
+			{field:'CURRENCY',title:'币别',halign:'center',align:'center',width:100,editor:{
+				type:'combobox',
+				options:{
+					required:true,
+					missingMessage:'必填项',
+					editable:false,
+					panelHeight:'auto'
+				}
+			}},
 			{field:'TOTALAMT',title:'金额',halign:'center',align:'right',width:150,editor:{
 				type:'numberbox',
 				options:{
@@ -150,13 +159,36 @@ function endEditingPayment(){
 function updateGridFooter(){
 	var roweditors = $('#dg_zdcwpayment').datagrid('getRows');
 	//alert(alert(JSON.stringify(roweditors)));
-	var sumTotalamt = 0.00;
+	//先寻找有几种币别
+	var currency = new Array();
+	var currency_total = new Array();
 	$.each( roweditors, function(i, v){
-		sumTotalamt = sumTotalamt + parseFloat(v.TOTALAMT);
+		//是否有，有则不塞，没有则塞进
+		if (! arrSearch(v.CURRENCY, currency)){
+			currency.push(v.CURRENCY);
+		}
 	});
-	var rows = $('#dg_zdcwpayment').datagrid('getFooterRows');
-	rows[0]['TOTALAMT'] = sumTotalamt.toFixed(2);
-	$('#dg_zdcwpayment').datagrid('reloadFooter');
+	for(var i=0; i<currency.length; i++){
+		var sumTotalamt = 0.00;
+		$.each( roweditors, function(x, y){
+			if (y.CURRENCY == currency[i]){
+				sumTotalamt = sumTotalamt + parseFloat(y.TOTALAMT);
+			}
+		});
+		currency_total.push(sumTotalamt.toFixed(2));
+	}
+
+	var footer = new Array();
+	for(var i=0; i<currency.length; i++){
+		if(i==0){
+			var footerobj = {'ORG':'总计：', 'CURRENCY':currency[i], 'TOTALAMT':currency_total[i]};
+		}else{
+			var footerobj = {'ORG':'', 'CURRENCY':currency[i], 'TOTALAMT':currency_total[i]};
+		}
+		
+		footer.push(footerobj);
+	}
+	$('#dg_zdcwpayment').datagrid('reloadFooter', footer);
 }
 
 function clickPaymentRow(rowIndex, rowData){
@@ -191,6 +223,7 @@ function appendPayment(){
 			ORG:'',
 			APPLICANT:'',
 			PAYMENT:'',
+			CURRENCY:'',
 			TOTALAMT:0.00,
 			PAYEE:'',
 			BANK:'',
@@ -226,9 +259,16 @@ function setGridData(flag){
 					$(v.target).combobox('select', data.my);
 			});
 			break;
-		case 'APPLICANT':	
+		case 'APPLICANT':
 			$.getJSON("../public/php/getUser.php", {PARA: "APPLICANT", PARA2:""}, function(data){
 				$(v.target).combobox('loadData', data.all);
+			});
+			break;
+		case 'CURRENCY':
+			$.getJSON("../public/php/getCurrency.php", function(data){
+				$(v.target).combobox('loadData', data.all);
+				if(flag == 'new')
+					$(v.target).combobox('select', data.my);
 			});
 			break;
 		case 'TOTALAMT':
@@ -659,6 +699,9 @@ function toExcelPaymentAct(){
 function mutiPayAction(event){
 	//alert(JSON.stringify(event));
 	var cfmsg = '';
+	var cfmsg_body = '';
+	var cfmsg_foot = '';
+	var cfmsg_last = '';
 	var warningmsg = '';
 	var titlemsg = '';
 	var isok = true;
@@ -668,11 +711,19 @@ function mutiPayAction(event){
 	//alert(JSON.stringify(rows));
 	//alert(rows.length);
 	if (rows.length > 0){
+		cfmsg = '<table border="1" style="text-align:center;" cellpadding="5"><tr><td>收款人</td><td>收款银行</td><td>收款账户</td><td>币别</td><td>金额</td></tr>';
+		
 		if(flag == 'mutiPay'){
 			titlemsg = '付款信息确认：';
-			cfmsg = '<table border="1" style="text-align:center;" cellpadding="5"><tr><td>收款人</td><td>收款银行</td><td>收款账户</td><td>金额</td></tr>';
-			for(var i=0; i<rows.length; i++){
-				if(rows[i].PAYSTAT != '未付款'){
+			cfmsg_last = '</table><br/>确定付款吗？';
+		}else if(flag == 'mutiCancelPay'){
+			titlemsg = '取消付款确认：';
+			cfmsg_last = '</table><br/>确定取消付款吗？';
+		}
+		
+		for(var i=0; i<rows.length; i++){
+			if(rows[i].PAYSTAT != '未付款'){
+				if(flag == 'mutiPay'){
 					if(rows[i].PAYSTAT == '已付款'){
 						warningmsg = '行号为 '+rows[i].ITEMNO+' 的记录已经付过款，请勿重复操作！';
 					}else if(rows[i].PAYSTAT == '已取消付款'){
@@ -680,30 +731,7 @@ function mutiPayAction(event){
 					}else{
 						warningmsg = '状态必须都为未付款！';
 					}
-					art.dialog({
-						content: warningmsg,
-						ok: true
-					});
-					isok = false;
-					break;
-				}else{
-					sumTotal = sumTotal + parseFloat(rows[i].TOTALAMT);
-					if(i == 10){
-						cfmsg = cfmsg + '<tr><td>……</td><td colspan="3">……多于10行不予以显示……</td></tr>';
-					}else if(i > 10){
-						continue;
-					}else{
-						cfmsg = cfmsg + '<tr><td>'+rows[i].PAYEE+'</td><td>'+rows[i].BANK+'</td><td>'+rows[i].ACCOUNT+'</td><td>'+rows[i].TOTALAMT+'</td></tr>';
-					}
-				}
-			}
-			cfmsg = cfmsg + '<tr><td>合计</td><td colspan="2">共 '+rows.length+' 条记录</td><td>'+sumTotal.toFixed(2)+'</td></tr></table><br/>确定付款吗？';
-		}
-		if(flag == 'mutiCancelPay'){
-			titlemsg = '取消付款确认：';
-			cfmsg = '<table border="1" style="text-align:center;" cellpadding="5"><tr><td>收款人</td><td>收款银行</td><td>收款账户</td><td>金额</td></tr>';
-			for(var i=0; i<rows.length; i++){
-				if(rows[i].PAYSTAT != '未付款'){
+				}else if(flag == 'mutiCancelPay'){
 					if(rows[i].PAYSTAT == '已取消付款'){
 						warningmsg = '行号为 '+rows[i].ITEMNO+' 的记录已经取消付款，请勿重复操作！';
 					}else if(rows[i].PAYSTAT == '已付款'){
@@ -711,26 +739,55 @@ function mutiPayAction(event){
 					}else{
 						warningmsg = '状态必须都为未付款！';
 					}
-					art.dialog({
-						content: warningmsg,
-						ok: true
-					});
-					isok = false;
-					break;
+				}
+				art.dialog({
+					content: warningmsg,
+					ok: true
+				});
+				isok = false;
+				break;
+			}else{
+				sumTotal = sumTotal + parseFloat(rows[i].TOTALAMT);
+				if(i == 10){
+					cfmsg_body = cfmsg_body + '<tr><td>……</td><td colspan="4">……多于10行不予以显示……</td></tr>';
+				}else if(i > 10){
+					continue;
 				}else{
-					sumTotal = sumTotal + parseFloat(rows[i].TOTALAMT);
-					if(i == 10){
-						cfmsg = cfmsg + '<tr><td>……</td><td colspan="3">……多于10行不予以显示……</td></tr>';
-					}else if(i > 10){
-						continue;
-					}else{
-						cfmsg = cfmsg + '<tr><td>'+rows[i].PAYEE+'</td><td>'+rows[i].BANK+'</td><td>'+rows[i].ACCOUNT+'</td><td>'+rows[i].TOTALAMT+'</td></tr>';
-					}
+					cfmsg_body = cfmsg_body + '<tr><td>'+rows[i].PAYEE+'</td><td>'+rows[i].BANK+'</td><td>'+rows[i].ACCOUNT+'</td><td>'+rows[i].CURRENCY+'</td><td>'+rows[i].TOTALAMT+'</td></tr>';
 				}
 			}
-			cfmsg = cfmsg + '<tr><td>合计</td><td colspan="2">共 '+rows.length+' 条记录</td><td>'+sumTotal.toFixed(2)+'</td></tr></table><br/>确定取消付款吗？';
 		}
 		
+		//先寻找有几种币别
+		var currency = new Array();
+		var currency_total = new Array();
+		$.each( rows, function(i, v){
+			//是否有，有则不塞，没有则塞进
+			if (! arrSearch(v.CURRENCY, currency)){
+				currency.push(v.CURRENCY);
+			}
+		});
+		//分类合计
+		for(var i=0; i<currency.length; i++){
+			var sumTotalamt = 0.00;
+			$.each( rows, function(x, y){
+				if (y.CURRENCY == currency[i]){
+					sumTotalamt = sumTotalamt + parseFloat(y.TOTALAMT);
+				}
+			});
+			currency_total.push(sumTotalamt.toFixed(2));
+		}
+		//组成foot串
+		for(var i=0; i<currency.length; i++){
+			if(i==0){
+				cfmsg_foot = cfmsg_foot + '<tr><td>合计：</td><td colspan="2">共选择了 '+rows.length+' 行记录</td>';
+			}else{
+				cfmsg_foot = cfmsg_foot + '<tr><td></td><td colspan="2"></td>';
+			}
+			cfmsg_foot = cfmsg_foot + '<td>'+currency[i]+'</td><td>'+currency_total[i]+'</td></tr>';
+		}
+		//合并串
+		cfmsg = cfmsg + cfmsg_body + cfmsg_foot + cfmsg_last;
 		
 		if(isok){
 			art.dialog({

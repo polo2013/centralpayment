@@ -33,6 +33,7 @@ if($ROWSARR != NULL){
 			$logArray_old_item['ORG']=urlencode($row['ORG']);
 			$logArray_old_item['APPLICANT']=urlencode($row['APPLICANT']);
 			$logArray_old_item['PAYMENT']=urlencode($row['PAYMENT']);
+			$logArray_old_item['CURRENCY']=urlencode($row['CURRENCY']);
 			$logArray_old_item['TOTALAMT']=urlencode($row['TOTALAMT']);
 			$logArray_old_item['PAYEE']=urlencode($row['PAYEE']);
 			$logArray_old_item['BANK']=urlencode($row['BANK']);
@@ -70,6 +71,7 @@ if($queryResult){
 				$logArray_new_item['ORG']=urlencode($row['ORG']);
 				$logArray_new_item['APPLICANT']=urlencode($row['APPLICANT']);
 				$logArray_new_item['PAYMENT']=urlencode($row['PAYMENT']);
+				$logArray_new_item['CURRENCY']=urlencode($row['CURRENCY']);
 				$logArray_new_item['TOTALAMT']=urlencode($row['TOTALAMT']);
 				$logArray_new_item['PAYEE']=urlencode($row['PAYEE']);
 				$logArray_new_item['BANK']=urlencode($row['BANK']);

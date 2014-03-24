@@ -46,6 +46,7 @@ if($row = mysqli_fetch_array($cursor)){
 			$logArray_old_item_item['ORG']=urlencode($row_detail['ORG']);
 			$logArray_old_item_item['APPLICANT']=urlencode($row_detail['APPLICANT']);
 			$logArray_old_item_item['PAYMENT']=urlencode($row_detail['PAYMENT']);
+			$logArray_old_item_item['CURRENCY']=urlencode($row_detail['CURRENCY']);
 			$logArray_old_item_item['TOTALAMT']=urlencode($row_detail['TOTALAMT']);
 			$logArray_old_item_item['PAYEE']=urlencode($row_detail['PAYEE']);
 			$logArray_old_item_item['BANK']=urlencode($row_detail['BANK']);

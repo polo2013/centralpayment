@@ -2,8 +2,8 @@ $(document).ready(function(){
 	$('#dg_zdcwpaymentview').datagrid({
 		title: moduletitle,
 		pagination: true,
-		pageSize: 5,
-		pageList: [5,10,20],
+		pageSize: 20,
+		pageList: [20,40,100],
 		rownumbers: true,
 		fitColumns: true,
 		singleSelect: true,
@@ -54,7 +54,7 @@ $(document).ready(function(){
 		$('#approver_zdcwpaymentview').combobox('loadData', data.allApprover);
 		$('#approver_zdcwpaymentview').combobox('select', data.myApprover);
 		
-		searchPayment();
+		//searchPayment();
 	});
 });
 
