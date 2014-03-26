@@ -34,7 +34,8 @@ function OpenConnection()
 		$connection = mysqli_connect($MYSQL_SERVER, $MYSQL_USER, $MYSQL_PASS, $MYSQL_DB);
 		if(!$connection)
 		{
-			writeLog("不能连接到MySQL数据库，请检查：1、MySQL服务是否启动；2、MySQL被防火墙阻止；3、连接MySQL的用户名和密码是否正确；4、数据库名是否正确。", "error");
+			$errmsg = "不能连接到MySQL数据库，请检查：1、MySQL服务是否启动；2、MySQL被防火墙阻止；3、连接MySQL的用户名和密码是否正确；4、数据库名是否正确。";
+			writeLog($errmsg, "error");
 			exit;
 		}
 
@@ -43,6 +44,27 @@ function OpenConnection()
 	}
 
 	return $connection;
+}
+
+function OA_OpenConnection()
+{
+	global $OA_connection, $OA_MYSQL_SERVER, $OA_MYSQL_USER, $OA_MYSQL_PASS, $OA_MYSQL_DB, $OA_MY_DB_CHARSET;
+
+	if(!$OA_connection)
+	{
+		$OA_connection = mysqli_connect($OA_MYSQL_SERVER, $OA_MYSQL_USER, $OA_MYSQL_PASS, $OA_MYSQL_DB);
+		if(!$OA_connection)
+		{
+			$errmsg = "不能连接到OA_MySQL数据库，请检查：1、OA_MySQL服务是否启动；2、OA_MySQL被防火墙阻止；3、连接OA_MySQL的用户名和密码是否正确；4、OA数据库名是否正确。";
+			writeLog($errmsg, "error");
+			exit;
+		}
+
+		mysqli_query($OA_connection, "SET NAMES $OA_MY_DB_CHARSET");
+
+	}
+
+	return $OA_connection;
 }
 
 function exequery($C, $Q)

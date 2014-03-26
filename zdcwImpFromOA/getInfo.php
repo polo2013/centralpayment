@@ -4,29 +4,15 @@ $login_user = $_SESSION['LOGIN_USER'];
 //$login_user_role = $_SESSION['LOGIN_USER_ROLE'];
 $login_user_role_origin = $_SESSION['LOGIN_USER_ROLE'];
 $login_user_role = implode("','", explode(",", $login_user_role_origin));
-
 $login_user_org = $_SESSION['LOGIN_USER_ORG'];
 $orgCode = splitCode($login_user_org);
 
-$NUM = $_REQUEST['NUM'] ? $_REQUEST['NUM'] : "";
 $ORG = $_REQUEST['ORG'] ? $_REQUEST['ORG'] : "";
-$BILLNUM = $_REQUEST['BILLNUM'] ? $_REQUEST['BILLNUM'] : "";
-$STAT = $_REQUEST['STAT'] ? $_REQUEST['STAT'] : "";
-
-$INPUTTER = $_REQUEST['INPUTTER'] ? $_REQUEST['INPUTTER'] : "";
-$CHECKER = $_REQUEST['CHECKER'] ? $_REQUEST['CHECKER'] : "";
-$APPROVER = $_REQUEST['APPROVER'] ? $_REQUEST['APPROVER'] : "";
-
-$INPUTTIMEBEGIN = $_REQUEST['INPUTTIMEBEGIN'] ? $_REQUEST['INPUTTIMEBEGIN'] : "";
-$INPUTTIMEEND = $_REQUEST['INPUTTIMEEND'] ? $_REQUEST['INPUTTIMEEND'] : "";
-$CHECKTIMEBEGIN = $_REQUEST['CHECKTIMEBEGIN'] ? $_REQUEST['CHECKTIMEBEGIN'] : "";
-$CHECKTIMEEND = $_REQUEST['CHECKTIMEEND'] ? $_REQUEST['CHECKTIMEEND'] : "";
-$APPROVETIMEBEGIN = $_REQUEST['APPROVETIMEBEGIN'] ? $_REQUEST['APPROVETIMEBEGIN'] : "";
-$APPROVETIMEEND = $_REQUEST['APPROVETIMEEND'] ? $_REQUEST['APPROVETIMEEND'] : "";
-
-$result = array();
-$result_row = array();
-$result_cell = array();
+$FLOWTYPE = $_REQUEST['FLOWTYPE'] ? $_REQUEST['FLOWTYPE'] : "";
+$FLOWSTAT = $_REQUEST['FLOWSTAT'] ? $_REQUEST['FLOWSTAT'] : "";
+$BEGINNER = $_REQUEST['BEGINNER'] ? $_REQUEST['BEGINNER'] : "";
+$BEGINTIME1 = $_REQUEST['BEGINTIME1'] ? $_REQUEST['BEGINTIME1'] : "";
+$BEGINTIME2 = $_REQUEST['BEGINTIME2'] ? $_REQUEST['BEGINTIME2'] : "";
 
 if(!isset($_REQUEST['page']) || !intval($_REQUEST['page']) || !isset($_REQUEST['rows']) || !intval($_REQUEST['rows'])){
 	$pageNumber = 1;  //对出错进行默认处理:在url参数page不存在时，page不为10进制数时，默认为1
@@ -38,86 +24,106 @@ if(!isset($_REQUEST['page']) || !intval($_REQUEST['page']) || !isset($_REQUEST['
 $start = ($pageNumber - 1) * $pageSize; //从数据集第$start条开始取，注意数据集是从0开始的
 
 //数据
-if(getAuthInfo($login_user_role, '010', '查看所有单据权')){
-	$whereCondition = ' 1=1 ';
-	//读取配置表sys_setting的配置项pay_role
-	$payrole = readSetting('public', 'pay_role');
-	if ($payrole) {
-		if (stripos($login_user_role_origin, $payrole) === false) {
-		}else{
-			$whereCondition = $whereCondition." AND STAT in ('已批准','付款审核通过','付款中','付款已完成','付款不通过') ";
-		}
+$result = array();
+$result_row = array();
+$result_cell = array();
+
+if ($FLOWTYPE == '87') {  //正大置地报销流程
+	//默认条件：未删除、已完成
+	$whereCondition = " a.DEL_FLAG = 0 AND a.END_TIME is not null AND a.FLOW_ID = 87 ";
+	//组织
+	$query = "SELECT `ORGDESC` FROM ZDCW_IMP_FROM_OA WHERE `ID` = ".$ORG;
+	$cursor = exequery($connection,$query);
+	if($row = mysqli_fetch_array($cursor)){
+		$whereCondition .= ' AND a.'.ltrim($row['ORGDESC']);
 	}
-}else if(getAuthInfo($login_user_role, '010', '查看所属机构单据权')){
-	$whereCondition = "SUBSTR(`ORG`,2,LENGTH('$orgCode')) = '$orgCode'";
-}else{
-	$whereCondition = "(INPUTTER = '$login_user' OR CHECKER = '$login_user' OR APPROVER = '$login_user')";
-}
+	//其他条件
+	if($BEGINNER != '')
+		$whereCondition .= " AND a.BEGIN_USER like '%".$BEGINNER."%' ";
+	if($BEGINTIME1 != '')
+		$whereCondition .= " AND a.BEGIN_TIME >= '".$BEGINTIME1."' ";
+	if($BEGINTIME2 != '')
+		$whereCondition .= " AND a.BEGIN_TIME <= '".$BEGINTIME2."' ";
+	
+	OA_OpenConnection();	
+	
+	$oa_query = "SELECT COUNT(1) FROM FLOW_RUN a, flow_data_87 b WHERE a.RUN_ID = b.run_id AND ".$whereCondition;
+	//writeLog($oa_query, 'ImpFromOA');
+	
+	//取总数
+	$oa_cursor = exequery($OA_connection,$oa_query);
+	if($oa_row = mysqli_fetch_array($oa_cursor)){
+		$result['total'] = $oa_row[0];
+	}else{
+		$result['total'] = 0;
+	}
+	
+	//分页
+	$query_page = str_replace('COUNT(1)', '*', $oa_query)." ORDER BY b.run_id";
+	$query_page .= " LIMIT $start,$pageSize";
+	$cursor_page = exequery($OA_connection,$query_page);
+	while($row_page = mysqli_fetch_array($cursor_page)){
+		$note = "";
+		$flag = "是";
+		$result_cell = array();
+		
+		$result_cell['FLOWINFO'] = '['.trim($row_page['run_id']).']'.trim($row_page['run_name']);
+		$result_cell['ORG'] = ltrim(rtrim($row_page['data_1'],','));
+		$result_cell['APPLICANT'] = trim($row_page['data_2']);
+		$result_cell['CURRENCY'] = trim("人民币");
+		$result_cell['PAYMENT'] = trim($row_page['data_32']);
+		$result_cell['TOTALAMT'] = trim($row_page['data_96']);
+		$result_cell['PAYEE'] = trim($row_page['data_28']);
+		
+		//寻找收款人资料
+		$query_payee = "SELECT BANK, ACCOUNT FROM SYS_USER WHERE `NAME` = '".$result_cell['PAYEE']."' UNION SELECT BANK, ACCOUNT FROM BIZ_PAYEE WHERE `NAME` = '".$result_cell['PAYEE']."'";
+		$cursor_payee = exequery($connection,$query_payee);
+		if($row_payee = mysqli_fetch_array($cursor_payee)){
+			$result_cell['BANK'] = trim($row_payee['BANK']);
+			$result_cell['ACCOUNT'] = trim($row_payee['ACCOUNT']);
+			
+			if ($result_cell['BANK'] == "" or $result_cell['ACCOUNT'] == ""){
+				$note .= "本系统中该收款人的银行和帐号为空；";
+				$flag = "否";
+			}
+		}else{
+			$note .= "本系统没有该收款人；";
+			$flag = "否";
+		}
+		
+		
+		if ($result_cell['ORG'] == ""){
+			$note .= "组织机构为空；";
+			$flag = "否";
+		}
+		if ($result_cell['APPLICANT'] == ""){
+			$note .= "申请人为空；";
+			$flag = "否";
+		}
+		if ($result_cell['PAYMENT'] == ""){
+			$note .= "付款事由为空；";
+			$flag = "否";
+		}
+		if ($result_cell['TOTALAMT'] == "" or $result_cell['TOTALAMT'] == 0){
+			$note .= "金额为空或为零；";
+			$flag = "否";
+		}
+		if ($result_cell['PAYEE'] == ""){
+			$note .= "收款人为空；";
+			$flag = "否";
+		}
+		
 
-if($NUM != '')
-	$whereCondition .= " AND NUM='".$NUM."'";
-if($ORG != '全部')
-	$whereCondition .= " AND ORG='".$ORG."'";
-if($BILLNUM != '')
-	$whereCondition .= " AND BILLNUM='".$BILLNUM."'";
-if($STAT != '全部')
-	$whereCondition .= " AND STAT='".$STAT."'";
-if($INPUTTER != '全部')
-	$whereCondition .= " AND INPUTTER='".$INPUTTER."'";
-if($INPUTTIMEBEGIN != '')
-	$whereCondition .= " AND INPUTTIME>='".$INPUTTIMEBEGIN."'";
-if($INPUTTIMEEND != '')
-	$whereCondition .= " AND INPUTTIME<='".$INPUTTIMEEND."'";
-if($CHECKER != '全部')
-	$whereCondition .= " AND CHECKER='".$CHECKER."'";
-if($CHECKTIMEBEGIN != '')
-	$whereCondition .= " AND CHECKTIME>='".$CHECKTIMEBEGIN."'";
-if($CHECKTIMEEND != '')
-	$whereCondition .= " AND CHECKTIME<='".$CHECKTIMEEND."'";
-if($APPROVER != '全部')
-	$whereCondition .= " AND APPROVER='".$APPROVER."'";
-if($APPROVETIMEBEGIN != '')
-	$whereCondition .= " AND APPROVETIME>='".$APPROVETIMEBEGIN."'";
-if($APPROVETIMEEND != '')
-	$whereCondition .= " AND APPROVETIME<='".$APPROVETIMEEND."'";
+		$result_cell['NOTE'] = $note;
+		$result_cell['FLAG'] = $flag;
+		
+		$result_row[] = $result_cell;
+	}
+	
+	$result['rows'] = $result_row;
+	
 
-//付款审核流程，特定的人看到特定组织的状态为已批准的单据
-$specRole = readSetting('public','pay_check_role');
-$specOrg = readSetting('public','pay_check_org');
-if($specRole && $specOrg && hasSpec($login_user_role_origin,$specRole)){
-	$whereCondition = "(".$whereCondition.") OR ( SUBSTR(`ORG`,2,INSTR(`ORG`,']')-2) in ('".implode("','", explode(",", $specOrg))."') AND STAT = '已批准')";
-}
-
-$query = "SELECT COUNT(1) FROM zdcw_payment_master WHERE ".$whereCondition;
-
-//取总数
-$cursor = exequery($connection,$query);
-if($ROW = mysqli_fetch_array($cursor)){
-	$result['total'] = $ROW[0];
-}else{
-	$result['total'] = 0;
-}
-//分页
-$query_page = str_replace('COUNT(1)', '*', $query)." ORDER BY NUM";
-$query_page .= " LIMIT $start,$pageSize";
-$cursor_page = exequery($connection,$query_page);
-while($row_page = mysqli_fetch_array($cursor_page)){
-	$result_cell['NUM'] = $row_page['NUM'];
-	$result_cell['ORG'] = $row_page['ORG'];
-	$result_cell['BILLNUM'] = $row_page['BILLNUM'];
-	$result_cell['STAT'] = $row_page['STAT'];
-	$result_cell['INPUTTER'] = $row_page['INPUTTER'];
-	$result_cell['INPUTTIME'] = ($row_page['INPUTTIME'] == '0000-00-00 00:00:00' ? '' : $row_page['INPUTTIME']);
-	$result_cell['CHECKER'] = $row_page['CHECKER'];
-	$result_cell['CHECKTIME'] = ($row_page['CHECKTIME'] == '0000-00-00 00:00:00' ? '' : $row_page['CHECKTIME']);
-	$result_cell['APPROVER'] = $row_page['APPROVER'];
-	$result_cell['APPROVETIME'] = ($row_page['APPROVETIME'] == '0000-00-00 00:00:00' ? '' : $row_page['APPROVETIME']);
-	$result_cell['NOTE'] = $row_page['NOTE'];
-
-	$result_row[] = $result_cell;
-}
-
-$result['rows'] = $result_row;
+}	
 
 echo json_encode($result);
 

@@ -28,4 +28,11 @@ $TURN_LOG_ON=true;
 //系统名称
 $SYS_TITLE="正大财务集中支付确认系统";
 
+//-- OA数据库配置 --
+$OA_MYSQL_SERVER="192.168.91.101:3336";
+$OA_MYSQL_USER="root";
+$OA_MYSQL_PASS="myoa888";
+$OA_MYSQL_DB="TD_OA";
+$OA_MY_DB_CHARSET="utf8";
+
 ?>
