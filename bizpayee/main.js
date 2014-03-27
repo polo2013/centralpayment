@@ -107,7 +107,8 @@ function editAct(){
 			$('#dlg_bizpayee').dialog('open').dialog('setTitle','修改').dialog('center');
 			$('#fm_bizpayee').form('clear');
 			$('#fm_bizpayee').form('load',row);
-			$('#name_bizpayee').attr("readonly",true);
+			//$('#name_bizpayee').attr("readonly",true);
+			$('#name_bizpayee').attr("readonly",false);
 			$('#org_bizpayee').combobox('readonly');
 			$('#bank_bizpayee').focus();
 			submit_url = '../'+modulepath+'/edit.php?MODULENO='+moduleno+'&MODULEOBJ='+moduleobj+'&MODULETITLE='+moduletitle;
