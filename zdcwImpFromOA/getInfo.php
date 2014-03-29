@@ -26,7 +26,10 @@ $start = ($pageNumber - 1) * $pageSize; //从数据集第$start条开始取，�
 //数据
 $result = array();
 $result_row = array();
+$result_row_y = array();
+$result_row_n = array();
 $result_cell = array();
+$result_msg = "";
 
 if ($FLOWTYPE == '87') {  //正大置地报销流程
 	//默认条件：未删除、已完成
@@ -74,23 +77,7 @@ if ($FLOWTYPE == '87') {  //正大置地报销流程
 		$result_cell['PAYMENT'] = trim($row_page['data_32']);
 		$result_cell['TOTALAMT'] = trim($row_page['data_96']);
 		$result_cell['PAYEE'] = trim($row_page['data_28']);
-		
-		//寻找收款人资料
-		$query_payee = "SELECT BANK, ACCOUNT FROM SYS_USER WHERE `NAME` = '".$result_cell['PAYEE']."' UNION SELECT BANK, ACCOUNT FROM BIZ_PAYEE WHERE `NAME` = '".$result_cell['PAYEE']."'";
-		$cursor_payee = exequery($connection,$query_payee);
-		if($row_payee = mysqli_fetch_array($cursor_payee)){
-			$result_cell['BANK'] = trim($row_payee['BANK']);
-			$result_cell['ACCOUNT'] = trim($row_payee['ACCOUNT']);
-			
-			if ($result_cell['BANK'] == "" or $result_cell['ACCOUNT'] == ""){
-				$note .= "本系统中该收款人的银行和帐号为空；";
-				$flag = "否";
-			}
-		}else{
-			$note .= "本系统没有该收款人；";
-			$flag = "否";
-		}
-		
+
 		
 		if ($result_cell['ORG'] == ""){
 			$note .= "组织机构为空；";
@@ -111,18 +98,45 @@ if ($FLOWTYPE == '87') {  //正大置地报销流程
 		if ($result_cell['PAYEE'] == ""){
 			$note .= "收款人为空；";
 			$flag = "否";
+		}else{
+			//寻找收款人资料
+			$query_payee = "SELECT BANK, ACCOUNT FROM SYS_USER WHERE `NAME` = '".$result_cell['PAYEE']."' UNION SELECT BANK, ACCOUNT FROM BIZ_PAYEE WHERE `NAME` = '".$result_cell['PAYEE']."'";
+			$cursor_payee = exequery($connection,$query_payee);
+			if($row_payee = mysqli_fetch_array($cursor_payee)){
+				$result_cell['BANK'] = trim($row_payee['BANK']);
+				$result_cell['ACCOUNT'] = trim($row_payee['ACCOUNT']);
+					
+				if ($result_cell['BANK'] == "" or $result_cell['ACCOUNT'] == ""){
+					$note .= "本系统中该收款人的银行或帐号为空；";
+					$flag = "否";
+				}
+			}else{
+				$note .= "本系统没有该收款人；";
+				$flag = "否";
+			}
 		}
 		
 
 		$result_cell['NOTE'] = $note;
 		$result_cell['FLAG'] = $flag;
 		
-		$result_row[] = $result_cell;
+		if ($flag == '否') {
+			$result_row_n[] = $result_cell;
+		}else{
+			$result_row_y[] = $result_cell;
+		}
+		
 	}
 	
-	$result['rows'] = $result_row;
+	$result['rows'] = array_merge($result_row_y, $result_row_n);
 	
+	$result_msg .= "本次搜索共找到 <font color='green'>".$result['total']."</font> 条报销流程。<br />";
+	$result_msg .= "其中：<br />";
+	$result_msg .= "可导入的流程有 <font color='green'>".count($result_row_y)."</font> 条。<br />";
+	$result_msg .= "不可导入的有 <font color='red'>".count($result_row_n)."</font> 条。（请至表格中查看具体原因）";
 
+	$result['msg'] = $result_msg;
+	
 }	
 
 echo json_encode($result);

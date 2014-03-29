@@ -1,6 +1,16 @@
 <?php
 include_once("conn.php");
 
+function get_microsecond()
+{
+	list($usec, $sec) = explode(" ", microtime());
+	$micro = substr((string)((float)$usec * 1000), 0, 3);
+	//3位微妙
+	//return $micro;
+	//当前日期+3位微妙
+	return date('YmdHis',$sec).$micro;
+}
+
 function writeDBLog($oper, $obj, $type, $msg, $note = ""){
 	global $connection;
 	$query = "INSERT INTO SYS_LOG(OPER, OBJ, OPERTYPE, CONTENT, NOTE) VALUES ('$oper', '$obj', '$type', '$msg', '$note')";

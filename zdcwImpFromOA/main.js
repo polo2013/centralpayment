@@ -22,17 +22,31 @@ $(document).ready(function(){
 			{field:'PAYEE',title:'收款人',halign:'center',align:'center',width:100},
 			{field:'BANK',title:'银行',halign:'center',align:'center',width:100},
 			{field:'ACCOUNT',title:'账号',halign:'center',align:'center',width:180},
-			{field:'NOTE',title:'备注',halign:'center',align:'center',width:200},
-			{field:'FLAG',title:'可导',halign:'center',align:'center',width:40},
+			{field:'NOTE',title:'备注',halign:'center',align:'center',width:200,
+				styler: function(value,row,index){
+					if (row.FLAG == "否"){
+						return 'color:red;';
+					}
+				}
+			},
+			{field:'FLAG',title:'可导',halign:'center',align:'center',width:40,
+				styler: function(value,row,index){
+					if (value == "否"){
+						return 'color:red;';
+					}
+				}
+			},
 		]],
-		rowStyler: function(index,row){
+		/*rowStyler: function(index,row){
 			if (row.FLAG == "否"){
-				return 'background-color:#979797;color:#fff;'; // return inline style
+				return 'background-color: white;'; // return inline style
 				// the function can return predefined css class and inline style
 				// return {class:'r1', style:{'color:#fff'}};	
 			}
-		},
+		},*/
 		onLoadError: function(){
+			//$.messager.progress('close');
+			jQuery('body').hideLoading();
 			art.dialog({
 				content: '连接 OA 服务器通讯失败！',
 				ok: true
@@ -40,7 +54,14 @@ $(document).ready(function(){
 		},
 		onLoadSuccess:function(data){
 			//alert(JSON.stringify(data));
+			//$.messager.progress('close');
+			jQuery('body').hideLoading();
 			if (data.rows.length > 0) {
+				art.dialog({
+					content: data.msg,
+					ok: true
+	        	});
+				
 				for (var i = 0; i < data.rows.length; i++) {
 					//根据flag让某些行不可选
 					if (data.rows[i].FLAG == "否") {
@@ -166,7 +187,8 @@ function myparser(s){
 function searchOAFlow(){
 	var isValidate = $(this).form('validate');
 	if(isValidate){
-    	$.messager.progress();	// display the progress bar
+    	//$.messager.progress();	// display the progress bar
+		jQuery('body').showLoading();
     	
     	var org = $('#org_zdcwimpfromoa').combobox('getValue');
     	//alert(org);
@@ -213,8 +235,81 @@ function searchOAFlow(){
     		url: encodeURI(url+'?'+param)
     	});
     	
-    	$.messager.progress('close');
+    	//$.messager.progress('close');
 	}
 }
+
+function genPaymentFromOA(){
+	var org = $('#org_zdcwimpfromoa').combobox('getText');
+	var rows = $('#dg_zdcwimpfromoa').datagrid('getSelections');
+	//alert(JSON.stringify(rows));
+	if (rows.length > 0){
+		jQuery('body').showLoading();
+		$.post(
+			'../'+modulepath+'/checkExistBill.php',
+			{
+				ORG : org
+			},
+			function(result){
+				//alert(JSON.stringify(result));
+				if (result.success){
+					if (result.message != ""){
+						art.dialog({
+			        	    content: result.message,
+			        	    ok: function(){
+			        	    	//生成单据
+			        	    	genPaymentAction(org, rows, 'merge');
+			        	    	//alert('merge');
+			        	    	jQuery('body').hideLoading();
+			        	    },
+			        	    cancel:function(){
+			        	    	jQuery('body').hideLoading();
+			        	    }
+			        	});
+					}else{
+						//生成单据
+						//genPaymentAction('nomerge');
+						alert('nomerge');
+					}
+				}else{
+	        	    jQuery('body').hideLoading();
+					art.dialog({
+		        	    content: result.message,
+		        	    ok: true
+		        	});
+				}
+			},
+			'json'
+		);
+	}else{
+		$('#btn_genpayment_zdcwimpfromoa').grumble(missSelectMsg);
+	}
+}
+function genPaymentAction(org, rows, is_merge){
+	$.post(
+		'../'+modulepath+'/genBill.php',
+		{
+			ORG   : org,
+			ROWS  : JSON.stringify(rows),
+			MERGE : is_merge
+		},
+		function(resultdata){
+			jQuery('body').hideLoading();
+			//alert(JSON.stringify(resultdata));
+			if (resultdata.success){
+				art.dialog({
+	        	    content: resultdata.message,
+	        	    ok: true
+	        	});
+			}else{
+				art.dialog({
+	        	    content: resultdata.message,
+	        	    ok: true
+	        	});
+			}
+		},
+		'json'
+	);
+}
+
 function settingImp(){}
-function genPaymentFromOA(){}

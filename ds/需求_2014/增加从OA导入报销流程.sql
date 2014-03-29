@@ -34,3 +34,24 @@ VALUES ('其他部门','BEGIN_DEPT NOT IN (1,2)','87','报销流程');
 -- 给单据增加flag标记：imp表示导入。
 alter table zdcw_payment_master add `FLAG` VARCHAR(20) NOT NULL DEFAULT '';
 
+-- 新增状态
+DELETE FROM SYS_STAT where code = '014';
+INSERT INTO SYS_STAT(CODE,NAME,FIREACT,FIRESTAT,CREATOR,LASTUPD) 
+VALUES ('014', '已导入', '','','[admin]管理员','[admin]管理员');
+DELETE FROM SYS_STAT where code = '015';
+INSERT INTO SYS_STAT(CODE,NAME,FIREACT,FIRESTAT,CREATOR,LASTUPD) 
+VALUES ('015', '付款确认通过', '付款确认通过','014','[admin]管理员','[admin]管理员');
+DELETE FROM SYS_STAT where code = '016';
+INSERT INTO SYS_STAT(CODE,NAME,FIREACT,FIRESTAT,CREATOR,LASTUPD) 
+VALUES ('016', '付款确认不通过', '付款确认不通过','014','[admin]管理员','[admin]管理员');
+
+-- 更改付款开始的条件
+UPDATE SYS_STAT SET FIRESTAT = CONCAT(FIRESTAT, ',015') where code = '007';
+
+-- 增加导入人、导入时间
+alter table zdcw_payment_master add `PAYIMPORT` VARCHAR(160) NULL;
+alter table zdcw_payment_master add `PAYIMPORTTIME` DATETIME NULL;
+-- 增加付款确认人、付款确认时间
+alter table zdcw_payment_master add `PAYCONFIRM` VARCHAR(160) NULL;
+alter table zdcw_payment_master add `PAYCONFIRMTIME` DATETIME NULL;
+
