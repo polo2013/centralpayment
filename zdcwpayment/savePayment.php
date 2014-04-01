@@ -19,6 +19,13 @@ $CHECKTIME = $_REQUEST['CHECKTIME'] ? $_REQUEST['CHECKTIME'] : "";
 $APPROVETIME = $_REQUEST['APPROVETIME'] ? $_REQUEST['APPROVETIME'] : "";
 $PAYCHECKTIME = $_REQUEST['PAYCHECKTIME'] ? $_REQUEST['PAYCHECKTIME'] : "";
 
+$PAYIMPORT = $_REQUEST['PAYIMPORT'] ? $_REQUEST['PAYIMPORT'] : "";
+$PAYIMPORTTIME = $_REQUEST['PAYIMPORTTIME'] ? $_REQUEST['PAYIMPORTTIME'] : "";
+$PAYCONFIRM = $_REQUEST['PAYCONFIRM'] ? $_REQUEST['PAYCONFIRM'] : "";
+$PAYCONFIRMTIME = $_REQUEST['PAYCONFIRMTIME'] ? $_REQUEST['PAYCONFIRMTIME'] : "";
+$IMP_FLAG = $_REQUEST['IMP_FLAG'] ? $_REQUEST['IMP_FLAG'] : "";
+
+
 $NOTE = $_REQUEST['NOTE'] ? $_REQUEST['NOTE'] : "";
 $STAT = $_REQUEST['STAT'] ? $_REQUEST['STAT'] : "";
 $OPERATION = $_REQUEST['OPERATION'] ? $_REQUEST['OPERATION'] : "";
@@ -57,6 +64,11 @@ switch ($OPERATION)
 		$PAYCHECKER = $login_user;
 		$PAYCHECKTIME = date('Y-m-d H:i:s');
 		break;
+	case "付款确认不通过":
+	case "付款确认通过":
+		$PAYCONFIRM = $login_user;
+		$PAYCONFIRMTIME = date('Y-m-d H:i:s');
+		break;
 }
 
 //check value
@@ -85,6 +97,11 @@ if ($chk['ok']){
 		$logArray_old_item['NOTE']=urlencode($row['NOTE']);
 		$logArray_old_item['PAYCHECKER']=urlencode($row['PAYCHECKER']);
 		$logArray_old_item['PAYCHECKTIME']=urlencode($row['PAYCHECKTIME']);
+		$logArray_old_item['PAYIMPORT']=urlencode($row['PAYIMPORT']);
+		$logArray_old_item['PAYIMPORTTIME']=urlencode($row['PAYIMPORTTIME']);
+		$logArray_old_item['PAYCONFIRM']=urlencode($row['PAYCONFIRM']);
+		$logArray_old_item['PAYCONFIRMTIME']=urlencode($row['PAYCONFIRMTIME']);
+		$logArray_old_item['IMP_FLAG']=urlencode($row['IMP_FLAG']);
 	}
 	$logArray_old['MASTER'] = $logArray_old_item;
 	
@@ -117,8 +134,8 @@ if ($chk['ok']){
 	$queryResult = false;
 
 	$query = "delete from zdcw_payment_master where NUM = '$NUM'; delete from zdcw_payment_detail where NUM = '$NUM'; "
-	."insert into zdcw_payment_master(`NUM`,`ORG`,`BILLNUM`,`STAT`,`INPUTTER`,`INPUTTIME`,`CHECKER`,`CHECKTIME`,`APPROVER`,`APPROVETIME`,`NOTE`,`PAYCHECKER`,`PAYCHECKTIME`) "
-	."values ('$NUM','$ORG','$BILLNUM','$TO_STAT','$INPUTTER','$INPUTTIME','$CHECKER','$CHECKTIME','$APPROVER','$APPROVETIME','$NOTE','$PAYCHECKER','$PAYCHECKTIME'); ";
+	."insert into zdcw_payment_master(`NUM`,`ORG`,`BILLNUM`,`STAT`,`INPUTTER`,`INPUTTIME`,`CHECKER`,`CHECKTIME`,`APPROVER`,`APPROVETIME`,`NOTE`,`PAYCHECKER`,`PAYCHECKTIME`,`PAYIMPORT`,`PAYIMPORTTIME`,`PAYCONFIRM`,`PAYCONFIRMTIME`,`IMP_FLAG`) "
+	."values ('$NUM','$ORG','$BILLNUM','$TO_STAT','$INPUTTER','$INPUTTIME','$CHECKER','$CHECKTIME','$APPROVER','$APPROVETIME','$NOTE','$PAYCHECKER','$PAYCHECKTIME','$PAYIMPORT','$PAYIMPORTTIME','$PAYCONFIRM','$PAYCONFIRMTIME','$IMP_FLAG'); ";
 
 	//解码成数组
 	$PAYMENTROWSARR = json_decode($PAYMENTROWS,TRUE);
@@ -171,6 +188,11 @@ if ($chk['ok']){
 			$logArray_new_item['NOTE']=urlencode($row['NOTE']);
 			$logArray_new_item['PAYCHECKER']=urlencode($row['PAYCHECKER']);
 			$logArray_new_item['PAYCHECKTIME']=urlencode($row['PAYCHECKTIME']);
+			$logArray_new_item['PAYIMPORT']=urlencode($row['PAYIMPORT']);
+			$logArray_new_item['PAYIMPORTTIME']=urlencode($row['PAYIMPORTTIME']);
+			$logArray_new_item['PAYCONFIRM']=urlencode($row['PAYCONFIRM']);
+			$logArray_new_item['PAYCONFIRMTIME']=urlencode($row['PAYCONFIRMTIME']);
+			$logArray_new_item['IMP_FLAG']=urlencode($row['IMP_FLAG']);
 		}
 		$logArray_new['MASTER'] = $logArray_new_item;
 		

@@ -34,6 +34,18 @@ $result_msg = "";
 if ($FLOWTYPE == '87') {  //正大置地报销流程
 	//默认条件：未删除、已完成
 	$whereCondition = " a.DEL_FLAG = 0 AND a.END_TIME is not null AND a.FLOW_ID = 87 ";
+	
+	//排除已导入的单据
+	$has_import = "";
+	$query = "SELECT SUBSTR(FLOWINFO FROM 2 FOR INSTR(FLOWINFO, ']')-2) RUNID FROM ZDCW_IMP_FROM_OA_REC WHERE SUBSTR(FLOWTYPE FROM 13 FOR CHAR_LENGTH(FLOWTYPE)-13) = '87' ";
+	$cursor = exequery($connection,$query);
+	while($row = mysqli_fetch_array($cursor)){
+		$has_import .= $row['RUNID'].",";
+	}
+	if ($has_import != "") {
+		$whereCondition .= " AND a.RUN_ID not in ( ".rtrim($has_import,',')." )";
+	}
+	
 	//组织
 	$query = "SELECT `ORGDESC` FROM ZDCW_IMP_FROM_OA WHERE `ID` = ".$ORG;
 	$cursor = exequery($connection,$query);
@@ -133,7 +145,7 @@ if ($FLOWTYPE == '87') {  //正大置地报销流程
 	$result_msg .= "本次搜索共找到 <font color='green'>".$result['total']."</font> 条报销流程。<br />";
 	$result_msg .= "其中：<br />";
 	$result_msg .= "可导入的流程有 <font color='green'>".count($result_row_y)."</font> 条。<br />";
-	$result_msg .= "不可导入的有 <font color='red'>".count($result_row_n)."</font> 条。（请至表格中查看具体原因）";
+	$result_msg .= "不可导入的有 <font color='red'>".count($result_row_n)."</font> 条。（请至备注中查看具体原因）";
 
 	$result['msg'] = $result_msg;
 	

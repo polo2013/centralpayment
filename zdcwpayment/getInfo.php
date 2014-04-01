@@ -28,6 +28,11 @@ if($ROW = mysqli_fetch_array($cursor)){
 	$result['NOTE'] = $ROW['NOTE'];	
 	$result['PAYCHECKER'] = $ROW['PAYCHECKER'];
 	$result['PAYCHECKTIME'] = ($ROW['PAYCHECKTIME'] == '0000-00-00 00:00:00' ? '' : $ROW['PAYCHECKTIME']);
+	$result['PAYIMPORT'] = $ROW['PAYIMPORT'];
+	$result['PAYIMPORTTIME'] = ($ROW['PAYIMPORTTIME'] == '0000-00-00 00:00:00' ? '' : $ROW['PAYIMPORTTIME']);
+	$result['PAYCONFIRM'] = $ROW['PAYCONFIRM'];
+	$result['PAYCONFIRMTIME'] = ($ROW['PAYCONFIRMTIME'] == '0000-00-00 00:00:00' ? '' : $ROW['PAYCONFIRMTIME']);
+	$result['IMP_FLAG'] = $ROW['IMP_FLAG'];
 }
 
 

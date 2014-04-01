@@ -10,12 +10,14 @@ $NUM = $_REQUEST['NUM'] ? $_REQUEST['NUM'] : "";
 $result = array('success' => false, 'message' => '保存失败！');
 
 //check value
+$IMP_FLAG = "";
 $query = "select * from zdcw_payment_master where NUM = '$NUM'";
 $cursor = exequery($connection,$query);
 if($row = mysqli_fetch_array($cursor)){
-	if ($row['INPUTTER'] != $login_user) {
+	$IMP_FLAG = $row['IMP_FLAG'];
+	if (($row['INPUTTER'] != $login_user && $IMP_FLAG == "") || ($row['PAYIMPORT'] != $login_user && $IMP_FLAG == "IMP_FROM_OA")) {
 		$result['success'] = false;
-		$result['message'] = '只能删除自己录入的单据！';
+		$result['message'] = '只能删除自己录入或导入的单据！';
 	}else{
 		//log
 		$logArray = array();
@@ -64,6 +66,11 @@ if($row = mysqli_fetch_array($cursor)){
 
 		
 		$query_del = "delete from zdcw_payment_detail where NUM = '$NUM'; delete from zdcw_payment_master where NUM = '$NUM'; ";
+		
+		if ($IMP_FLAG == "IMP_FROM_OA") {
+			$query_del .= "delete from ZDCW_IMP_FROM_OA_REC where NUM = '$NUM'; ";
+		}
+		
 		//开始删除//多条语句一起执行
 		$queryResult = exeMutiQuery($connection,$query_del);
 		if($queryResult){

@@ -63,6 +63,8 @@ $objPHPExcel->setActiveSheetIndex(0)
 ->setCellValue('K1', '操作人')
 ->setCellValue('L1', '操作时间');
 
+//币别居中
+$objPHPExcel->getActiveSheet()->getStyle('D1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 //金额靠右
 $objPHPExcel->getActiveSheet()->getStyle('E1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
 //收款人居中
@@ -84,9 +86,11 @@ $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(20);
 
 
 $query = "SELECT * FROM zdcw_payment_master WHERE `NUM`='$NUM'";
+$IMP_FLAG="";
 $cursor = exequery($connection,$query);
 if($ROW = mysqli_fetch_array($cursor)){
-	$mst_org = splitName($ROW['ORG']);
+	$IMP_FLAG = $ROW['IMP_FLAG'];
+	$mst_org = $IMP_FLAG == "" ? splitName($ROW['ORG']) : $ROW['ORG'];
 	$mst_billnum = $ROW['BILLNUM'];
 }
 
@@ -106,18 +110,18 @@ while($row_page = mysqli_fetch_array($cursor_page)){
 	//$objPHPExcel->getActiveSheet()->getStyle('G'.$i)->getAlignment()->setWrapText(true);
 	
 	$objPHPExcel->setActiveSheetIndex(0)
-	->setCellValue('A'.$i, splitName($row_page['ORG']))
-	->setCellValue('B'.$i, splitName($row_page['APPLICANT']))
+	->setCellValue('A'.$i, $IMP_FLAG == "" ? splitName($row_page['ORG']) : $row_page['ORG'])
+	->setCellValue('B'.$i, $IMP_FLAG == "" ? splitName($row_page['APPLICANT']) : $row_page['APPLICANT'])
 	->setCellValue('C'.$i, $row_page['PAYMENT'])
 	->setCellValue('D'.$i, $row_page['CURRENCY'])
 	->setCellValue('E'.$i, $row_page['TOTALAMT'])
-	->setCellValue('F'.$i, splitName($row_page['PAYEE']))
+	->setCellValue('F'.$i, $IMP_FLAG == "" ? splitName($row_page['PAYEE']) : $row_page['PAYEE'])
 	->setCellValue('G'.$i, $row_page['BANK'])
 	//->setCellValue('H'.$i, $row_page['ACCOUNT'])
 	->setCellValueExplicit('H'.$i, $row_page['ACCOUNT'], PHPExcel_Cell_DataType::TYPE_STRING)
 	->setCellValue('I'.$i, $row_page['NOTE'])
 	->setCellValue('J'.$i, $row_page['PAYSTAT'])
-	->setCellValue('K'.$i, ($row_page['PAYER'] ? splitName($row_page['PAYER']) : ''))
+	->setCellValue('K'.$i, $IMP_FLAG == "" ? ($row_page['PAYER'] ? splitName($row_page['PAYER']) : $row_page['PAYER']) : $row_page['PAYER'])
 	->setCellValue('L'.$i, ($row_page['PAYTIME'] == '0000-00-00 00:00:00' ? '' : $row_page['PAYTIME']));	
 	
 	$sumAllTotal = $sumAllTotal + $row_page['TOTALAMT'];

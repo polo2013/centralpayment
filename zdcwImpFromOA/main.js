@@ -206,31 +206,6 @@ function searchOAFlow(){
     	var param = 'ORG='+org+'&FLOWTYPE='+flowtype+'&FLOWSTAT='+flowstat
     	+'&BEGINNER='+beginner+'&BEGINTIME1='+begintime1+'&BEGINTIME2='+begintime2;
     	
-    	/*
-    	$.ajax({
-            type: 'POST',
-            url: encodeURI(url+'?'+param),
-            async: true,
-            cache: false,
-            dataType: 'json',
-            timeout: 5000,  //毫秒，超时后执行error
-            success: function (data) {
-    			//alert(JSON.stringify(data));
-            	$('#dg_zdcwimpfromoa').datagrid({
-    				url: encodeURI(url+'?'+param)
-    			});
-            	$.messager.progress('close');
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-            	$.messager.progress('close');
-            	art.dialog({
-            	    content: '与OA服务器通讯失败！<br>textStatus：'+textStatus+'<br>XMLHttpRequest.status：'+XMLHttpRequest.status+'<br>XMLHttpRequest.readyState：'+XMLHttpRequest.readyState+'<br>'+errorThrown,
-            	    ok: true
-            	});
-            }
-    	});
-    	*/
-
     	$('#dg_zdcwimpfromoa').datagrid({
     		url: encodeURI(url+'?'+param)
     	});
@@ -241,6 +216,7 @@ function searchOAFlow(){
 
 function genPaymentFromOA(){
 	var org = $('#org_zdcwimpfromoa').combobox('getText');
+	var flowtype = $('#flowtype_zdcwimpfromoa').combobox('getText');
 	var rows = $('#dg_zdcwimpfromoa').datagrid('getSelections');
 	//alert(JSON.stringify(rows));
 	if (rows.length > 0){
@@ -258,9 +234,7 @@ function genPaymentFromOA(){
 			        	    content: result.message,
 			        	    ok: function(){
 			        	    	//生成单据
-			        	    	genPaymentAction(org, rows, 'merge');
-			        	    	//alert('merge');
-			        	    	jQuery('body').hideLoading();
+			        	    	genPaymentAction(org, flowtype, 'merge', rows);
 			        	    },
 			        	    cancel:function(){
 			        	    	jQuery('body').hideLoading();
@@ -268,8 +242,7 @@ function genPaymentFromOA(){
 			        	});
 					}else{
 						//生成单据
-						//genPaymentAction('nomerge');
-						alert('nomerge');
+						genPaymentAction(org, flowtype, 'nomerge', rows);
 					}
 				}else{
 	        	    jQuery('body').hideLoading();
@@ -285,21 +258,24 @@ function genPaymentFromOA(){
 		$('#btn_genpayment_zdcwimpfromoa').grumble(missSelectMsg);
 	}
 }
-function genPaymentAction(org, rows, is_merge){
+function genPaymentAction(org, flowtype, is_merge, rows){
 	$.post(
 		'../'+modulepath+'/genBill.php',
 		{
-			ORG   : org,
-			ROWS  : JSON.stringify(rows),
-			MERGE : is_merge
+			ORG      : org,
+			FLOWTYPE : flowtype,
+			MERGE    : is_merge,
+			ROWS     : JSON.stringify(rows),
 		},
 		function(resultdata){
-			jQuery('body').hideLoading();
 			//alert(JSON.stringify(resultdata));
 			if (resultdata.success){
 				art.dialog({
 	        	    content: resultdata.message,
-	        	    ok: true
+	        	    ok: function(){
+	        	    	//打开单据 
+	        	    	actView(resultdata.num);
+	        	    }
 	        	});
 			}else{
 				art.dialog({
@@ -307,6 +283,7 @@ function genPaymentAction(org, rows, is_merge){
 	        	    ok: true
 	        	});
 			}
+			jQuery('body').hideLoading();
 		},
 		'json'
 	);

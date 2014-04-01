@@ -2,6 +2,7 @@ $(document).ready(function(){
 	if(paymentViewMode == "view"){
 		//alert(viewNum);
 		$.getJSON('../'+modulepath+'/getInfo.php', {NUM: viewNum}, function(data){
+			//alert(JSON.stringify(allAuth));
 			//alert(JSON.stringify(data));
 			//单号
 			$('#num_zdcwpayment').val(data.NUM);
@@ -32,6 +33,17 @@ $(document).ready(function(){
 			$('#paychecker_zdcwpayment').val(data.PAYCHECKER);
 			//付款审核时间
 			$('#paychecktime_zdcwpayment').val(data.PAYCHECKTIME);
+			//导入人
+			$('#payimport_zdcwpayment').val(data.PAYIMPORT);
+			//导入时间
+			$('#payimporttime_zdcwpayment').val(data.PAYIMPORTTIME);
+			//付款确认人
+			$('#payconfirm_zdcwpayment').val(data.PAYCONFIRM);
+			//付款确认时间
+			$('#payconfirmtime_zdcwpayment').val(data.PAYCONFIRMTIME);
+			//导入标记
+			$('#imp_flag_zdcwpayment').val(data.IMP_FLAG);
+			
 			
 			//操作
 			$.getJSON('../'+modulepath+'/getOperation.php', {STAT: data.STAT, ORG: data.ORG}, function(data_oper){
@@ -250,6 +262,23 @@ $(document).ready(function(){
 					//通过增加一个修改备注的按钮来解决。
 				});
 				*/
+			}else if(data.STAT == '已导入' || data.STAT == '付款确认不通过'){
+				//检查权限
+				if(arrSearch('删除权',allAuth)){
+					$('#btn_delete_zdcwpayment').linkbutton({
+					    iconCls: 'icon-cancel',
+					    plain: false,
+					    text: '删除',
+					    disabled: false
+					});
+					$('#btn_delete_zdcwpayment').unbind();
+					$('#btn_delete_zdcwpayment').bind('click', deletePaymentAct);
+				}
+				if(arrSearch('付款确认权',allAuth) && data.STAT == '已导入'){
+					$('#btn_save_zdcwpayment').linkbutton('enable');
+					$('#btn_save_zdcwpayment').unbind();
+					$('#btn_save_zdcwpayment').bind('click', savePaymentAct);
+				}
 			}
 			
 			if(arrSearch('打印权',allAuth)){
