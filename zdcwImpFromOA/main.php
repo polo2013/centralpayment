@@ -44,13 +44,13 @@
 		</td>
 	</tr>
 	<tr>
-		<td valign="bottom" colspan="6">
+		<td valign="bottom" colspan="2">
 			<a id="btn_selectall_zdcwimpfromoa" href="javascript:void(0)" onclick="selectall_impfromoa()"></a>
 			<a id="btn_unselectall_zdcwimpfromoa" href="javascript:void(0)" onclick="unselectall_impfromoa()"></a>
 			<a id="btn_setting_zdcwimpfromoa" href="javascript:void(0)" ></a>
 		</td>
-		<td valign="bottom">
-			
+		<td valign="bottom" colspan="5">
+			<span id="searchinfo_zdcwimpfromoa"></span>
 		</td>
 	</tr>
 </table>

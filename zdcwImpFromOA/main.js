@@ -57,11 +57,8 @@ $(document).ready(function(){
 			//$.messager.progress('close');
 			jQuery('body').hideLoading();
 			if (data.rows.length > 0) {
-				art.dialog({
-					content: data.msg,
-					ok: true
-	        	});
-				
+				$('#searchinfo_zdcwimpfromoa').html(data.msg);
+
 				for (var i = 0; i < data.rows.length; i++) {
 					//根据flag让某些行不可选
 					if (data.rows[i].FLAG == "否") {
@@ -241,8 +238,16 @@ function genPaymentFromOA(){
 			        	    }
 			        	});
 					}else{
-						//生成单据
-						genPaymentAction(org, flowtype, 'nomerge', rows);
+						art.dialog({
+			        	    content: "确定将所选报销流程生成付款汇总表吗？",
+			        	    ok: function(){
+			        	    	//生成单据
+			        	    	genPaymentAction(org, flowtype, 'nomerge', rows);
+			        	    },
+			        	    cancel:function(){
+			        	    	jQuery('body').hideLoading();
+			        	    }
+			        	});
 					}
 				}else{
 	        	    jQuery('body').hideLoading();

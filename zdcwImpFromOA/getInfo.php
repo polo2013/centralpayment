@@ -142,10 +142,10 @@ if ($FLOWTYPE == '87') {  //正大置地报销流程
 	
 	$result['rows'] = array_merge($result_row_y, $result_row_n);
 	
-	$result_msg .= "本次搜索共找到 <font color='green'>".$result['total']."</font> 条报销流程。<br />";
-	$result_msg .= "其中：<br />";
-	$result_msg .= "可导入的流程有 <font color='green'>".count($result_row_y)."</font> 条。<br />";
-	$result_msg .= "不可导入的有 <font color='red'>".count($result_row_n)."</font> 条。（请至备注中查看具体原因）";
+	$result_msg .= "<span style='font-weight: bold; color: orange;'>本次搜索共找到 <font color='green'>".$result['total']."</font> 条报销流程。";
+	$result_msg .= "其中：";
+	$result_msg .= "可导入的流程有 <font color='green'>".count($result_row_y)."</font> 条。";
+	$result_msg .= "不可导入的有 <font color='red'>".count($result_row_n)."</font> 条。（请至备注中查看具体原因）</span>";
 
 	$result['msg'] = $result_msg;
 	

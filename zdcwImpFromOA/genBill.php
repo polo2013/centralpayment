@@ -82,7 +82,7 @@ if($ROWSARR != NULL){
 	
 	if($queryResult && $queryResult_rec){
 		$result['success'] = true;
-		$result['message'] = '生成单据成功！单据号：'.$NUM;
+		$result['message'] = '生成单据成功！单据号：'.$NUM.'。点击确定查看单据。';
 		$result['num'] = $NUM;
 	}else{
 		$result['success'] = false;
