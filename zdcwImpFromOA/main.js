@@ -92,6 +92,46 @@ $(document).ready(function(){
         }
 	});
 
+	
+	$('#dg_setting_zdcwimpfromoa').datagrid({
+		iconCls:'icon-edit',
+		onClickRow:clickSettingsRow,
+		rownumbers: true,
+		fitColumns: true,
+		singleSelect: true,
+		toolbar: '#tb_setting_zdcwimpfromoa',
+		border: true,
+		striped: true,
+		columns: [[
+			{field:'ORG',title:'组织机构',width:20,editor:{
+				type:'validatebox',
+				options:{
+					required:true
+				}
+			}},
+			{field:'ORGDESC',title:'相应查询条件',width:50,editor:{
+				type:'validatebox',
+				options:{
+					required:true
+				}
+			}},
+			{field:'FLOWID',title:'OA流程内部ID',width:30,editor:{
+				type:'validatebox',
+				options:{
+					required:true
+				}
+			}},
+			{field:'FLOWNAME',title:'OA流程名称',width:30,editor:{
+				type:'validatebox',
+				options:{
+					required:true
+				}
+			}}
+			
+		]]
+		
+	});
+	
 	$('#btn_selectall_zdcwimpfromoa').linkbutton({
 	    plain: false,
 	    text: '全选',
@@ -133,7 +173,7 @@ $(document).ready(function(){
 			    disabled: false
 			});
 			$("#btn_setting_zdcwimpfromoa").unbind();
-			$('#btn_setting_zdcwimpfromoa').bind('click', settingImp);
+			$('#btn_setting_zdcwimpfromoa').bind('click', showSettings);
 		}
 		if(arrSearch('生成单据权',allAuth)){
 			$('#btn_genpayment_zdcwimpfromoa').linkbutton({
@@ -231,7 +271,7 @@ function genPaymentFromOA(){
 			        	    content: result.message,
 			        	    ok: function(){
 			        	    	//生成单据
-			        	    	genPaymentAction(org, flowtype, 'merge', rows);
+			        	    	genPaymentAction(org, flowtype, 'merge', rows, result.exist_bill);
 			        	    },
 			        	    cancel:function(){
 			        	    	jQuery('body').hideLoading();
@@ -242,7 +282,7 @@ function genPaymentFromOA(){
 			        	    content: "确定将所选报销流程生成付款汇总表吗？",
 			        	    ok: function(){
 			        	    	//生成单据
-			        	    	genPaymentAction(org, flowtype, 'nomerge', rows);
+			        	    	genPaymentAction(org, flowtype, 'nomerge', rows, result.exist_bill);
 			        	    },
 			        	    cancel:function(){
 			        	    	jQuery('body').hideLoading();
@@ -263,7 +303,7 @@ function genPaymentFromOA(){
 		$('#btn_genpayment_zdcwimpfromoa').grumble(missSelectMsg);
 	}
 }
-function genPaymentAction(org, flowtype, is_merge, rows){
+function genPaymentAction(org, flowtype, is_merge, rows, exist_bill){
 	$.post(
 		'../'+modulepath+'/genBill.php',
 		{
@@ -271,6 +311,7 @@ function genPaymentAction(org, flowtype, is_merge, rows){
 			FLOWTYPE : flowtype,
 			MERGE    : is_merge,
 			ROWS     : JSON.stringify(rows),
+			EXIST_BILL : JSON.stringify(exist_bill),
 		},
 		function(resultdata){
 			//alert(JSON.stringify(resultdata));
@@ -294,4 +335,85 @@ function genPaymentAction(org, flowtype, is_merge, rows){
 	);
 }
 
-function settingImp(){}
+
+/******************模块选项**********************/
+function showSettings(){
+	$('#dlg_setting_zdcwimpfromoa').dialog('open').dialog('setTitle','设置').dialog('center').dialog('move',{top:100});
+	$('#dg_setting_zdcwimpfromoa').datagrid({
+		url: encodeURI('../'+modulepath+'/getSettingsInfo.php')
+	});
+}
+
+var editSettingsIndex = undefined;
+function endEditingSettings(){
+    if (editSettingsIndex == undefined){return true}
+    if ($('#dg_setting_zdcwimpfromoa').datagrid('validateRow', editSettingsIndex)){
+        $('#dg_setting_zdcwimpfromoa').datagrid('endEdit', editSettingsIndex);
+        editSettingsIndex = undefined;
+        return true;
+    } else {
+        return false;
+    }
+}
+function clickSettingsRow(rowIndex, rowData){
+    if (editSettingsIndex != rowIndex){
+        if (endEditingSettings()){
+            $('#dg_setting_zdcwimpfromoa').datagrid('selectRow', rowIndex).datagrid('beginEdit', rowIndex);
+            editSettingsIndex = rowIndex;
+        } else {
+            $('#dg_setting_zdcwimpfromoa').datagrid('selectRow', editSettingsIndex);
+        }
+    }
+}
+function appendSettings(){
+    if (endEditingSettings()){
+    	var rows = $('#dg_setting_zdcwimpfromoa').datagrid('getRows');
+    	//alert(JSON.stringify(rows));
+    	editSettingsIndex = rows.length;
+        $('#dg_setting_zdcwimpfromoa').datagrid('appendRow',{ORG:'',ORGDESC:'',FLOWID:'',FLOWNAME:''});
+        $('#dg_setting_zdcwimpfromoa').datagrid('selectRow', editSettingsIndex).datagrid('beginEdit', editSettingsIndex);
+        
+    }
+}
+function removeSettings(){
+    if (editSettingsIndex == undefined){
+    	return false;
+    }
+    $('#dg_setting_zdcwimpfromoa').datagrid('cancelEdit', editSettingsIndex).datagrid('deleteRow', editSettingsIndex);
+    editSettingsIndex = undefined;
+}
+function saveSettingsAct(){
+	if (endEditingSettings()){
+	art.dialog({
+	    content: '确定要保存这些设置吗？',
+	    ok: function(){
+	    	var row_Settings = $('#dg_setting_zdcwimpfromoa').datagrid('getRows');
+	    	$.post(
+	    		'../'+modulepath+'/saveSettings.php',
+    			{
+    			"Settings": encodeURI(JSON.stringify(row_Settings))
+    			},
+    			function(result){
+    				//alert(JSON.stringify(result));
+					if (result.success){
+						art.dialog({
+	    	        	    content: result.message,
+	    	        	    ok: function(){
+	    	        	    	//$('#dg_setting_zdcwimpfromoa').datagrid('reload');    // reload the user data
+	    	        	    	$('#dlg_setting_zdcwimpfromoa').dialog('close'); 
+	    		        	}
+	    	        	});
+					} else {
+						art.dialog({
+			        	    content: result.message,
+			        	    ok: true
+			        	});
+					}
+    			}, 
+    			"json"
+    		);
+	    },
+	    cancel: true
+	});
+	}
+}

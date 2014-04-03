@@ -4,6 +4,7 @@ include_once("../public/php/session.php");
 $ORG = $_REQUEST['ORG'] ? $_REQUEST['ORG'] : "";
 
 $result = array();
+$exist_bill = array();
 
 if ($ORG != ""){
 	$query = "select * from zdcw_payment_master where ORG = '".$ORG."' AND IMP_FLAG = 'IMP_FROM_OA' AND STAT in ('已导入','付款确认不通过')";
@@ -13,6 +14,7 @@ if ($ORG != ""){
 		
 		do {
 			$msg .= "<tr><td>".$row['NUM']."</td><td>".$row['STAT']."</td><td>".$row['PAYIMPORT']."</td><td>".$row['PAYIMPORTTIME']."</td></tr>";
+			$exist_bill[] = $row['NUM'];
 		} while ($row = mysqli_fetch_array($cursor));
 		
 		$msg .= "</table><br />是否继续？";
@@ -27,5 +29,7 @@ if ($ORG != ""){
 }
 $result['success'] = $success;
 $result['message'] = $msg;
+$result['exist_bill'] = $exist_bill;
+
 echo json_encode($result);
 ?>

@@ -56,3 +56,16 @@
 </table>
 </form>
 </div>
+
+
+<div id="dlg_setting_zdcwimpfromoa" class="easyui-dialog" data-options="closed:true, modal:true, buttons:'#dlg-buttons_setting_zdcwimpfromoa',shadow:false">
+	<table id="dg_setting_zdcwimpfromoa"></table>
+</div>
+<div id="dlg-buttons_setting_zdcwimpfromoa">
+	<a id="btn-save_setting_zdcwimpfromoa" href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onclick="saveSettingsAct()">保存</a>
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg_setting_zdcwimpfromoa').dialog('close')">取消</a>
+</div>
+<div id="tb_setting_zdcwimpfromoa">
+	<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="appendSettings()">新增</a>
+	<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="removeSettings()">删除</a>
+</div>
