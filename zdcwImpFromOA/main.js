@@ -16,17 +16,82 @@ $(document).ready(function(){
 			{field:'FLOWINFO',title:'流程信息',halign:'center',align:'left',width:250},
 			{field:'ORG',title:'部门 / 项目',halign:'center',align:'center',width:150},
 			{field:'APPLICANT',title:'费用申请人',halign:'center',align:'center',width:100},
-			{field:'PAYMENT',title:'付款事由',halign:'center',align:'center',width:250},
-			{field:'CURRENCY',title:'币别',halign:'center',align:'center',width:60},
-			{field:'TOTALAMT',title:'金额',halign:'center',align:'right',width:100},
-			{field:'PAYEE',title:'收款人',halign:'center',align:'center',width:100},
-			{field:'BANK',title:'银行',halign:'center',align:'center',width:100},
-			{field:'ACCOUNT',title:'账号',halign:'center',align:'center',width:180},
+			{field:'PAYMENT',title:'付款事由',halign:'center',align:'center',width:250,editor:{
+				type:'validatebox',
+				options:{
+					required:true,
+					missingMessage:'必填项'
+				}
+			}},
+			{field:'CURRENCY',title:'币别',halign:'center',align:'center',width:60,editor:{
+				type:'combobox',
+				options:{
+					required:true,
+					missingMessage:'必填项',
+					editable:false,
+					hasDownArrow:false,
+					panelHeight:'auto'
+				}
+			}},
+			{field:'TOTALAMT',title:'金额',halign:'center',align:'right',width:100,editor:{
+				type:'numberbox',
+				options:{
+					required:true,
+					missingMessage:'必填项',
+					min:0,
+				    precision:2,
+				    validType:'not_eq_zero[0]'
+				}
+			},formatter: function(value,row,index){
+				return parseFloat(value).toFixed(2);
+			}},
+			{field:'PAYEE',title:'收款人',halign:'center',align:'center',width:100,editor:{
+				type:'combobox',
+				options:{
+					required:true,
+					missingMessage:'若无选择项，请确认用户或收款人资料已复核',
+					editable:false,
+					//panelHeight:'auto',
+					onChange: function(newValue, oldValue){
+						$.getJSON("../public/php/getUser.php", {PARA: "IMPOA_BANK", PARA2: newValue}, function(data){
+							//alert(JSON.stringify(data));
+							var edbank = $('#dg_zdcwimpfromoa').datagrid('getEditor', {index:editImpFromOAIndex, field:'BANK'});
+							$(edbank.target).combobox('setValue', data.bank);
+							var edaccount = $('#dg_zdcwimpfromoa').datagrid('getEditor', {index:editImpFromOAIndex, field:'ACCOUNT'});
+							$(edaccount.target).combobox('setValue', data.account);
+						});
+					}
+				}
+			}},
+			{field:'BANK',title:'银行',halign:'center',align:'center',width:100,editor:{
+				type:'combobox',
+				options:{
+					required:true,
+					missingMessage:'必填项',
+					editable:false,
+					panelHeight:'auto',
+					hasDownArrow:false,
+					readonly:true
+				}
+			}},
+			{field:'ACCOUNT',title:'账号',halign:'center',align:'center',width:180,editor:{
+				type:'combobox',
+				options:{
+					required:true,
+					missingMessage:'必填项',
+					editable:false,
+					panelHeight:'auto',
+					hasDownArrow:false,
+					readonly:true
+				}
+			}},
 			{field:'NOTE',title:'备注',halign:'center',align:'center',width:200,
 				styler: function(value,row,index){
 					if (row.FLAG == "否"){
 						return 'color:red;';
 					}
+				},editor:{
+					type:'validatebox'
 				}
 			},
 			{field:'FLAG',title:'可导',halign:'center',align:'center',width:40,
@@ -34,6 +99,8 @@ $(document).ready(function(){
 					if (value == "否"){
 						return 'color:red;';
 					}
+				},editor:{
+					type:'validatebox'
 				}
 			},
 		]],
@@ -45,7 +112,6 @@ $(document).ready(function(){
 			}
 		},*/
 		onLoadError: function(){
-			//$.messager.progress('close');
 			jQuery('body').hideLoading();
 			art.dialog({
 				content: '连接 OA 服务器通讯失败！',
@@ -53,12 +119,10 @@ $(document).ready(function(){
         	});
 		},
 		onLoadSuccess:function(data){
-			//alert(JSON.stringify(data));
-			//$.messager.progress('close');
 			jQuery('body').hideLoading();
 			if (data.rows.length > 0) {
 				$('#searchinfo_zdcwimpfromoa').html(data.msg);
-
+				
 				for (var i = 0; i < data.rows.length; i++) {
 					//根据flag让某些行不可选
 					if (data.rows[i].FLAG == "否") {
@@ -66,14 +130,10 @@ $(document).ready(function(){
 						
 					}
 				}
+				
 			}
 		},
-		onClickRow: function(rowIndex, rowData){
-			if (rowData.FLAG == "否") {
-				$('#dg_zdcwimpfromoa').datagrid('unselectRow', rowIndex);
-				$('#dg_zdcwimpfromoa').datagrid('uncheckRow', rowIndex);
-			}
-        },
+		onClickRow: clickImpFromOARow,
         onSelectAll: function(rows){
         	for (var i = 0; i < rows.length; i++) {
 				if (rows[i].FLAG == "否") {
@@ -221,6 +281,19 @@ function myparser(s){
     }
 }
 
+$.extend($.fn.validatebox.defaults.rules, {
+    not_eq_zero: {
+        validator: function(value, param){
+        	if(value == 0){
+        		return false;
+        	}else{
+        		return true;
+        	}
+        },
+        message: '不能为空或为零'
+    }
+});
+
 function searchOAFlow(){
 	var isValidate = $(this).form('validate');
 	if(isValidate){
@@ -252,55 +325,62 @@ function searchOAFlow(){
 }
 
 function genPaymentFromOA(){
-	var org = $('#org_zdcwimpfromoa').combobox('getText');
-	var flowtype = $('#flowtype_zdcwimpfromoa').combobox('getText');
-	var rows = $('#dg_zdcwimpfromoa').datagrid('getSelections');
-	//alert(JSON.stringify(rows));
-	if (rows.length > 0){
-		jQuery('body').showLoading();
-		$.post(
-			'../'+modulepath+'/checkExistBill.php',
-			{
-				ORG : org
-			},
-			function(result){
-				//alert(JSON.stringify(result));
-				if (result.success){
-					if (result.message != ""){
+	if(! endEditingImpFromOA()){
+		art.dialog({
+    	    content: alarmImpFromOA,
+    	    ok: true
+    	});
+	}else{
+		var org = $('#org_zdcwimpfromoa').combobox('getText');
+		var flowtype = $('#flowtype_zdcwimpfromoa').combobox('getText');
+		var rows = $('#dg_zdcwimpfromoa').datagrid('getSelections');
+		//alert(JSON.stringify(rows));
+		if (rows.length > 0){
+			jQuery('body').showLoading();
+			$.post(
+				'../'+modulepath+'/checkExistBill.php',
+				{
+					ORG : org
+				},
+				function(result){
+					//alert(JSON.stringify(result));
+					if (result.success){
+						if (result.message != ""){
+							art.dialog({
+				        	    content: result.message,
+				        	    ok: function(){
+				        	    	//生成单据
+				        	    	genPaymentAction(org, flowtype, 'merge', rows, result.exist_bill);
+				        	    },
+				        	    cancel:function(){
+				        	    	jQuery('body').hideLoading();
+				        	    }
+				        	});
+						}else{
+							art.dialog({
+				        	    content: "确定将所选报销流程生成付款汇总表吗？",
+				        	    ok: function(){
+				        	    	//生成单据
+				        	    	genPaymentAction(org, flowtype, 'nomerge', rows, result.exist_bill);
+				        	    },
+				        	    cancel:function(){
+				        	    	jQuery('body').hideLoading();
+				        	    }
+				        	});
+						}
+					}else{
+		        	    jQuery('body').hideLoading();
 						art.dialog({
 			        	    content: result.message,
-			        	    ok: function(){
-			        	    	//生成单据
-			        	    	genPaymentAction(org, flowtype, 'merge', rows, result.exist_bill);
-			        	    },
-			        	    cancel:function(){
-			        	    	jQuery('body').hideLoading();
-			        	    }
-			        	});
-					}else{
-						art.dialog({
-			        	    content: "确定将所选报销流程生成付款汇总表吗？",
-			        	    ok: function(){
-			        	    	//生成单据
-			        	    	genPaymentAction(org, flowtype, 'nomerge', rows, result.exist_bill);
-			        	    },
-			        	    cancel:function(){
-			        	    	jQuery('body').hideLoading();
-			        	    }
+			        	    ok: true
 			        	});
 					}
-				}else{
-	        	    jQuery('body').hideLoading();
-					art.dialog({
-		        	    content: result.message,
-		        	    ok: true
-		        	});
-				}
-			},
-			'json'
-		);
-	}else{
-		$('#btn_genpayment_zdcwimpfromoa').grumble(missSelectMsg);
+				},
+				'json'
+			);
+		}else{
+			$('#btn_genpayment_zdcwimpfromoa').grumble(missSelectMsg);
+		}
 	}
 }
 function genPaymentAction(org, flowtype, is_merge, rows, exist_bill){
@@ -336,6 +416,107 @@ function genPaymentAction(org, flowtype, is_merge, rows, exist_bill){
 }
 
 
+/**********行编辑*********************/
+var editImpFromOAIndex = undefined;
+var alarmImpFromOA = '数据行未编辑完成！请处理。';
+
+function endEditingImpFromOA(){
+    if (editImpFromOAIndex == undefined){return true;}
+    if ($('#dg_zdcwimpfromoa').datagrid('validateRow', editImpFromOAIndex)){
+    	//修改备注和Flag
+    	var roweditors = $('#dg_zdcwimpfromoa').datagrid('getEditors', editImpFromOAIndex);
+    	//alert(JSON.stringify(roweditors));
+    	$.each( roweditors, function(i, v){
+    		switch(v.field)
+    		{
+    		case 'NOTE':
+    			$(v.target).val('导入后修改');
+    			break;
+    		case 'FLAG':
+    			$(v.target).val('是');
+    			break;
+    		}
+    		
+    	});
+    	
+        $('#dg_zdcwimpfromoa').datagrid('endEdit', editImpFromOAIndex);
+        editImpFromOAIndex = undefined;
+        return true;
+    } else {
+    	return false;
+    }
+}
+
+function clickImpFromOARow(rowIndex, rowData){
+	//alert(JSON.stringify(rowData));
+	if ((rowData.FLAG == "否") || (rowData.FLAG == "是" && rowData.NOTE == "导入后修改")) {
+		//alert(rowIndex);
+		//alert(editImpFromOAIndex);
+		if (editImpFromOAIndex != rowIndex){
+			if (endEditingImpFromOA()){
+				$('#dg_zdcwimpfromoa').datagrid('selectRow', rowIndex).datagrid('beginEdit', rowIndex);
+				editImpFromOAIndex = rowIndex;
+				setImpFromOAGridData('edit');
+			} else {
+				art.dialog({
+		    	    content: alarmImpFromOA,
+		    	    ok: true
+		    	});
+			}
+			
+		}
+		
+	}else{
+		if(! endEditingImpFromOA()){
+			art.dialog({
+	    	    content: alarmImpFromOA,
+	    	    ok: true
+	    	});
+			
+		}
+	}
+	$('#dg_zdcwimpfromoa').datagrid('unselectRow', rowIndex);
+	$('#dg_zdcwimpfromoa').datagrid('uncheckRow', rowIndex);
+}
+
+function setImpFromOAGridData(flag){
+	var roweditors = $('#dg_zdcwimpfromoa').datagrid('getEditors', editImpFromOAIndex);
+	//alert(JSON.stringify(roweditors));
+	$.each( roweditors, function(i, v){
+		switch(v.field)
+		{
+		case 'CURRENCY':
+			$.getJSON("../public/php/getCurrency.php", function(data){
+				$(v.target).combobox('loadData', data.all);
+				//$(v.target).combobox('select', v.oldHtml);
+			});
+			break;
+		case 'TOTALAMT':
+			$(v.target).css({ "text-align":"right" });
+			break;
+		case 'PAYEE':	
+			$.getJSON("../public/php/getUser.php", {PARA: "IMPOA_PAYEE", PARA2:""}, function(data){
+				$(v.target).combobox('loadData', data.all);
+				//$(v.target).combobox('select', v.oldHtml);
+				
+			});
+			break;
+		case 'NOTE':
+			$(v.target).attr("readonly","readonly");
+			break;
+		case 'FLAG':
+			$(v.target).attr("readonly","readonly");
+			break;
+
+		}
+		
+	});
+	//结束赋值
+}
+
+
+/******************end**********************/
+
 /******************模块选项**********************/
 function showSettings(){
 	$('#dlg_setting_zdcwimpfromoa').dialog('open').dialog('setTitle','设置').dialog('center').dialog('move',{top:100});
@@ -345,6 +526,7 @@ function showSettings(){
 }
 
 var editSettingsIndex = undefined;
+
 function endEditingSettings(){
     if (editSettingsIndex == undefined){return true}
     if ($('#dg_setting_zdcwimpfromoa').datagrid('validateRow', editSettingsIndex)){
@@ -417,3 +599,4 @@ function saveSettingsAct(){
 	});
 	}
 }
+/******************模块选项**end********************/

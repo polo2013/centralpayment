@@ -161,8 +161,9 @@ function saveAct(){
 		art.dialog({
 		    content: msg,
 		    ok: function(){
+
 		    	var authdtl = JSON.stringify(nodes);
-		    	//alert(authdtl);
+		    	
 		    	$.messager.progress();	// display the progress bar
 		    	$('#fm_sysauth').form('submit',{
 		    		url: '../'+modulepath+'/save.php',

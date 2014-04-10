@@ -74,9 +74,39 @@ switch($PARA)
 			$result['bank'] = $row['BANK'];
 			$result['account'] = $row['ACCOUNT'];
 		}
-		
 		break;
+	case 'IMPOA_BANK':
+		$query = "select * from SYS_USER WHERE `NAME` = '$PARA2' ORDER BY ORDERNO, `CODE`";
+		$cursor = exequery($connection,$query);
+		if ($row = mysqli_fetch_array($cursor)){
+			$result['bank'] = $row['BANK'];
+			$result['account'] = $row['ACCOUNT'];
+		}
+		$query = "select * from BIZ_PAYEE WHERE `NAME` = '$PARA2' ORDER BY ORDERNO, `CODE`";
+		$cursor = exequery($connection,$query);
+		if ($row = mysqli_fetch_array($cursor)){
+			$result['bank'] = $row['BANK'];
+			$result['account'] = $row['ACCOUNT'];
+		}
+		break;
+	case 'IMPOA_PAYEE':
+		$query = "select * from SYS_USER WHERE CHECKSTAT = '已复核' ORDER BY ORDERNO, `CODE`";
+		$cursor = exequery($connection,$query);
+		while ($row = mysqli_fetch_array($cursor)){
+			$result_item_item['value'] = $row['NAME'];
+			$result_item_item['text'] = $row['NAME'];
+			$result_item[] = $result_item_item;
+		}
+		$query = "select * from BIZ_PAYEE WHERE CHECKSTAT = '已复核' ORDER BY ORDERNO, `CODE`";
+		$cursor = exequery($connection,$query);
+		while ($row = mysqli_fetch_array($cursor)){
+			$result_item_item['value'] = $row['NAME'];
+			$result_item_item['text'] = $row['NAME'];
+			$result_item[] = $result_item_item;
+		}
 		
+		$result['all'] = $result_item;
+		break;
 }
 
 echo json_encode($result);
