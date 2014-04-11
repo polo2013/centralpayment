@@ -48,6 +48,7 @@
 			<a id="btn_selectall_zdcwimpfromoa" href="javascript:void(0)" onclick="selectall_impfromoa()"></a>
 			<a id="btn_unselectall_zdcwimpfromoa" href="javascript:void(0)" onclick="unselectall_impfromoa()"></a>
 			<a id="btn_setting_zdcwimpfromoa" href="javascript:void(0)" ></a>
+			<a id="btn_DelImpInfo_zdcwimpfromoa" href="javascript:void(0)" ></a>
 		</td>
 		<td valign="bottom" colspan="5">
 			<span id="searchinfo_zdcwimpfromoa"></span>
@@ -68,4 +69,42 @@
 <div id="tb_setting_zdcwimpfromoa">
 	<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="appendSettings()">新增</a>
 	<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="removeSettings()">删除</a>
+</div>
+
+
+
+<div id="dlg_DelImpInfo_zdcwimpfromoa" class="easyui-dialog" data-options="closed:true, modal:true, buttons:'#dlg-buttons_DelImpInfo_zdcwimpfromoa',shadow:false">
+	<div style="color:red;font-size:20px;">&nbsp&nbsp&nbsp&nbsp本页面将删除已经导入过的报销流程信息，使得报销流程能够再次被导入，并生成付款汇总表，最终可能会重复付款，请务必确认后再操作！</div>
+	<br/>
+	<div>
+		<form id="DelImpInfo_fm_zdcwimpfromoa" method="post">
+		<table style="margin:auto">
+			<tr>
+				<td><label>OA流程类型ID：</label></td>
+				<td><input id="DelImpInfo_flowid_zdcwimpfromoa" name="DelImpInfo_flowid" class="easyui-validatebox" data-options="required:true, missingMessage:'OA报销流程内部ID，如：87'"></td>
+			</tr>
+			<tr>
+				<td><label>OA流程流水号：</label></td>
+				<td><input id="DelImpInfo_flowrunid_zdcwimpfromoa" name="DelImpInfo_flowrunid" class="easyui-validatebox" data-options="required:true, missingMessage:'OA报销流程流水号，如：3355'"></td>
+			</tr>
+			<tr>
+				<td><label>付款汇总表单号：</label></td>
+				<td><input id="DelImpInfo_num_zdcwimpfromoa" name="DelImpInfo_num" class="easyui-validatebox" data-options="required:true, missingMessage:'由该流程所生成的付款汇总表的单号'"></td>
+			</tr>
+			<tr>
+				<td><label>申请人：</label></td>
+				<td><input id="DelImpInfo_applicant_zdcwimpfromoa" name="DelImpInfo_applicant" class="easyui-validatebox" data-options="required:true, missingMessage:'申请人'"></td>
+			</tr>
+			<tr>
+				<td><label>金额：</label></td>
+				<td><input id="DelImpInfo_amount_zdcwimpfromoa" name="DelImpInfo_amount" class="easyui-validatebox" data-options="required:true, missingMessage:'金额'"></td>
+			</tr>
+		</table>
+		</form>
+	</div>
+	<br/>
+</div>
+<div id="dlg-buttons_DelImpInfo_zdcwimpfromoa">
+	<a id="btn-save_DelImpInfo_zdcwimpfromoa" href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" onclick="saveDelImpInfoAct()">确定</a>
+	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg_DelImpInfo_zdcwimpfromoa').dialog('close')">取消</a>
 </div>

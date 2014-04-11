@@ -11,6 +11,11 @@ INSERT INTO SYS_MODULES_RIGHTS(CODE,NAME,MODULES,LASTUPD)
 select CONCAT(`CODE`,'002'), '搜索权', CONCAT('[',`CODE`,']',`NAME`),'[admin]管理员' from sys_modules where code = '011';
 INSERT INTO SYS_MODULES_RIGHTS(CODE,NAME,MODULES,LASTUPD)
 select CONCAT(`CODE`,'003'), '生成单据权', CONCAT('[',`CODE`,']',`NAME`),'[admin]管理员' from sys_modules where code = '011';
+INSERT INTO SYS_MODULES_RIGHTS(CODE,NAME,MODULES,LASTUPD)
+select CONCAT(`CODE`,'004'), '设置权', CONCAT('[',`CODE`,']',`NAME`),'[admin]管理员' from sys_modules where code = '011';
+INSERT INTO SYS_MODULES_RIGHTS(CODE,NAME,MODULES,LASTUPD)
+select CONCAT(`CODE`,'005'), '导入信息删除权', CONCAT('[',`CODE`,']',`NAME`),'[admin]管理员' from sys_modules where code = '011';
+
 
 /*设置表*/
 DROP TABLE IF EXISTS `ZDCW_IMP_FROM_OA`;

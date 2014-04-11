@@ -226,14 +226,6 @@ $(document).ready(function(){
 			});
 			$('#btn_search_zdcwimpfromoa').unbind();
 			$('#btn_search_zdcwimpfromoa').bind('click', searchOAFlow);
-
-			$('#btn_setting_zdcwimpfromoa').linkbutton({
-			    plain: false,
-			    text: '设置',
-			    disabled: false
-			});
-			$("#btn_setting_zdcwimpfromoa").unbind();
-			$('#btn_setting_zdcwimpfromoa').bind('click', showSettings);
 		}
 		if(arrSearch('生成单据权',allAuth)){
 			$('#btn_genpayment_zdcwimpfromoa').linkbutton({
@@ -244,6 +236,24 @@ $(document).ready(function(){
 			});
 			$("#btn_genpayment_zdcwimpfromoa").unbind();
 			$('#btn_genpayment_zdcwimpfromoa').bind('click', genPaymentFromOA);
+		}
+		if(arrSearch('设置权',allAuth)){
+			$('#btn_setting_zdcwimpfromoa').linkbutton({
+			    plain: false,
+			    text: '设置',
+			    disabled: false
+			});
+			$("#btn_setting_zdcwimpfromoa").unbind();
+			$('#btn_setting_zdcwimpfromoa').bind('click', showSettings);
+		}
+		if(arrSearch('导入信息删除权',allAuth)){
+			$('#btn_DelImpInfo_zdcwimpfromoa').linkbutton({
+			    plain: false,
+			    text: '导入信息删除',
+			    disabled: false
+			});
+			$("#btn_DelImpInfo_zdcwimpfromoa").unbind();
+			$('#btn_DelImpInfo_zdcwimpfromoa').bind('click', showDelImpInfo);
 		}
 	});
 
@@ -418,7 +428,7 @@ function genPaymentAction(org, flowtype, is_merge, rows, exist_bill){
 
 /**********行编辑*********************/
 var editImpFromOAIndex = undefined;
-var alarmImpFromOA = '数据行未编辑完成！请处理。';
+var alarmImpFromOA = '修改的数据没有符合要求！请查看。';
 
 function endEditingImpFromOA(){
     if (editImpFromOAIndex == undefined){return true;}
@@ -600,3 +610,55 @@ function saveSettingsAct(){
 	}
 }
 /******************模块选项**end********************/
+
+
+/******************删除导入信息**********************/
+function showDelImpInfo(){
+	$('#dlg_DelImpInfo_zdcwimpfromoa').dialog('open').dialog('setTitle','删除导入信息').dialog('center').dialog('move',{top:100});
+	$('#DelImpInfo_fm_zdcwimpfromoa').form('clear');
+}
+function saveDelImpInfoAct(){
+	var isValidate = $('#DelImpInfo_fm_zdcwimpfromoa').form('validate');
+	if(isValidate){
+		art.dialog({
+		    content: '确定要删除该流程的导入信息吗？',
+		    ok: function(){
+		    	var flowid = $('#DelImpInfo_flowid_zdcwimpfromoa').val();
+		    	var flowrunid = $('#DelImpInfo_flowrunid_zdcwimpfromoa').val();
+		    	var num = $('#DelImpInfo_num_zdcwimpfromoa').val();
+		    	var applicant = $('#DelImpInfo_applicant_zdcwimpfromoa').val();
+		    	var amount = $('#DelImpInfo_amount_zdcwimpfromoa').val();
+
+		    	$.post(
+		    		'../'+modulepath+'/DelImpInfo.php',
+	    			{
+		    			flowid: encodeURI(flowid),
+		    			flowrunid: encodeURI(flowrunid),
+		    			num: encodeURI(num),
+		    			applicant: encodeURI(applicant),
+		    			amount: encodeURI(amount),
+	    			},
+	    			function(result){
+	    				//alert(JSON.stringify(result));
+						if (result.success){
+							art.dialog({
+		    	        	    content: result.message,
+		    	        	    ok: function(){
+		    	        	    	$('#dlg_DelImpInfo_zdcwimpfromoa').dialog('close'); 
+		    		        	}
+		    	        	});
+						} else {
+							art.dialog({
+				        	    content: result.message,
+				        	    ok: true
+				        	});
+						}
+	    			}, 
+	    			"json"
+	    		);
+		    },
+		    cancel: true
+		});
+	}
+}
+/******************删除导入信息end**********************/
