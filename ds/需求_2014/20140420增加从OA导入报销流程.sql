@@ -65,7 +65,7 @@ alter table zdcw_payment_master add `PAYCONFIRMTIME` DATETIME NULL;
 -- 增加付款确认权
 DELETE FROM SYS_MODULES_RIGHTS where code like '009%' AND name = '付款确认权'; 
 INSERT INTO SYS_MODULES_RIGHTS(CODE,NAME,MODULES,LASTUPD)
-select CONCAT(`CODE`,'014'), '付款确认权', CONCAT('[',`CODE`,']',`NAME`),'[admin]管理员' from sys_modules where code = '009';
+select CONCAT(`CODE`,'015'), '付款确认权', CONCAT('[',`CODE`,']',`NAME`),'[admin]管理员' from sys_modules where code = '009';
 
 /*导入流程记录表*/
 DROP TABLE IF EXISTS `ZDCW_IMP_FROM_OA_REC`;
