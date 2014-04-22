@@ -338,7 +338,8 @@ function genPaymentFromOA(){
 	if(! endEditingImpFromOA()){
 		art.dialog({
     	    content: alarmImpFromOA,
-    	    ok: true
+    	    ok: true,
+    	    cancel: function(){cancelEditingImpFromOA();}
     	});
 	}else{
 		var org = $('#org_zdcwimpfromoa').combobox('getText');
@@ -428,7 +429,7 @@ function genPaymentAction(org, flowtype, is_merge, rows, exist_bill){
 
 /**********行编辑*********************/
 var editImpFromOAIndex = undefined;
-var alarmImpFromOA = '修改的数据没有符合要求！请查看。';
+var alarmImpFromOA = '修改的数据没有符合要求！<br /><br />确定：继续修改。<br />取消：放弃修改。';
 
 function endEditingImpFromOA(){
     if (editImpFromOAIndex == undefined){return true;}
@@ -440,7 +441,7 @@ function endEditingImpFromOA(){
     		switch(v.field)
     		{
     		case 'NOTE':
-    			$(v.target).val('导入后修改');
+    			$(v.target).val('导入后修正');
     			break;
     		case 'FLAG':
     			$(v.target).val('是');
@@ -456,10 +457,17 @@ function endEditingImpFromOA(){
     	return false;
     }
 }
+function cancelEditingImpFromOA(){
+	//alert(editImpFromOAIndex);
+	$('#dg_zdcwimpfromoa').datagrid('cancelEdit', editImpFromOAIndex);
+	$("input[type='checkbox']")[editImpFromOAIndex + 1].disabled = true;
+	editImpFromOAIndex = undefined;
+
+}
 
 function clickImpFromOARow(rowIndex, rowData){
 	//alert(JSON.stringify(rowData));
-	if ((rowData.FLAG == "否") || (rowData.FLAG == "是" && rowData.NOTE == "导入后修改")) {
+	if ((rowData.FLAG == "否") || (rowData.FLAG == "是" && rowData.NOTE == "导入后修正")) {
 		//alert(rowIndex);
 		//alert(editImpFromOAIndex);
 		if (editImpFromOAIndex != rowIndex){
@@ -470,7 +478,8 @@ function clickImpFromOARow(rowIndex, rowData){
 			} else {
 				art.dialog({
 		    	    content: alarmImpFromOA,
-		    	    ok: true
+		    	    ok: true,
+		    	    cancel: function(){cancelEditingImpFromOA();}
 		    	});
 			}
 			
@@ -480,7 +489,8 @@ function clickImpFromOARow(rowIndex, rowData){
 		if(! endEditingImpFromOA()){
 			art.dialog({
 	    	    content: alarmImpFromOA,
-	    	    ok: true
+	    	    ok: true,
+	    	    cancel: function(){cancelEditingImpFromOA();}
 	    	});
 			
 		}
