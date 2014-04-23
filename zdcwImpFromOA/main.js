@@ -2,8 +2,8 @@ $(document).ready(function(){
 	$('#dg_zdcwimpfromoa').datagrid({
 		title: moduletitle,
 		pagination: true,
-		pageSize: 200,
-		pageList: [200,400,600,800],
+		pageSize: 400,
+		pageList: [400,600,800],
 		rownumbers: true,
 		fitColumns: true,
 		singleSelect: false,
