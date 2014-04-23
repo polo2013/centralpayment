@@ -688,6 +688,51 @@ function deletePaymentAct(){
 		cancel: true
 	});
 }
+
+function deleteDtlPaymentAct(){
+	//alert(viewNum);  //当前单号
+	var rows = $('#dg_zdcwpayment').datagrid('getSelections');
+	if (rows.length > 0){
+		//alert(JSON.stringify(rows));
+		art.dialog({
+			title: '警告',
+		    content: '确定要删除这 '+rows.length+' 行吗？',
+		    ok: function(){
+				$.post(
+					'../'+modulepath+'/deleteDtlPayment.php',
+					{
+						MODULENO:moduleno,
+						MODULEOBJ:moduleobj,
+						MODULETITLE:moduletitle,
+						NUM:viewNum,
+						ROWS:JSON.stringify(rows)
+					},
+					function(result){
+						//alert(JSON.stringify(result));
+						if (result.success){
+							art.dialog({
+				        	    content: result.message,
+				        	    ok: function(){
+				        	    	$('#tt').tabs('getTab',moduletitle).panel('refresh');
+				        	    }
+				        	});
+						}else{
+							art.dialog({
+				        	    content: result.message,
+				        	    ok: true
+				        	});
+						}
+					},
+					'json'
+				);
+			},
+			cancel: true
+		});
+	}else{
+		$('#btn_delete_dtl_zdcwpayment').grumble({text: '先点击明细行，变色代表选中，再点击本按钮删除明细!（可以多选）', angle: 60, distance: 40, type: 'alt-', showAfter: 100, hideAfter: 5000});
+	}
+	
+}
 /*******导出到Excel**************************************/
 function toExcelPaymentAct(){
 	//alert(viewNum);  //当前单号

@@ -7,7 +7,7 @@ $MODULETITLE = $_REQUEST['MODULETITLE'] ? $_REQUEST['MODULETITLE'] : "";
 
 $NUM = $_REQUEST['NUM'] ? $_REQUEST['NUM'] : "";
 
-$result = array('success' => false, 'message' => '保存失败！');
+$result = array('success' => false, 'message' => '删除失败！');
 
 //check value
 $IMP_FLAG = "";

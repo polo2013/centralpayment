@@ -76,6 +76,7 @@
 			<a id="btn_save_zdcwpayment" href="javascript:void(0)" style="margin-top: 5px"></a>
 			<a id="btn_print_zdcwpayment" href="javascript:void(0)" style="margin-top: 5px"></a>
 			<a id="btn_delete_zdcwpayment" href="javascript:void(0)" style="margin-top: 5px"></a>
+			<a id="btn_delete_dtl_zdcwpayment" href="javascript:void(0)" style="margin-top: 5px"></a>
 			<a id="btn_toexcel_zdcwpayment" href="javascript:void(0)" style="margin-top: 5px"></a>
 		</td>
 	</tr>

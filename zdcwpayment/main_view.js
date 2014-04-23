@@ -273,6 +273,15 @@ $(document).ready(function(){
 					});
 					$('#btn_delete_zdcwpayment').unbind();
 					$('#btn_delete_zdcwpayment').bind('click', deletePaymentAct);
+				
+					$('#btn_delete_dtl_zdcwpayment').linkbutton({
+					    iconCls: 'icon-cancel',
+					    plain: false,
+					    text: '删除明细',
+					    disabled: false
+					});
+					$('#btn_delete_dtl_zdcwpayment').unbind();
+					$('#btn_delete_dtl_zdcwpayment').bind('click', deleteDtlPaymentAct);
 				}
 				if(arrSearch('付款确认权',allAuth) && data.STAT == '已导入'){
 					$('#btn_save_zdcwpayment').linkbutton('enable');
