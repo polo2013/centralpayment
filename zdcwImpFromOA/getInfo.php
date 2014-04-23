@@ -87,9 +87,23 @@ if ($FLOWTYPE == '87') {  //正大置地报销流程
 		$result_cell['APPLICANT'] = trim($row_page['data_2']);
 		$result_cell['CURRENCY'] = trim("人民币");
 		$result_cell['PAYMENT'] = trim($row_page['data_32']);
-		$result_cell['TOTALAMT'] = trim($row_page['data_96']);
 		$result_cell['PAYEE'] = trim($row_page['data_28']);
 
+		//$result_cell['TOTALAMT'] = trim($row_page['data_96']);
+		//不直接取金额，而是从列表控件的数据中计算出合计金额
+		$allamt = "";
+		$allamt = trim($row_page['data_33']);
+		$allamtarr = array();
+		$allamtarr = explode("`", $allamt);
+		$allamtarr_length = count($allamtarr);
+		$i = 3;
+		$tempamt = 0;
+		while ($allamtarr_length >= $i){
+			$tempamt = $tempamt + floatval($allamtarr[$i]);
+			$i = $i + 10;
+		}
+		$result_cell['TOTALAMT'] = $tempamt;
+		//合计金额计算结束
 		
 		if ($result_cell['ORG'] == ""){
 			$note .= "组织机构为空；";
