@@ -58,7 +58,7 @@ if($ROWSARR != NULL){
 		$DTL_PAYEE = $value['PAYEE'];
 		$DTL_BANK = $value['BANK'];
 		$DTL_ACCOUNT = $value['ACCOUNT'];
-		$DTL_NOTE = $value['NOTE'];
+		$DTL_NOTE = $value['NOTE'] == "" ? $DTL_FLOWINFO : $DTL_FLOWINFO.'；['.$value['NOTE'].']';
 		$DTL_PAYSTAT = '未付款';
 		$DTL_PAYER = '';
 		$DTL_PAYTIME = '';
