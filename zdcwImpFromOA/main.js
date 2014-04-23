@@ -437,18 +437,35 @@ function endEditingImpFromOA(){
     	//修改备注和Flag
     	var roweditors = $('#dg_zdcwimpfromoa').datagrid('getEditors', editImpFromOAIndex);
     	//alert(JSON.stringify(roweditors));
+    	var payment_old;
+    	var payment_new;
+    	var note;
+    	var flag;
+    	var flagval;
     	$.each( roweditors, function(i, v){
-    		switch(v.field)
-    		{
+    		switch(v.field) {
+    		case 'PAYMENT':
+    			payment_old = v.oldHtml;
+    			payment_old = payment_old.replace(/[\r\n]/g,"");
+    			payment_new = $(v.target).val();
+    			break;
     		case 'NOTE':
-    			$(v.target).val('导入后修正');
+    			note = v.target;
     			break;
     		case 'FLAG':
-    			$(v.target).val('是');
+    			flag = v.target;
+    			flagval = v.oldHtml;
     			break;
     		}
-    		
     	});
+    	if ((flagval == "是") && (payment_old != payment_new)){
+    		$(note).val('导入后修正');
+    	}
+    	if (flagval == "否"){
+    		$(note).val('导入后修正');
+    		$(flag).val('是');
+    	}
+    	
     	
         $('#dg_zdcwimpfromoa').datagrid('endEdit', editImpFromOAIndex);
         editImpFromOAIndex = undefined;
@@ -459,10 +476,10 @@ function endEditingImpFromOA(){
 }
 function cancelEditingImpFromOA(){
 	//alert(editImpFromOAIndex);
+	var ed = $("input[type='checkbox']")[editImpFromOAIndex + 1].disabled;
 	$('#dg_zdcwimpfromoa').datagrid('cancelEdit', editImpFromOAIndex);
-	$("input[type='checkbox']")[editImpFromOAIndex + 1].disabled = true;
+	$("input[type='checkbox']")[editImpFromOAIndex + 1].disabled = ed;
 	editImpFromOAIndex = undefined;
-
 }
 
 function clickImpFromOARow(rowIndex, rowData){
@@ -482,11 +499,13 @@ function clickImpFromOARow(rowIndex, rowData){
 		    	    cancel: function(){cancelEditingImpFromOA();}
 		    	});
 			}
-			
 		}
-		
 	}else{
-		if(! endEditingImpFromOA()){
+		if(endEditingImpFromOA()){
+			$('#dg_zdcwimpfromoa').datagrid('selectRow', rowIndex).datagrid('editCell', {index:rowIndex,field:"PAYMENT"});
+			editImpFromOAIndex = rowIndex;
+			setImpFromOAGridData('edit2');
+		}else{
 			art.dialog({
 	    	    content: alarmImpFromOA,
 	    	    ok: true,
@@ -502,39 +521,72 @@ function clickImpFromOARow(rowIndex, rowData){
 function setImpFromOAGridData(flag){
 	var roweditors = $('#dg_zdcwimpfromoa').datagrid('getEditors', editImpFromOAIndex);
 	//alert(JSON.stringify(roweditors));
-	$.each( roweditors, function(i, v){
-		switch(v.field)
-		{
-		case 'CURRENCY':
-			$.getJSON("../public/php/getCurrency.php", function(data){
-				$(v.target).combobox('loadData', data.all);
-				//$(v.target).combobox('select', v.oldHtml);
-			});
-			break;
-		case 'TOTALAMT':
-			$(v.target).css({ "text-align":"right" });
-			break;
-		case 'PAYEE':	
-			$.getJSON("../public/php/getUser.php", {PARA: "IMPOA_PAYEE", PARA2:""}, function(data){
-				$(v.target).combobox('loadData', data.all);
-				//$(v.target).combobox('select', v.oldHtml);
-				
-			});
-			break;
-		case 'NOTE':
-			$(v.target).attr("readonly","readonly");
-			break;
-		case 'FLAG':
-			$(v.target).attr("readonly","readonly");
-			break;
-
-		}
-		
-	});
+	if(flag == "edit"){
+		$.each( roweditors, function(i, v){
+			switch(v.field)
+			{
+			case 'CURRENCY':
+				$.getJSON("../public/php/getCurrency.php", function(data){
+					$(v.target).combobox('loadData', data.all);
+					//$(v.target).combobox('select', v.oldHtml);
+				});
+				break;
+			case 'TOTALAMT':
+				$(v.target).css({ "text-align":"right" });
+				break;
+			case 'PAYEE':	
+				$.getJSON("../public/php/getUser.php", {PARA: "IMPOA_PAYEE", PARA2:""}, function(data){
+					$(v.target).combobox('loadData', data.all);
+					//$(v.target).combobox('select', v.oldHtml);
+					
+				});
+				break;
+			case 'NOTE':
+				$(v.target).attr("readonly","readonly");
+				break;
+			case 'FLAG':
+				$(v.target).attr("readonly","readonly");
+				break;
+	
+			}
+			
+		});
+	}
+	if(flag == "edit2"){
+		$.each( roweditors, function(i, v){
+			switch(v.field)
+			{
+			case 'NOTE':
+				$(v.target).attr("readonly","readonly");
+				break;
+			case 'FLAG':
+				$(v.target).attr("readonly","readonly");
+				break;
+			}
+		});
+	}
 	//结束赋值
 }
 
-
+$.extend($.fn.datagrid.methods, {
+    editCell: function(jq,param){
+        return jq.each(function(){
+            var fields = $(this).datagrid('getColumnFields',true).concat($(this).datagrid('getColumnFields'));
+            for(var i=0; i<fields.length; i++){
+                var col = $(this).datagrid('getColumnOption', fields[i]);
+                col.editor1 = col.editor;
+                if ((fields[i] != param.field) && (fields[i] != "NOTE") && (fields[i] != "FLAG")){
+                    col.editor = null;
+                }
+            }
+            $(this).datagrid('beginEdit', param.index);
+            for(var i=0; i<fields.length; i++){
+                var col = $(this).datagrid('getColumnOption', fields[i]);
+                col.editor = col.editor1;
+            }
+        });
+    }
+});
 /******************end**********************/
 
 /******************模块选项**********************/
