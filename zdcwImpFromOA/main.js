@@ -231,7 +231,7 @@ $(document).ready(function(){
 			$('#btn_genpayment_zdcwimpfromoa').linkbutton({
 			    iconCls: 'icon-ok',
 			    plain: false,
-			    text: '生成付款汇总表',
+			    text: '编辑完成并生成付款汇总表',
 			    disabled: false
 			});
 			$("#btn_genpayment_zdcwimpfromoa").unbind();

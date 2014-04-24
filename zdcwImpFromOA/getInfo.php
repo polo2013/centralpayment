@@ -45,6 +45,17 @@ if ($FLOWTYPE == '87') {  //正大置地报销流程
 	if ($has_import != "") {
 		$whereCondition .= " AND a.RUN_ID not in ( ".rtrim($has_import,',')." )";
 	}
+	//排除已付款的流程
+	$has_end = "";
+	$query = "SELECT 流水号  RUNID FROM oa系统中已付款单据  ";
+	$cursor = exequery($connection,$query);
+	while($row = mysqli_fetch_array($cursor)){
+		$has_end .= $row['RUNID'].",";
+	}
+	if ($has_end != "") {
+		$whereCondition .= " AND a.RUN_ID not in ( ".rtrim($has_end,',')." )";
+	}
+	
 	
 	//组织
 	$query = "SELECT `ORGDESC` FROM ZDCW_IMP_FROM_OA WHERE `ID` = ".$ORG;
