@@ -38,7 +38,7 @@ if(!isset($_REQUEST['page']) || !intval($_REQUEST['page']) || !isset($_REQUEST['
 $start = ($pageNumber - 1) * $pageSize; //从数据集第$start条开始取，注意数据集是从0开始的
 
 //数据
-$whereCondition = " (INPUTTER = '$login_user' OR CHECKER = '$login_user' OR APPROVER = '$login_user' OR PAYCHECKER = '$login_user') ";
+$whereCondition = " (INPUTTER = '$login_user' OR CHECKER = '$login_user' OR APPROVER = '$login_user' OR PAYCHECKER = '$login_user' OR PAYIMPORT = '$login_user' OR PAYCONFIRM = '$login_user') ";
 
 if(getAuthInfo($login_user_role, '010', '查看所属机构单据权')){
 	$whereCondition = " (SUBSTR(`ORG`,2,LENGTH('$orgCode')) = '$orgCode') ";
@@ -54,6 +54,7 @@ if(getAuthInfo($login_user_role, '010', '查看所有单据权')){
 		}
 	}
 }
+
 
 if($NUM != '')
 	$whereCondition .= " AND (NUM='".$NUM."') ";
@@ -88,6 +89,13 @@ $specOrg = readSetting('public','pay_check_org');
 if($specRole && $specOrg && hasSpec($login_user_role_origin,$specRole)){
 	$whereCondition = "(".$whereCondition." OR ( SUBSTR(`ORG`,2,INSTR(`ORG`,']')-2) in ('".implode("','", explode(",", $specOrg))."') AND STAT in ('已批准','付款审核通过','付款中','付款已完成','付款不通过')))";
 }
+
+//导入单据查看权
+if(getAuthInfo($login_user_role, '010', '导入单据查看权')){
+	$whereCondition = "(".$whereCondition." OR ( IMP_FLAG = 'IMP_FROM_OA'))";
+}
+
+
 
 $query = "SELECT COUNT(1) FROM zdcw_payment_master WHERE ".$whereCondition;
 

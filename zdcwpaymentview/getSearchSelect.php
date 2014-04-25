@@ -28,7 +28,14 @@ if(getAuthInfo($login_user_role, '010', '查看所有单据权')){
 	$result['allOrg'] = $result_item;
 }else if(getAuthInfo($login_user_role, '010', '查看所属机构单据权')){
 	$result['myOrg'] = $login_user_org;
-	$query = "SELECT distinct `ORG` FROM zdcw_payment_master WHERE SUBSTR(`ORG`,2,LENGTH('$orgCode')) = '$orgCode' ORDER BY `ORG` DESC";
+	
+	//导入单据查看权
+	$whereCondition = "";
+	if(getAuthInfo($login_user_role, '010', '导入单据查看权')){
+		$whereCondition = " OR ( IMP_FLAG = 'IMP_FROM_OA') ";
+	}
+	
+	$query = "SELECT distinct `ORG` FROM zdcw_payment_master WHERE (SUBSTR(`ORG`,2,LENGTH('$orgCode')) = '$orgCode')".$whereCondition." ORDER BY `ORG` DESC";
 	$cursor = exequery($connection,$query);
 	while($row = mysqli_fetch_array($cursor)){
 		$result_item_item['value'] = $row['ORG'];
@@ -38,8 +45,19 @@ if(getAuthInfo($login_user_role, '010', '查看所有单据权')){
 	$result['allOrg'] = $result_item;
 }else{
 	$result['myOrg'] = $login_user_org;
+	//导入单据查看权
+	if(getAuthInfo($login_user_role, '010', '导入单据查看权')){
+		$query = "SELECT distinct `ORG` FROM zdcw_payment_master WHERE IMP_FLAG = 'IMP_FROM_OA' ORDER BY `ORG` DESC";
+		$cursor = exequery($connection,$query);
+		while($row = mysqli_fetch_array($cursor)){
+			$result_item_item['value'] = $row['ORG'];
+			$result_item_item['text'] = $row['ORG'];
+			$result_item[] = $result_item_item;
+		}
+	}
 	$result['allOrg'] = $result_item;
 }
+
 
 //状态
 $result_item = array();
@@ -60,9 +78,19 @@ if(getAuthInfo($login_user_role, '010', '查看所有单据权')){
 	}
 	$query = "SELECT distinct b.`NAME` STAT FROM zdcw_payment_master a, sys_stat b WHERE a.STAT = b.`NAME` ".$whereCondition." ORDER BY B.`CODE`";
 }else if(getAuthInfo($login_user_role, '010', '查看所属机构单据权')){
-	$query = "SELECT distinct b.`NAME` STAT FROM zdcw_payment_master a, sys_stat b WHERE a.STAT = b.`NAME` and SUBSTR(a.`ORG`,2,LENGTH('$orgCode')) = '$orgCode' ORDER BY B.`CODE`";
+	//导入单据查看权
+	$whereCondition = "";
+	if(getAuthInfo($login_user_role, '010', '导入单据查看权')){
+		$whereCondition = " OR ( a.IMP_FLAG = 'IMP_FROM_OA') ";
+	}
+	$query = "SELECT distinct b.`NAME` STAT FROM zdcw_payment_master a, sys_stat b WHERE a.STAT = b.`NAME` and (SUBSTR(a.`ORG`,2,LENGTH('$orgCode')) = '$orgCode'".$whereCondition.") ORDER BY B.`CODE`";
 }else{
-	$query = "SELECT distinct b.`NAME` STAT FROM zdcw_payment_master a, sys_stat b WHERE a.STAT = b.`NAME` and (a.INPUTTER = '$login_user' OR a.CHECKER = '$login_user' OR a.APPROVER = '$login_user') ORDER BY B.`CODE`";
+	//导入单据查看权
+	$whereCondition = "";
+	if(getAuthInfo($login_user_role, '010', '导入单据查看权')){
+		$whereCondition = " OR ( a.IMP_FLAG = 'IMP_FROM_OA') ";
+	}
+	$query = "SELECT distinct b.`NAME` STAT FROM zdcw_payment_master a, sys_stat b WHERE a.STAT = b.`NAME` and (a.INPUTTER = '$login_user' OR a.CHECKER = '$login_user' OR a.APPROVER = '$login_user' OR PAYCHECKER = '$login_user' OR PAYIMPORT = '$login_user' OR PAYCONFIRM = '$login_user' ".$whereCondition.") ORDER BY B.`CODE`";
 }
 $cursor = exequery($connection,$query);
 while($row = mysqli_fetch_array($cursor)){
@@ -138,7 +166,6 @@ while($row = mysqli_fetch_array($cursor)){
 }
 $result['myApprover'] = '全部';
 $result['allApprover'] = $result_item;
-
 
 
 echo json_encode($result);

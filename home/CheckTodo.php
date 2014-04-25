@@ -15,7 +15,7 @@ $orgcode = splitCode($login_user_org);
 $hasOrgRight = getAuthInfo($login_user_role, '010', '查看所属机构单据权');
 $hasAllRight = getAuthInfo($login_user_role, '010', '查看所有单据权');
 
-$whereCondition = " (INPUTTER = '$login_user' OR CHECKER = '$login_user' OR APPROVER = '$login_user' OR PAYCHECKER = '$login_user') ";
+$whereCondition = " (INPUTTER = '$login_user' OR CHECKER = '$login_user' OR APPROVER = '$login_user' OR PAYCHECKER = '$login_user' OR PAYIMPORT = '$login_user' OR PAYCONFIRM = '$login_user') ";
 
 if($hasOrgRight)
 	$whereCondition = " (SUBSTR(`ORG`,2, LENGTH('$orgcode'))='$orgcode') ";
@@ -36,6 +36,11 @@ $specRole = readSetting('public','pay_check_role');
 $specOrg = readSetting('public','pay_check_org');
 if($specRole && $specOrg && hasSpec($login_user_role_origin,$specRole)){
 	$whereCondition = "(".$whereCondition." OR ( SUBSTR(`ORG`,2,INSTR(`ORG`,']')-2) in ('".implode("','", explode(",", $specOrg))."') AND STAT in ('已批准','付款审核通过','付款中','付款已完成','付款不通过')))";
+}
+
+//导入单据查看权
+if(getAuthInfo($login_user_role, '010', '导入单据查看权')){
+	$whereCondition = "(".$whereCondition." OR ( IMP_FLAG = 'IMP_FROM_OA'))";
 }
 
 $query = "SELECT STAT, COUNT(1) CNT FROM zdcw_payment_master WHERE ".$whereCondition." GROUP BY STAT ORDER BY CNT";
