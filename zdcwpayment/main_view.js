@@ -179,7 +179,7 @@ $(document).ready(function(){
 					$('#btn_save_zdcwpayment').unbind();
 					$('#btn_save_zdcwpayment').bind('click', savePaymentAct);
 				}
-			}else if(data.STAT == '付款审核通过'){
+			}else if(data.STAT == '付款确认通过'){
 				if(arrSearch('付款权',allAuth)){
 					$('#btn_save_zdcwpayment').linkbutton('enable');
 					$('#btn_save_zdcwpayment').unbind();
